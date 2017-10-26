@@ -23,13 +23,14 @@ DESCR_INT * idt = (DESCR_INT *) 0;	// IDT de 255 entradas
 static void setup_IDT_entry (int index, uint64_t offset);
 
 void load_idt() {
+  _cli();
 
   setup_IDT_entry (0x20, (uint64_t)&_irq00Handler);
   setup_IDT_entry (0x00, (uint64_t)&_exception0Handler);
   setup_IDT_entry (0x21, (uint64_t)&_irq01Handler);
   
-	//Solo interrupcion timer tick habilitadas
-	picMasterMask(0xFE); 
+	//Teclado y timer tick habilitados
+	picMasterMask(0xFC); //Mascara: 1111 1100
 	picSlaveMask(0xFF);
         
 	_sti();

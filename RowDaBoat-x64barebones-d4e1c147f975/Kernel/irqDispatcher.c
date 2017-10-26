@@ -22,5 +22,7 @@ void int_20() {
 }
 
 void int_21() {
+	_cli();
 	keyboard_handler();
+	_sti();
 }
