@@ -4,6 +4,7 @@
 #include <moduleLoader.h>
 #include <naiveConsole.h>
 #include <textDriver.h>
+#include <idtLoader.h>
 
 
 extern uint8_t text;
@@ -84,6 +85,8 @@ void * initializeKernelBinary()
 
 int main()
 {
+	load_idt();
+
 	ncPrint("[Kernel Main]");
 	ncNewline();
 	ncPrint("  Sample code module at 0x");
@@ -102,11 +105,20 @@ int main()
 	ncNewline();
 
 	clear();
+
+	putString("hola");
+	putString(", hola de nuevo");
+	while(1){
+		
+	}
+	putString("se fue del while");
+
+	/*clear();
 	putString("dasd");
 	newLine();
 	putString("shola");
 	putStringAt(78, 24, "sadas asd");
-	delete();
+	delete();*/
 
 	ncPrint("[Finished]");
 	return 0;

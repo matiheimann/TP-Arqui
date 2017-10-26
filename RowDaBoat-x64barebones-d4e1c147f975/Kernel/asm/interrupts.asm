@@ -12,7 +12,6 @@ GLOBAL _irq02Handler
 GLOBAL _irq03Handler
 GLOBAL _irq04Handler
 GLOBAL _irq05Handler
-
 GLOBAL _exception0Handler
 
 EXTERN irqDispatcher
@@ -58,7 +57,6 @@ SECTION .text
 
 %macro irqHandlerMaster 1
 	pushState
-
 	mov rdi, %1 ; pasaje de parametro
 	call irqDispatcher
 
@@ -67,6 +65,7 @@ SECTION .text
 	out 20h, al
 
 	popState
+
 	iretq
 %endmacro
 
@@ -89,12 +88,18 @@ _hlt:
 	ret
 
 _cli:
+	push rbp
+    mov rbp, rsp
 	cli
+	leave
 	ret
 
 
 _sti:
+	push rbp
+    mov rbp, rsp
 	sti
+	leave
 	ret
 
 picMasterMask:
@@ -116,12 +121,14 @@ picSlaveMask:
 
 ;8254 Timer (Timer Tick)
 _irq00Handler:
+	cli
 	irqHandlerMaster 0
-
+	sti
 ;Keyboard
 _irq01Handler:
+	cli
 	irqHandlerMaster 1
-
+	sti
 ;Cascade pic never called
 _irq02Handler:
 	irqHandlerMaster 2

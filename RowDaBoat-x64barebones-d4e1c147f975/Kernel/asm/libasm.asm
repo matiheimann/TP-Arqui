@@ -1,4 +1,5 @@
 GLOBAL cpuVendor
+GLOBAL read_port
 
 section .text
 	
@@ -24,4 +25,9 @@ cpuVendor:
 
 	mov rsp, rbp
 	pop rbp
+	ret
+
+read_port:
+	xor al, al
+	in al, 60h
 	ret
