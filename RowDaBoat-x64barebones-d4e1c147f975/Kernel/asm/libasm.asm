@@ -28,6 +28,14 @@ cpuVendor:
 	ret
 
 read_port:
+	push rbp
+	mov rbp, rsp
+
 	xor al, al
-	in al, 60h
+	xor rdx, rdx
+	mov rdx, rdi
+	in al, dx
+
+	mov rsp, rbp
+	pop rbp
 	ret

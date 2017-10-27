@@ -105,9 +105,7 @@ int main()
 	ncNewline();
 
 	clear();
-
-	putString("hola");
-	putString(", hola de nuevo");
+	
 	while(1){
 		
 	}
