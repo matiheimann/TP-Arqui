@@ -13,9 +13,11 @@ GLOBAL _irq03Handler
 GLOBAL _irq04Handler
 GLOBAL _irq05Handler
 GLOBAL _exception0Handler
+GLOBAL _syscallHandler
 
 EXTERN irqDispatcher
 EXTERN exceptionDispatcher
+EXTERN syscallDispatcher
 
 SECTION .text
 
@@ -69,6 +71,22 @@ SECTION .text
 	iretq
 %endmacro
 
+%macro syscallHandler 0
+	pushState
+	
+	mov rdi, rax
+	mov rsi, rbx
+	mov r10, rdx 
+	mov rdx, rcx
+	
+	call syscallDispatcher
+
+	popState
+	iretq
+%endmacro
+
+
+
 
 
 %macro exceptionHandler 1
@@ -80,6 +98,10 @@ SECTION .text
 	popState
 	iretq
 %endmacro
+
+
+
+
 
 
 _hlt:
@@ -149,6 +171,12 @@ _irq05Handler:
 ;Zero Division Exception
 _exception0Handler:
 	exceptionHandler 0
+
+;int 80h software interruption
+_syscallHandler:
+	syscallHandler
+
+
 
 haltcpu:
 	cli

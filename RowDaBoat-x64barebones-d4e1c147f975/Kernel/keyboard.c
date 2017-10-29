@@ -1,6 +1,11 @@
 #include <keyboard.h>
 #include <textDriver.h>
 
+static unsigned char buffer[SIZE] = {0};
+static int currentChar = 0;
+
+
+
 unsigned char scanCodeTable[128] =
 {
     0,  27, '1', '2', '3', '4', '5', '6', '7', '8',	/* 9 */
@@ -53,7 +58,24 @@ void keyboard_handler(){
 
     }
     else {	//En este caso, una tecla fue apretada
-
-        putChar(scanCodeTable[scancode]);
+       buffer[currentChar] = scanCodeTable[scancode];
+       currentChar++;
+       /*Se hace circular*/
+       if(currentChar >= SIZE){
+          currentChar = 0;
+       }
     }
+}
+
+unsigned char consumeBuffer(){
+  unsigned char ret;
+  if(buffer[currentChar] != 0){
+      ret = buffer[currentChar];
+      buffer[currentChar] = 0;
+      currentChar++;
+      if(currentChar >= SIZE){
+        currentChar = 0;
+      }
+  }
+  return ret;
 }

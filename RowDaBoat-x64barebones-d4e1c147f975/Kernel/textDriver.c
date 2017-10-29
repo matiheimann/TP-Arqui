@@ -8,17 +8,32 @@ static uint8_t * const video = (uint8_t*)0xB8000;
 static uint8_t * currentVideo = (uint8_t*)0xB8000;
 static const uint32_t width = 80;
 static const uint32_t height = 25 ;
-static const finalVideo = (uint8_t*)(0xB8000 + 80 * 25 * 2);
+static const uint8_t* finalVideo = (uint8_t*)(0xB8000 + 80 * 25 * 2);
 
 void putString(char*  s){
 	while(*s){
-		if(*s == '\n')
-			newLine();
-		else
-			putChar(*s);
+		putChar(*s);
 		s++;
 	}
 }
+
+void deleteChar() {
+	if(currentVideo!=video) {
+		*(currentVideo-1) = 0;
+		*(currentVideo-2) = 0;
+		currentVideo -= 2;
+	}
+	if((currentVideo - video) % width != 0){
+		while(*currentVideo == 0){
+			if(currentVideo == video){
+				return;
+			}
+			currentVideo-=2;
+		}
+		currentVideo += 2;
+	}
+}
+
 void putInt(int n){
 	char s[20] = {0};
 	int i = countDigits(n)-1;
@@ -32,7 +47,8 @@ void putInt(int n){
 
 int countDigits(int n){
 	int i = 1;
-	while(n > 0){
+	while(n >= 10){
+		n /=10;
 		i++;
 	}
 	return i;
@@ -43,9 +59,16 @@ void putChar(char c){
 		endOfScreen();
 	}
 
-	*currentVideo = c;
-	*(currentVideo + 1) = 0x0F;
-	currentVideo +=2;
+	if(c == '\n')
+		newLine();
+	else if(c == '\b') {
+		deleteChar();
+	}
+	else {
+		*currentVideo = c;
+		*(currentVideo + 1) = 0x0F;
+		currentVideo +=2;
+	}
 }
 
 void clear(){

@@ -1,21 +1,13 @@
 #include <time.h>
 #include <keyboard.h>
 #include <stdint.h>
-
-static void int_20();
-static void int_21();
+#include <irqDispatcher.h>
 
 
-void irqDispatcher(uint64_t irq) {
-	switch (irq) {
-		case 0:
-			int_20();
-			break;
-		case 1:
-			int_21();
-			break;
-	}
-	return;
+static const irq irqList[] = {int_20, int_21};
+
+void irqDispatcher(uint64_t index) {
+	irqList[index]();
 }
 
 void int_20() {

@@ -105,7 +105,7 @@ int main()
 	ncNewline();
 
 	clear();
-	
+
 	while(1){
 		
 	}

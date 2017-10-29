@@ -31,7 +31,7 @@ read_port:
 	push rbp
 	mov rbp, rsp
 
-	xor al, al
+	xor rax, rax
 	xor rdx, rdx
 	mov rdx, rdi
 	in al, dx

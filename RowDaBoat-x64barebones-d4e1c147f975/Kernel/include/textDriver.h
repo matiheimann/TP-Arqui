@@ -8,9 +8,9 @@ void putChar(char c);
 void clear();
 void putStringAt(uint32_t x, uint32_t y, char*s);
 void newLine();
-void delete();
 void putInt(int n);
 int countDigits(int n);
 void endOfScreen();
+void deleteChar();
 
 #endif

@@ -1,5 +1,5 @@
 /* sampleCodeModule.c */
-
+void print(char * string);
 char * v = (char*)0xB8000;
 
 static int var1 = 0;
@@ -17,6 +17,7 @@ int main() {
 		s++;
 	}
 
+	print("Hola mundo");
 	//Test if BSS is properly set up
 	if (var1 == 0 && var2 == 0)
 		return 0xDEADC0DE;
