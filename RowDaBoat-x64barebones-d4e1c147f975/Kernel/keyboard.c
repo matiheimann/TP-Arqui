@@ -3,6 +3,7 @@
 
 static unsigned char buffer[SIZE] = {0};
 static int currentChar = 0;
+static int readChar = 0;
 
 
 
@@ -68,13 +69,13 @@ void keyboard_handler(){
 }
 
 unsigned char consumeBuffer(){
-  unsigned char ret;
-  if(buffer[currentChar] != 0){
-      ret = buffer[currentChar];
-      buffer[currentChar] = 0;
-      currentChar++;
-      if(currentChar >= SIZE){
-        currentChar = 0;
+  unsigned char ret = 0;
+  if(buffer[readChar] != 0){
+      ret = buffer[readChar];
+      buffer[readChar] = 0;
+      readChar++;
+      if(readChar >= SIZE){
+        readChar = 0;
       }
   }
   return ret;

@@ -103,11 +103,10 @@ int main()
 	ncPrint("  Sample data module contents: ");
 	ncPrint((char*)sampleDataModuleAddress);
 	ncNewline();
-
-	clear();
+	//clear();
 
 	while(1){
-		
+
 	}
 	putString("se fue del while");
 
@@ -119,5 +118,6 @@ int main()
 	delete();*/
 
 	ncPrint("[Finished]");
+
 	return 0;
 }

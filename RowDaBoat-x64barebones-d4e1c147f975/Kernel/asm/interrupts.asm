@@ -19,6 +19,8 @@ EXTERN irqDispatcher
 EXTERN exceptionDispatcher
 EXTERN syscallDispatcher
 
+EXTERN putString
+
 SECTION .text
 
 %macro pushState 0
@@ -76,8 +78,9 @@ SECTION .text
 	
 	mov rdi, rax
 	mov rsi, rbx
-	mov r10, rdx 
+	mov rax, rdx
 	mov rdx, rcx
+	mov rcx, rax 
 	
 	call syscallDispatcher
 
@@ -187,3 +190,5 @@ haltcpu:
 
 SECTION .bss
 	aux resq 1
+
+SECTION .data

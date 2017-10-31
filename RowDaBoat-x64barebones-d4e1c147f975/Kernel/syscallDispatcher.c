@@ -7,6 +7,7 @@ static const syscall syscalls[]={0, 0, 0, read, write};
 
 
 uint64_t syscallDispatcher(uint64_t rax, uint64_t rbx, uint64_t rcx, uint64_t rdx){
+	
 	return syscalls[rax](rbx, rcx, rdx);
 }
 
@@ -18,7 +19,7 @@ uint64_t write(uint64_t fd, uint64_t buffer, uint64_t count){
 	int i = 0;
 	/*salida estandar*/
 	if (fd == STDOUT){
-		for(; i < count ; i++){
+		for(i=0; i < count ; i++){
 			putChar(((char*)buffer)[i]);
 		}
 	}
@@ -26,11 +27,12 @@ uint64_t write(uint64_t fd, uint64_t buffer, uint64_t count){
 }
 
 uint64_t read(uint64_t fd, uint64_t buffer, uint64_t count){
-	int i = 0;
-	/*entrada estandar*/
+	int i;
+		/*entrada estandar*/
 	if(fd == STDIN){
-		for(; i < count ; i++){
+		for(i=0; i < count ; i++){
 			*(char*)buffer = consumeBuffer();
+			buffer++;
 		}
 	}
 	return i;
