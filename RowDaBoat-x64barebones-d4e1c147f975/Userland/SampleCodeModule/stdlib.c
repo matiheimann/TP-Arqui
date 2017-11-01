@@ -1,9 +1,33 @@
+extern int scan(char * str, int length);
+extern int print(char * str, int length);
+
+
+int strlen(char* str){
+	int i = 0;
+	while(*str){
+		i++;
+		str++;
+	}
+	return i;
+}
+
+
+
 void printf(char * str){
 	print(str, strlen(str));
 }
 
 void putchar(char c) {
 	print(&c, 1);
+}
+
+int countDigits(int n){
+	int i = 1;
+	while(n >= 10){
+		n /=10;
+		i++;
+	}
+	return i;
 }
 
 void printInt(int n){
@@ -17,32 +41,26 @@ void printInt(int n){
 	printf(s);
 }
 
-int countDigits(int n){
-	int i = 1;
-	while(n >= 10){
-		n /=10;
-		i++;
+char getChar(){
+	char c = 0;
+	while(c == 0) {
+		scan(&c, 1);
+//		putchar(c);
+//		printInt(c);
 	}
-	return i;
-}
 
-int strlen(char* str){
-	int i = 0;
-	while(*str){
-		i++;
-		str++;
-	}
-	return i;
+	return c;
 }
 
 int scanf(char * buff){
-
-}
-
-char getChar(){
-	char c = 0;
-	while(c==0) {
-		scan(&c, 1);
+	char c;
+	int i = 0;
+	while((c = getChar()) != '\n'){
+		*(buff + i) = c;
+		i++;
+		putchar(c);
 	}
-	return c;
+	putchar('\n');
+	return 0;
 }
+

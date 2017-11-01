@@ -40,7 +40,7 @@ void * initializeKernelBinary()
 {
 	char buffer[10];
 
-	ncPrint("[x64BareBones]");
+	/*ncPrint("[x64BareBones]");
 	ncNewline();
 
 	ncPrint("CPU Vendor:");
@@ -48,23 +48,23 @@ void * initializeKernelBinary()
 	ncNewline();
 
 	ncPrint("[Loading modules]");
-	ncNewline();
+	ncNewline();*/
 	void * moduleAddresses[] = {
 		sampleCodeModuleAddress,
 		sampleDataModuleAddress
 	};
 
 	loadModules(&endOfKernelBinary, moduleAddresses);
-	ncPrint("[Done]");
+	/*ncPrint("[Done]");
 	ncNewline();
 	ncNewline();
 
 	ncPrint("[Initializing kernel's binary]");
-	ncNewline();
+	ncNewline();*/
 
 	clearBSS(&bss, &endOfKernel - &bss);
 
-	ncPrint("  text: 0x");
+	/*ncPrint("  text: 0x");
 	ncPrintHex((uint64_t)&text);
 	ncNewline();
 	ncPrint("  rodata: 0x");
@@ -79,7 +79,7 @@ void * initializeKernelBinary()
 
 	ncPrint("[Done]");
 	ncNewline();
-	ncNewline();
+	ncNewline();*/
 	return getStackBase();
 }
 
@@ -87,14 +87,14 @@ int main()
 {
 	load_idt();
 
-	ncPrint("[Kernel Main]");
+	/*ncPrint("[Kernel Main]");
 	ncNewline();
 	ncPrint("  Sample code module at 0x");
 	ncPrintHex((uint64_t)sampleCodeModuleAddress);
 	ncNewline();
-	ncPrint("  Calling the sample code module returned: ");
+	ncPrint("  Calling the sample code module returned: ");*/
 	ncPrintHex(((EntryPoint)sampleCodeModuleAddress)());
-	ncNewline();
+	/*ncNewline();
 	ncNewline();
 
 	ncPrint("  Sample data module at 0x");
@@ -104,10 +104,6 @@ int main()
 	ncPrint((char*)sampleDataModuleAddress);
 	ncNewline();
 	//clear();
-
-	while(1){
-
-	}
 	putString("se fue del while");
 
 	/*clear();
@@ -117,7 +113,7 @@ int main()
 	putStringAt(78, 24, "sadas asd");
 	delete();*/
 
-	ncPrint("[Finished]");
+	//ncPrint("[Finished]");
 
 	return 0;
 }

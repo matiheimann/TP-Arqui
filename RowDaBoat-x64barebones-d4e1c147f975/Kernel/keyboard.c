@@ -1,10 +1,11 @@
 #include <keyboard.h>
 #include <textDriver.h>
+#include <stdint.h>
+#include <naiveConsole.h>
 
 static unsigned char buffer[SIZE] = {0};
-static int currentChar = 0;
-static int readChar = 0;
-
+static uint64_t currentChar = 0;
+static uint64_t readChar = 0;
 
 
 unsigned char scanCodeTable[128] =
@@ -59,24 +60,18 @@ void keyboard_handler(){
 
     }
     else {	//En este caso, una tecla fue apretada
-       buffer[currentChar] = scanCodeTable[scancode];
+       buffer[currentChar % SIZE] = scanCodeTable[scancode];
        currentChar++;
        /*Se hace circular*/
-       if(currentChar >= SIZE){
-          currentChar = 0;
-       }
     }
 }
 
 unsigned char consumeBuffer(){
   unsigned char ret = 0;
-  if(buffer[readChar] != 0){
-      ret = buffer[readChar];
-      buffer[readChar] = 0;
+  if(buffer[readChar % SIZE] != 0 && readChar < currentChar){
+      ret = buffer[readChar % SIZE];
+      buffer[readChar % SIZE] = 0;
       readChar++;
-      if(readChar >= SIZE){
-        readChar = 0;
-      }
   }
   return ret;
 }

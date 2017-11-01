@@ -41,6 +41,23 @@ SECTION .text
 	push r15
 %endmacro
 
+%macro pushStateWithoutRax 0
+	push rbx
+	push rcx
+	push rdx
+	push rbp
+	push rdi
+	push rsi
+	push r8
+	push r9
+	push r10
+	push r11
+	push r12
+	push r13
+	push r14
+	push r15
+%endmacro
+
 %macro popState 0
 	pop r15
 	pop r14
@@ -59,6 +76,23 @@ SECTION .text
 	pop rax
 %endmacro
 
+%macro popStateWithoutRax 0
+	pop r15
+	pop r14
+	pop r13
+	pop r12
+	pop r11
+	pop r10
+	pop r9
+	pop r8
+	pop rsi
+	pop rdi
+	pop rbp
+	pop rdx
+	pop rcx
+	pop rbx
+%endmacro
+
 %macro irqHandlerMaster 1
 	pushState
 	mov rdi, %1 ; pasaje de parametro
@@ -72,24 +106,6 @@ SECTION .text
 
 	iretq
 %endmacro
-
-%macro syscallHandler 0
-	pushState
-	
-	mov rdi, rax
-	mov rsi, rbx
-	mov rax, rdx
-	mov rdx, rcx
-	mov rcx, rax 
-	
-	call syscallDispatcher
-
-	popState
-	iretq
-%endmacro
-
-
-
 
 
 %macro exceptionHandler 1
@@ -177,7 +193,18 @@ _exception0Handler:
 
 ;int 80h software interruption
 _syscallHandler:
-	syscallHandler
+	pushStateWithoutRax
+	
+	mov rdi, rax
+	mov rsi, rbx
+	mov rax, rdx
+	mov rdx, rcx
+	mov rcx, rax 
+	
+	call syscallDispatcher
+
+	popStateWithoutRax
+	iretq
 
 
 

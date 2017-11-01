@@ -28,11 +28,13 @@ uint64_t write(uint64_t fd, uint64_t buffer, uint64_t count){
 
 uint64_t read(uint64_t fd, uint64_t buffer, uint64_t count){
 	int i;
+	int n = 0;
+	unsigned char * charBuffer = (unsigned char *) buffer;
 		/*entrada estandar*/
 	if(fd == STDIN){
 		for(i=0; i < count ; i++){
-			*(char*)buffer = consumeBuffer();
-			buffer++;
+			char c = consumeBuffer();
+			charBuffer[i] = c;
 		}
 	}
 	return i;
