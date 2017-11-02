@@ -3,6 +3,9 @@
 
 #include <stdint.h>
 
+#define CURSOR_ON  1
+#define CURSOR_OFF 0
+
 void putString(char*  s);
 void putChar(char c);
 void clear();

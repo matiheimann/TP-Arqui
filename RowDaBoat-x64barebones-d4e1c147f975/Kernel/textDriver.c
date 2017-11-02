@@ -17,7 +17,26 @@ void putString(char*  s){
 	}
 }
 
+void putCursor() {
+	if(currentVideo >= video + (height) * (width*2)){
+		endOfScreen();
+	}
+
+	*currentVideo = ' ';
+	*(currentVideo+1) = 0xFF;
+}
+
+void removeCursor() {
+	if(currentVideo >= video + (height) * (width*2)){
+		endOfScreen();
+	}
+
+	*currentVideo = ' ';
+	*(currentVideo+1) = 0;
+}
+
 void deleteChar() {
+	removeCursor();
 	if(currentVideo!=video) {
 		*(currentVideo-1) = 0;
 		*(currentVideo-2) = 0;
@@ -91,8 +110,10 @@ void putStringAt(uint32_t x, uint32_t y, char* s){
 }
 
 void newLine(){
+	removeCursor();
 	int i = currentVideo - video;
 	currentVideo += width * 2 - i%(width*2);
+	putCursor();
 }
 
 void delete() {

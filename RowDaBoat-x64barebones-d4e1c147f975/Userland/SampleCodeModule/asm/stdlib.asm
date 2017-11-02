@@ -1,5 +1,6 @@
 GLOBAL print
 GLOBAL scan
+GLOBAL clearScreen
 
 EXTERN printInt
 
@@ -14,9 +15,8 @@ print:
 	mov rdx, rsi
 	int 80h
 
-	mov rbp, rsp
+	mov rsp, rbp
 	pop rbp
-
 	ret
 
 scan:
@@ -31,8 +31,19 @@ scan:
 	int 80h
 
 
-	mov rbp, rsp
+	mov rsp, rbp
 	pop rbp
+	ret
 
+clearScreen
+
+	push rbp
+	mov rbp, rsp
+
+	mov rax, 5
+	int 80h
+
+	mov rsp, rbp
+	pop rbp
 	ret
 

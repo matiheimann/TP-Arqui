@@ -3,17 +3,13 @@
 #include <syscallDispatcher.h>
 #include <keyboard.h>
 
-static const syscall syscalls[]={0, 0, 0, read, write};
+static const syscall syscalls[]={0, 0, 0, read, write, clearScreen};
 
 
 uint64_t syscallDispatcher(uint64_t rax, uint64_t rbx, uint64_t rcx, uint64_t rdx){
 	
 	return syscalls[rax](rbx, rcx, rdx);
 }
-
-
-
-
 
 uint64_t write(uint64_t fd, uint64_t buffer, uint64_t count){
 	int i = 0;
@@ -38,4 +34,8 @@ uint64_t read(uint64_t fd, uint64_t buffer, uint64_t count){
 		}
 	}
 	return i;
+}
+
+void clearScreen() {
+	clear();
 }

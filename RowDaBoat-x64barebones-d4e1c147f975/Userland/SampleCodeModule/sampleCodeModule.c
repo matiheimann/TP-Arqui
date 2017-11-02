@@ -1,18 +1,33 @@
 /* sampleCodeModule.c */
 
 
-void print(char * string);
-char * v = (char*)0xB8000;
-
-static int var1 = 0;
-static int var2 = 0;
-
-
 int main() {
-	int i;
-	while(1){
-		char s[100] = {0};
-		scanf(s);
+	char exit = 0;
+
+	while(!exit){
+
+		putchar('>');
+
+		char command[100] = {0};
+		scanf(command);
+
+		if(strcmp(command, "exit")==0)
+			exit = 1;
+
+		else if(startsWith(command, "echo ")) {
+			printf(command+5);
+			putchar('\n');
+		}
+
+		else if(strcmp(command, "clear")==0) {
+			clear();
+		}
+
+		else {
+			printf("Invalid command, use help to see available commands");
+			putchar('\n');
+		}
 	}
+
 	return 0;
 }
