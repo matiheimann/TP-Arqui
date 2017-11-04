@@ -1,5 +1,6 @@
 GLOBAL cpuVendor
 GLOBAL read_port
+GLOBAL get_rtc_data
 
 section .text
 	
@@ -35,6 +36,19 @@ read_port:
 	xor rdx, rdx
 	mov rdx, rdi
 	in al, dx
+
+	mov rsp, rbp
+	pop rbp
+	ret
+
+get_rtc_data:
+	push rbp
+	mov rbp, rsp
+
+	xor rax, rax
+	mov rax, rdi
+	out 70h, al
+	in 	al, 71h
 
 	mov rsp, rbp
 	pop rbp

@@ -72,13 +72,23 @@ int scanf(char * buff){
 	char c;
 	int i = 0;
 	while((c = getChar()) != '\n'){
-		*(buff + i) = c;
-		i++;
-		putchar(c);
+		if(c == '\b'){
+			if(i != 0){
+				i--;
+				*(buff + i) = 0;
+				putchar(c);
+			}
+
+		}
+		else{
+			*(buff + i) = c;
+			i++;
+			putchar(c);
+		}
 	}
 	if(i!=0)
 		putchar('\n');
-	return 0;
+	return i;
 }
 
 void clear() {
