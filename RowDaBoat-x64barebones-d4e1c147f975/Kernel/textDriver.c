@@ -1,4 +1,4 @@
-/* Video driver */
+
 
 #include "textDriver.h"
 #include <stdint.h>

@@ -1,5 +1,5 @@
-#ifndef VIDEO_DRIVER_H
-#define VIDEO_DRIVER_H
+#ifndef TEXT_DRIVER_H
+#define TEXT_DRIVER_H
 
 #include <stdint.h>
 

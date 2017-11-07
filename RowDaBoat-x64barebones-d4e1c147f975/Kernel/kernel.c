@@ -6,6 +6,7 @@
 #include <textDriver.h>
 #include <idtLoader.h>
 #include <rtcDriver.h>
+#include <videoDriver.h>
 
 extern uint8_t text;
 extern uint8_t rodata;
@@ -93,6 +94,9 @@ int main()
 	ncNewline();
 	ncPrint("  Calling the sample code module returned: ");*/
 	clear();
+	for(int i=0; i<30; i++)
+		for(int j=0; j<30; j++)
+			putpixel(i,j);
 	ncPrintHex(((EntryPoint)sampleCodeModuleAddress)());
 	/*ncNewline();
 	ncNewline();
