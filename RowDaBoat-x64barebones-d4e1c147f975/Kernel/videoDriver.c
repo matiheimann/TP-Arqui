@@ -1,6 +1,6 @@
 
 #include <videoDriver.h>
-#include <textDriver.h>
+
 
 static const VBEModeInfoBlock * vesaInfo =  (uint64_t*)0x0000000000005C00;
 static uint32_t videoCursor = 0;
@@ -71,7 +71,7 @@ void printInt(uint64_t n){
 	}
 }
 
-void countAllDigist(uint64_t n){
+int countAllDigits(uint64_t n){
 	int i = 1;
 	while(n >= 10){
 		n /=10;
@@ -111,7 +111,7 @@ void printHex(uint64_t n){
 	printString(s);
 }
 
-void countHexDigist(uint64_t n){
+int countHexDigits(uint64_t n){
 	int i = 1;
 	while(n >= 16){
 		n /=16;
