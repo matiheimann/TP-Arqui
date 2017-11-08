@@ -110,7 +110,6 @@ void nLine(){
 }
 
 void erase() {
-	
 	if(videoCursor == 0)
 		return;
 	videoCursor --;
@@ -120,6 +119,16 @@ void erase() {
 		}
 	}
 }
+
+uint16_t getXres(){
+	return vesaInfo->XResolution;
+}
+
+uint16_t getYres(){
+	return vesaInfo->YResolution;
+}
+
+
 
 
 

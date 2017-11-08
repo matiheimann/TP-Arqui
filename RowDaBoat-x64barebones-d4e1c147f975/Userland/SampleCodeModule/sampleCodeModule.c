@@ -1,5 +1,6 @@
 /* sampleCodeModule.c */
-
+#include <stdlib.h>
+#include <plotter.h>
 
 int main() {
 	char exit = 0;
@@ -9,6 +10,7 @@ int main() {
 		putchar('>');
 
 		char command[100] = {0};
+		cuadratic(3.0,0.0,0.0);
 		scanf(command);
 
 		if(strcmp(command, "exit")==0)

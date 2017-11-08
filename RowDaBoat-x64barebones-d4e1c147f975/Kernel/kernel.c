@@ -93,12 +93,6 @@ int main()
 	ncNewline();
 	ncPrint("  Calling the sample code module returned: ");*/
 	//int a = 1/0;
-	for(int j = 0; j < 6; j++){
-		for(int i = 0 ; i< 26 ; i++)
-			printChar('A' + i);
-		erase();
-	}
-	
 
 
 	

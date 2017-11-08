@@ -6,6 +6,8 @@ int validCharPosition(int x, int y);
 int validPixelPosition(int x, int y);
 void printChar(char c);
 void printCharLine(unsigned char line, int x, int y);
+uint16_t getXres();
+uint16_t getYres();
 
 #pragma pack(push)    /* Push de la alineación actual */
 #pragma pack (1)    /* Alinear las siguiente estructuras a 1 byte */

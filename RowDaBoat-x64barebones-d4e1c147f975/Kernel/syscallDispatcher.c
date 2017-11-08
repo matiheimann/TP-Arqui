@@ -4,7 +4,7 @@
 #include <keyboard.h>
 
 
-static const syscall syscalls[]={0, 0, 0, read, write, clearScreen};
+static const syscall syscalls[]={0, 0, 0, read, write, clearScreen, paintPixel, getResolutionX, getResolutionY};
 
 
 uint64_t syscallDispatcher(uint64_t rax, uint64_t rbx, uint64_t rcx, uint64_t rdx){
@@ -25,7 +25,6 @@ uint64_t write(uint64_t fd, uint64_t buffer, uint64_t count){
 
 uint64_t read(uint64_t fd, uint64_t buffer, uint64_t count){
 	int i;
-	int n = 0;
 	unsigned char * charBuffer = (unsigned char *) buffer;
 		/*entrada estandar*/
 	if(fd == STDIN){
@@ -40,3 +39,16 @@ uint64_t read(uint64_t fd, uint64_t buffer, uint64_t count){
 void clearScreen() {
 	blackOut();
 }
+
+void paintPixel(uint64_t x, uint64_t y){
+	putpixel(x,y);
+}
+
+uint16_t getResolutionY(){
+	return getYres();
+}
+
+uint16_t getResolutionX(){
+	return getXres();
+}
+
