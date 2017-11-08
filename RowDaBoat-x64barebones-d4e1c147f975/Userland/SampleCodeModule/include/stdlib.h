@@ -4,7 +4,7 @@
 	int strlen(char*);
 	int scanf(char *);
 	char getChar();
-	void putchar();
+	void putchar(char);
 	void printInt(int a);
 	int countDigits(int n);
 #endif

@@ -37,7 +37,18 @@ int validCharPosition(int x, int y) {
 }
 
 void printChar(char c) {
-	if (1) {
+	if(videoCursor >= charsPerHeight*charsPerLine){
+		endScreen();
+	}
+
+	if(c == '\n'){
+		nLine();
+	}
+	else if(c == '\b'){
+		//Borra aunque este en la primer posicion
+		erase();
+	}
+	else{
 		int y = videoCursor / charsPerLine;
 		int x = videoCursor % charsPerLine;
 		unsigned char * char_map = pixel_map(c);
@@ -49,19 +60,8 @@ void printChar(char c) {
 		videoCursor++;
 	}
 }
-/*
-void endOfScreen(){
-	for(int i = 0; i < height -1; i++){
-		for(int j = 0; j < width*2; j++){
-			*(video + i * (width * 2) + j ) = *(video + (i+1) * (width * 2) + j);
-		}
-	}
-	for(int i = 0; i < width *2; i++){
-		*(video + (height-1)*width*2 + i) = 0; 
-	}
-	currentVideo = video + (height-1)*width*2;
-}
-*/
+
+
 void endScreen(){
 	for(int i = 0; i < (vesaInfo->YResolution - CHAR_HEIGHT); i++){
 		for(int j = 0; j < (vesaInfo->XResolution) * 3; j++){
@@ -100,124 +100,27 @@ void printString(char*  s){
 		printChar(*s);
 		s++;
 	}
-}/*
-void printCursor() {
-	if(currentVideo >= video + (height) * (width*2)){
-		endOfScreen();
-	}
-
-	*currentVideo = ' ';
-	*(currentVideo+1) = 0xFF;
 }
 
-void removeCursor() {
-	if(currentVideo >= video + (height) * (width*2)){
-		endOfScreen();
-	}
-
-	*currentVideo = ' ';
-	*(currentVideo+1) = 0;
+void nLine(){
+	if(videoCursor/charsPerLine == charsPerHeight -1){
+		endScreen();
+	}									
+	videoCursor += charsPerLine - videoCursor % charsPerLine;	
 }
 
-void deleteChar() {
-	removeCursor();
-	if(currentVideo!=video) {
-		*(currentVideo-1) = 0;
-		*(currentVideo-2) = 0;
-		currentVideo -= 2;
-	}
-	if((currentVideo - video) % width != 0){
-		while(*currentVideo == 0){
-			if(currentVideo == video){
-				return;
-			}
-			currentVideo-=2;
-		}
-		currentVideo += 2;
-	}
-}
-
-void putInt(int n){
-	char s[20] = {0};
-	int i = countDigits(n)-1;
-	while(i >= 0){
-		s[i] = n % 10 + '0';
-		n /= 10;
-		i--;
-	}
-	putString(s);
-}
-
-int countDigits(int n){
-	int i = 1;
-	while(n >= 10){
-		n /=10;
-		i++;
-	}
-	return i;
-}
-
-void putChar(char c){
-	if(currentVideo >= video + (height) * (width*2)){
-		endOfScreen();
-	}
-
-	if(c == '\n')
-		newLine();
-	else if(c == '\b') {
-		deleteChar();
-	}
-	else {
-		*currentVideo = c;
-		*(currentVideo + 1) = 0x0F;
-		currentVideo +=2;
-	}
-}
-
-void clear(){
-	uint8_t * i;
-	for(i = video; i < finalVideo; i++){
-		*(i) = 0;
-	}
-	currentVideo = video;
-}
-
-void putStringAt(uint32_t x, uint32_t y, char* s){
-	if(x >= 0 && x < width && y >= 0 && y < height){
-		currentVideo = video + (y * width*2) + x*2;
-		putString(s);
-	}
-	else{
-		char * s = "input error";
-		putStringAt(0,24, s);
-	}
-}
-
-void newLine(){
-	removeCursor();
-	int i = currentVideo - video;
-	currentVideo += width * 2 - i%(width*2);
-	putCursor();
-}
-
-void delete() {
-	if(currentVideo == video)
+void erase() {
+	
+	if(videoCursor == 0)
 		return;
-
-	currentVideo -= 2;
-	*currentVideo = 0;
-}
-
-void endOfScreen(){
-	for(int i = 0; i < height -1; i++){
-		for(int j = 0; j < width*2; j++){
-			*(video + i * (width * 2) + j ) = *(video + (i+1) * (width * 2) + j);
+	videoCursor --;
+	for(int i = 0; i< CHAR_HEIGHT; i++){
+		for(int j = 0; j < CHAR_WIDTH ; j++){
+			putBlackPixel((videoCursor % charsPerLine) * CHAR_WIDTH + j, (videoCursor / charsPerLine) * CHAR_HEIGHT + i);
 		}
 	}
-	for(int i = 0; i < width *2; i++){
-		*(video + (height-1)*width*2 + i) = 0; 
-	}
-	currentVideo = video + (height-1)*width*2;
 }
 
-*/
+
+
+

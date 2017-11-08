@@ -1,3 +1,5 @@
+#include <stdlib.h>
+
 extern int scan(char * str, int length);
 extern int print(char * str, int length);
 

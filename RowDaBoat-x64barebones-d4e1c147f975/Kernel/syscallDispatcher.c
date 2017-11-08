@@ -1,7 +1,8 @@
 #include <stdint.h>
-#include <textDriver.h>
+#include <videoDriver.h>
 #include <syscallDispatcher.h>
 #include <keyboard.h>
+
 
 static const syscall syscalls[]={0, 0, 0, read, write, clearScreen};
 
@@ -16,7 +17,7 @@ uint64_t write(uint64_t fd, uint64_t buffer, uint64_t count){
 	/*salida estandar*/
 	if (fd == STDOUT){
 		for(i=0; i < count ; i++){
-			putChar(((char*)buffer)[i]);
+			printChar(((char*)buffer)[i]);
 		}
 	}
 	return i;
@@ -37,5 +38,5 @@ uint64_t read(uint64_t fd, uint64_t buffer, uint64_t count){
 }
 
 void clearScreen() {
-	clear();
+	blackOut();
 }
