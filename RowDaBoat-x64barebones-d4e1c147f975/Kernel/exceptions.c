@@ -1,22 +1,20 @@
+#include <exceptions.h>
+#include <videoDriver.h>
 
-#define ZERO_EXCEPTION_ID 0
-#define OVERFLOW_EXCEPTION_ID 1
+static const exception exceptions[] = {zero_division, 0, 0, 0, overflow, 0, invalidOpCode};
 
-
-static void zero_division();
-static void overflow();
-
-void exceptionDispatcher(int exception) {
-	if (exception == ZERO_EXCEPTION_ID)
-		zero_division();
-	if(exception == OVERFLOW_EXCEPTION_ID)
-		overflow();
+void exceptionDispatcher(int exceptionID) {
+	exceptions[exceptionID]();
 }
 
 static void zero_division() {
-	// Handler para manejar excepcíon
+	printString("Division por cero");
 }
 
-static void overflow(){
-	// Handler para manejar excepcion
+static void overflow() {
+
+}
+
+static void invalidOpCode() {
+
 }

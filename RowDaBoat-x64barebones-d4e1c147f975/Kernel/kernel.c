@@ -3,7 +3,6 @@
 #include <lib.h>
 #include <moduleLoader.h>
 #include <naiveConsole.h>
-#include <textDriver.h>
 #include <idtLoader.h>
 #include <rtcDriver.h>
 #include <videoDriver.h>
@@ -93,10 +92,12 @@ int main()
 	ncPrintHex((uint64_t)sampleCodeModuleAddress);
 	ncNewline();
 	ncPrint("  Calling the sample code module returned: ");*/
-	clear();
-	for(int i=0; i<30; i++)
-		for(int j=0; j<30; j++)
-			putpixel(i,j);
+	//int a = 1/0;
+	for(int j = 0; j < 6; j++)
+		for(int i = 0 ; i< 26 ; i++)
+			printChar('A' + i);
+
+	
 	ncPrintHex(((EntryPoint)sampleCodeModuleAddress)());
 	/*ncNewline();
 	ncNewline();
@@ -118,6 +119,5 @@ int main()
 	delete();*/
 
 	//ncPrint("[Finished]");
-
 	return 0;
 }

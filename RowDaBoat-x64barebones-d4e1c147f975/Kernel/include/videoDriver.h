@@ -1,6 +1,11 @@
 #include <stdint.h>
+#include <font.h>
 
 void putpixel(int x,int y);
+int validCharPosition(int x, int y);
+int validPixelPosition(int x, int y);
+void printChar(char c);
+void printCharLine(unsigned char line, int x, int y);
 
 typedef struct VBEModeInfoBlock
 {
@@ -35,3 +40,6 @@ typedef struct VBEModeInfoBlock
   uint8_t  DirectColorModeInfo  __attribute__ ((packed));
   uint32_t  PhysBasePtr          __attribute__ ((packed));
 } VBEModeInfoBlock;
+
+#define charsPerLine (vesaInfo->XResolution / CHAR_WIDTH)
+#define charsPerHeight (vesaInfo->YResolution / CHAR_HEIGHT)
