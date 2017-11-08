@@ -1,6 +1,11 @@
 /* sampleCodeModule.c */
+<<<<<<< HEAD
 #include <stdlib.h>
 #include <plotter.h>
+=======
+
+void divideByCero();
+>>>>>>> 6fb3caa82664f67fbab56562ac7afcdb82d8a01e
 
 int main() {
 	char exit = 0;
@@ -25,6 +30,16 @@ int main() {
 			clear();
 		}
 
+		else if(strcmp(command, "divide by cero")==0) {
+			divideByCero();
+		}
+
+		else if(strcmp(command, "help")==0) {
+			printf("Los comandos disponibles son: \n");
+			printf("(a completar...)");
+			putchar('\n');
+		}
+
 		else {
 			printf("Invalid command, use help to see available commands");
 			putchar('\n');
@@ -33,4 +48,8 @@ int main() {
 
 	clear();
 	return 0;
+}
+
+void divideByCero() {
+	int a = 1/0;
 }

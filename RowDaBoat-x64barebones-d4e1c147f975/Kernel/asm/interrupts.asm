@@ -17,6 +17,8 @@ GLOBAL _exception4Handler
 GLOBAL _exception6Handler
 GLOBAL _syscallHandler
 
+GLOBAL _reset_rip
+
 EXTERN irqDispatcher
 EXTERN exceptionDispatcher
 EXTERN syscallDispatcher
@@ -114,17 +116,13 @@ SECTION .text
 	pushState
 
 	mov rdi, %1 ; pasaje de parametro
+	mov rsi, rsp
 	call exceptionDispatcher
 
-	pop rdx
 	popState
+	mov qword [rsp], 0x0000000000400000
 	iretq
 %endmacro
-
-
-
-
-
 
 _hlt:
 	sti

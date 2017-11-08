@@ -93,9 +93,12 @@ int main()
 	ncNewline();
 	ncPrint("  Calling the sample code module returned: ");*/
 	//int a = 1/0;
+<<<<<<< HEAD
 
 
 	
+=======
+>>>>>>> 6fb3caa82664f67fbab56562ac7afcdb82d8a01e
 	ncPrintHex(((EntryPoint)sampleCodeModuleAddress)());
 	/*ncNewline();
 	ncNewline();

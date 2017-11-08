@@ -61,6 +61,45 @@ void printChar(char c) {
 	}
 }
 
+void printHex(uint64_t n){
+	char s[16] = {0};
+	int i = countDigits(n)-1;
+	while(i >= 0){
+		if(n%16 < 10){
+			s[i] = n % 16 + '0';
+		}
+		else if(n%16 == 10){
+			s[i] = 'A';
+		}
+		else if(n%16 == 11){
+			s[i] = 'B';
+		}
+		else if(n%16 == 12){
+			s[i] = 'C';
+		}
+		else if(n%16 == 13){
+			s[i] = 'D';
+		}
+		else if(n%16 == 14){
+			s[i] = 'E';
+		}
+		else{
+			s[i] = 'F';
+		}
+		n /= 16;
+		i--;
+	}
+	printString(s);
+}
+
+void countHexDigist(uint64_t n){
+	int i = 1;
+	while(n >= 16){
+		n /=16;
+		i++;
+	}
+	return i;
+}
 
 void endScreen(){
 	for(int i = 0; i < (vesaInfo->YResolution - CHAR_HEIGHT); i++){
