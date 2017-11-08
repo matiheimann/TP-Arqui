@@ -1,5 +1,6 @@
 /* sampleCodeModule.c */
 
+void divideByCero();
 
 int main() {
 	char exit = 0;
@@ -23,6 +24,16 @@ int main() {
 			clear();
 		}
 
+		else if(strcmp(command, "divide by cero")==0) {
+			divideByCero();
+		}
+
+		else if(strcmp(command, "help")==0) {
+			printf("Los comandos disponibles son: \n");
+			printf("(a completar...)");
+			putchar('\n');
+		}
+
 		else {
 			printf("Invalid command, use help to see available commands");
 			putchar('\n');
@@ -31,4 +42,8 @@ int main() {
 
 	clear();
 	return 0;
+}
+
+void divideByCero() {
+	int a = 1/0;
 }
