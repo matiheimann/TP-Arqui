@@ -1,11 +1,8 @@
 /* sampleCodeModule.c */
-<<<<<<< HEAD
 #include <stdlib.h>
 #include <plotter.h>
-=======
 
 void divideByCero();
->>>>>>> 6fb3caa82664f67fbab56562ac7afcdb82d8a01e
 
 int main() {
 	char exit = 0;
@@ -15,7 +12,7 @@ int main() {
 		putchar('>');
 
 		char command[100] = {0};
-		cuadratic(3.0,0.0,0.0);
+		cuadratic(2.0,0.0,3.0);
 		scanf(command);
 
 		if(strcmp(command, "exit")==0)
