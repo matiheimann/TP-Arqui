@@ -61,9 +61,28 @@ void printChar(char c) {
 	}
 }
 
+void printInt(uint64_t n){
+	char s[16] = {0};
+	int i = countAllDigits(n)-1;
+	while(i >= 0){
+		s[i] = n % 16 + '0';
+		n /= 10;
+		i--;
+	}
+}
+
+void countAllDigist(uint64_t n){
+	int i = 1;
+	while(n >= 10){
+		n /=10;
+		i++;
+	}
+	return i;
+}
+
 void printHex(uint64_t n){
 	char s[16] = {0};
-	int i = countDigits(n)-1;
+	int i = countHexDigits(n)-1;
 	while(i >= 0){
 		if(n%16 < 10){
 			s[i] = n % 16 + '0';
