@@ -6,6 +6,10 @@ int validCharPosition(int x, int y);
 int validPixelPosition(int x, int y);
 void printChar(char c);
 void printCharLine(unsigned char line, int x, int y);
+int countHexDigits(uint64_t n);
+int countAllDigits(uint64_t n);
+void printHex(uint64_t n);
+void printInt(uint64_t n);
 uint16_t getXres();
 uint16_t getYres();
 
