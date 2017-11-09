@@ -108,6 +108,7 @@ void printHex(uint64_t n){
 		n /= 16;
 		i--;
 	}
+	printString("0x");
 	printString(s);
 }
 

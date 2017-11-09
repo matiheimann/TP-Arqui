@@ -8,9 +8,23 @@ void exceptionDispatcher(int exceptionID, uint64_t rsp) {
 }
 
 static void zero_division(rsp) {
-	printString("Division por cero");
-	printChar('\n');
-	exceptionStackFrame * exceptionInfo = (uint64_t*) rsp;
+	printString("Zero division exception: \n");
+	printExceptionStackFrame(rsp);	
+}
+
+static void overflow(rsp) {
+	printString("Overflow exception: \n");
+	printExceptionStackFrame(rsp);
+}
+
+static void invalidOpCode(rsp) {
+	printString("Invalid opcode exception: \n");
+	printExceptionStackFrame(rsp);
+}
+
+void printExceptionStackFrame(uint64_t rsp) {
+
+	exceptionStackFrame* exceptionInfo = (uint64_t*) rsp;
 
 	printString("Instruction pointer: ");
 	printHex(exceptionInfo->instruction_pointer);
@@ -31,12 +45,4 @@ static void zero_division(rsp) {
 	printString("Stack segment: ");
 	printHex(exceptionInfo->stack_segment);
 	printChar('\n');
-}
-
-static void overflow(rsp) {
-	printString("overflow");
-}
-
-static void invalidOpCode(rsp) {
-	printString("invalid opcode");
 }

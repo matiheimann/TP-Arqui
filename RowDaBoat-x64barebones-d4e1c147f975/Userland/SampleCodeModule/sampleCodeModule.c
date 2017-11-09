@@ -12,7 +12,7 @@ int main() {
 		putchar('>');
 
 		char command[100] = {0};
-		cuadratic(2.0,0.0,3.0);
+		cuadratic(0.0,1.0,0.0);
 		scanf(command);
 
 		if(strcmp(command, "exit")==0)
@@ -29,6 +29,14 @@ int main() {
 
 		else if(strcmp(command, "divide by cero")==0) {
 			divideByCero();
+		}
+
+		else if(strcmp(command, "overflow")==0) {
+			generate_overflow();
+		}
+
+		else if(strcmp(command, "invalid opcode")==0) {
+			generate_inavlid_opcode();
 		}
 
 		else if(strcmp(command, "help")==0) {

@@ -23,8 +23,6 @@ EXTERN irqDispatcher
 EXTERN exceptionDispatcher
 EXTERN syscallDispatcher
 
-EXTERN putString
-
 SECTION .text
 
 %macro pushState 0

@@ -6,11 +6,12 @@
 static void zero_division();
 static void overflow();
 static void invalidOpCode();
+void printExceptionStackFrame(uint64_t rsp);
 
 typedef void (* exception)(uint64_t rsp);
 
-#pragma pack(push)		/* Push de la alineación actual */
-#pragma pack (1) 		/* Alinear las siguiente estructuras a 1 byte */
+#pragma pack(push)		
+#pragma pack (1) 		
 
 typedef struct {
   uint64_t instruction_pointer;
@@ -20,6 +21,6 @@ typedef struct {
   uint64_t stack_segment;
 } exceptionStackFrame;
 
-#pragma pack(pop)		/* Reestablece la alinceación actual */
+#pragma pack(pop)	
 
 #endif
