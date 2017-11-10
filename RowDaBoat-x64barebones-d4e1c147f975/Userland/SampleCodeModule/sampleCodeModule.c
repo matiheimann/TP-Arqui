@@ -5,6 +5,7 @@
 void divideByCero();
 
 int main() {
+	
 	char exit = 0;
 
 	while(!exit){
@@ -28,7 +29,7 @@ int main() {
 		}
 
 		else if(strcmp(command, "divide by cero")==0) {
-			divideByCero();
+			generate_divide_by_cero();
 		}
 
 		else if(strcmp(command, "overflow")==0) {
@@ -37,6 +38,10 @@ int main() {
 
 		else if(strcmp(command, "invalid opcode")==0) {
 			generate_inavlid_opcode();
+		}
+
+		else if(strcmp(command, "time")==0) {
+			displayTimeData();
 		}
 
 		else if(strcmp(command, "help")==0) {
@@ -52,9 +57,5 @@ int main() {
 	}
 
 	clear();
-	return 0;
-}
-
-void divideByCero() {
-	int a = 1/0;
+	return 1;
 }
