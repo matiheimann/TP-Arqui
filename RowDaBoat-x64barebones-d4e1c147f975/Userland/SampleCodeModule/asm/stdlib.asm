@@ -4,7 +4,7 @@ GLOBAL clearScreen
 GLOBAL paintPixelAt
 GLOBAL XResolution
 GLOBAL YResolution
-EXTERN printInt
+GLOBAL displayTimeData
 
 print:
 	
@@ -82,6 +82,15 @@ YResolution:
 	pop rbp
 	ret
 
+displayTimeData:
+	push rbp
+	mov rbp, rsp
+	mov rax,9
+	int 80h
+
+	mov rsp, rbp
+	pop rbp
+	ret
 
 
 
