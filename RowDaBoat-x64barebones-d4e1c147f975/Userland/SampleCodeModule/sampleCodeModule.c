@@ -5,9 +5,9 @@
 int main() {
 	
 	char exit = 0;
-
+	printf("SHELL - authors LORANT MIKOLAS, MATIAS HEIMANN & JOHNATHAN KATAN\n");
+	printf("-----------------------------------------------------------------\n");
 	while(!exit){
-
 		putchar('>');
 
 		char command[100] = {0};
@@ -23,6 +23,8 @@ int main() {
 
 		else if(strcmp(command, "clear")==0) {
 			clear();
+			printf("SHELL - authors LORANT MIKOLAS, MATIAS HEIMANN & JOHNATHAN KATAN\n");
+			printf("-----------------------------------------------------------------\n");
 		}
 
 		else if(strcmp(command, "divide by cero")==0) {
@@ -49,6 +51,8 @@ int main() {
 
 		else if(strcmp(command, "graph")==0) {
 			graphPlotter();
+			printf("SHELL - authors LORANT MIKOLAS, MATIAS HEIMANN & JOHNATHAN KATAN\n");
+			printf("-----------------------------------------------------------------\n");
 		}
 
 		else {

@@ -3,11 +3,15 @@
 
 void graphPlotter() {
 		clear();
+		printf("PLOTTER PROGRAM\n");
 		printf("Welcome to the graph plotter program\n");
 		printf("Write 'addplot' to plot or 'exit' to exit program and return to shell\n");
+		
+		
 
 		while(1) {
 			char command[20] = {0};
+			putchar('>');
 			scanf(command);
 			if(strcmp(command, "addplot")==0) {
 				clear();
@@ -56,5 +60,8 @@ void plotCudratic(){
 			return;
 		}
 		putchar('\n');
+		clear();
+		printf("PLOTTER PROGRAM\n");
+
 		cuadratic(c,b,a);
 }
