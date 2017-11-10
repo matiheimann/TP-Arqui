@@ -1,5 +1,5 @@
-#include <textDriver.h>
 #include <rtcDriver.h>
+#include <videoDriver.h>
 
 #define BCD_TO_BINARY(time) (time & 0x0F) + ((time / 16) * 10)
 
@@ -42,14 +42,26 @@ unsigned char getYear() {
 	return year;
 }
 
-unsigned char * dateToString() {
-	unsigned char string[6];
-	string[0] = getDay();
-	string[1] = getMonth();
-	string[2] = getYear();
-	string[3] = getHours();
-	string[4] = getMinutes();
-	string[5] = getSeconds();
+void displayTime() {
 
-	return string;
+	printString("Day: ");
+	printInt(getDay());
+	printString(", ");
+
+	printString("Month: ");
+	printInt(getMonth());
+	printString(", ");
+
+	printString("Year: ");
+	printInt(getYear());
+	printChar('\n');
+
+	printInt((uint64_t)getHours());
+	printString("hs:");
+	printInt(getMinutes());
+	printString("m:");
+	printInt(getSeconds());
+	printString("s");
+
+	printChar('\n');
 }
