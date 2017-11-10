@@ -2,8 +2,6 @@
 #include <stdlib.h>
 #include <plotter.h>
 
-void divideByCero();
-
 int main() {
 	
 	char exit = 0;

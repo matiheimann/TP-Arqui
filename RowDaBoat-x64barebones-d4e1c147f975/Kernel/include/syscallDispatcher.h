@@ -13,6 +13,6 @@ void clearScreen();
 void paintPixel(uint64_t x, uint64_t y);
 uint16_t getResolutionY();
 uint16_t getResolutionX();
-
+void printRTCInfo();
 
 #endif

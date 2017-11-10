@@ -65,10 +65,12 @@ void printInt(uint64_t n){
 	char s[16] = {0};
 	int i = countAllDigits(n)-1;
 	while(i >= 0){
-		s[i] = n % 16 + '0';
+		s[i] = n % 10 + '0';
 		n /= 10;
 		i--;
 	}
+
+	printString(s);
 }
 
 int countAllDigits(uint64_t n){
