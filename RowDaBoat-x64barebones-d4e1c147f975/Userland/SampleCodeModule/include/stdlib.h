@@ -7,4 +7,6 @@
 	void putchar(char);
 	void printInt(int a);
 	int countDigits(int n);
+	int parseNumber(char * s, double * d);
+	int isNumeric(char c);
 #endif

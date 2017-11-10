@@ -1,6 +1,6 @@
 /* sampleCodeModule.c */
 #include <stdlib.h>
-#include <plotter.h>
+#include <graphPlotterApp.h>
 
 int main() {
 	
@@ -11,7 +11,6 @@ int main() {
 		putchar('>');
 
 		char command[100] = {0};
-		cuadratic(0.0,1.0,0.0);
 		scanf(command);
 
 		if(strcmp(command, "exit")==0)
@@ -46,6 +45,10 @@ int main() {
 			printf("Los comandos disponibles son: \n");
 			printf("(a completar...)");
 			putchar('\n');
+		}
+
+		else if(strcmp(command, "graph")==0) {
+			graphPlotter();
 		}
 
 		else {

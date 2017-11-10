@@ -97,3 +97,46 @@ void clear() {
 	clearScreen();
 }
 
+int parseNumber(char * s, double * d) {
+	*d = 0;
+	double i = 1;
+	char postDot = 0;
+	char isNegative = 0;
+	if(*s == '-'){
+		isNegative = 1;
+		s++;	
+	}
+	while(*s != 0){
+		if(!postDot){
+			if(isNumeric(*s)){
+				*d *= 10;
+				*d += *s - '0';
+			}
+			else if(*s == '.'){
+				postDot = 1;
+				i = 0.1;
+			}
+			else{
+				return 0;
+			}
+		}
+		else{
+			if(isNumeric(*s)){
+				*d += i * ((*s) - '0');
+				i /= 10; 
+			}
+			else{
+				return 0;
+			}
+		}
+		s++;
+	}
+	if(isNegative){
+		*d *= -1;
+	}
+	return 1;
+}
+
+int isNumeric(char c){
+	return (c >= '0' && c <= '9');
+}
