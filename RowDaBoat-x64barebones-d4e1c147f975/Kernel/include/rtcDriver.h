@@ -14,6 +14,6 @@ unsigned char getHours();
 unsigned char getDay();
 unsigned char getMonth();
 unsigned char getYear();
-unsigned char * dateToString();
+void displayTime();
 
 #endif
