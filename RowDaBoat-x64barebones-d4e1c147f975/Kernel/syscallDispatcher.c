@@ -2,9 +2,9 @@
 #include <videoDriver.h>
 #include <syscallDispatcher.h>
 #include <keyboard.h>
+#include <rtcDriver.h>
 
-
-static const syscall syscalls[]={0, 0, 0, read, write, clearScreen, paintPixel, getResolutionX, getResolutionY};
+static const syscall syscalls[]={0, 0, 0, read, write, clearScreen, paintPixel, getResolutionX, getResolutionY, printRTCInfo};
 
 
 uint64_t syscallDispatcher(uint64_t rax, uint64_t rbx, uint64_t rcx, uint64_t rdx){
@@ -52,3 +52,6 @@ uint16_t getResolutionX(){
 	return getXres();
 }
 
+void printRTCInfo() {
+	displayTime();
+}
