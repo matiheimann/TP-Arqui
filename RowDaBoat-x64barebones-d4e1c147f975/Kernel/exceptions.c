@@ -3,23 +3,26 @@
 
 static const exception exceptions[] = {zero_division, 0, 0, 0, overflow, 0, invalidOpCode};
 
-void exceptionDispatcher(int exceptionID, uint64_t rsp) {
-	exceptions[exceptionID](rsp);
+void exceptionDispatcher(int exceptionID, uint64_t rsp, uint64_t rax, uint64_t rbx, uint64_t rcx, uint64_t rdx, uint64_t rsi, uint64_t rdi) {
+	exceptions[exceptionID](rsp, rax, rbx, rcx, rdx, rsi, rdi);
 }
 
-static void zero_division(rsp) {
+static void zero_division(rsp, rax, rbx, rcx, rdx, rsi, rdi) {
 	printString("Zero division exception: \n");
-	printExceptionStackFrame(rsp);	
+	printExceptionStackFrame(rsp);
+	printRegisters(rax, rbx, rcx, rdx, rsi, rdi);
 }
 
-static void overflow(rsp) {
+static void overflow(rsp, rax, rbx, rcx, rdx, rsi, rdi) {
 	printString("Overflow exception: \n");
 	printExceptionStackFrame(rsp);
+	printRegisters(rax, rbx, rcx, rdx, rsi, rdi);
 }
 
-static void invalidOpCode(rsp) {
+static void invalidOpCode(rsp, rax, rbx, rcx, rdx, rsi, rdi) {
 	printString("Invalid opcode exception: \n");
 	printExceptionStackFrame(rsp);
+	printRegisters(rax, rbx, rcx, rdx, rsi, rdi);
 }
 
 void printExceptionStackFrame(uint64_t rsp) {
@@ -44,5 +47,34 @@ void printExceptionStackFrame(uint64_t rsp) {
 
 	printString("Stack segment: ");
 	printHex(exceptionInfo->stack_segment);
+	printChar('\n');
+}
+
+void printRegisters(uint64_t rax, uint64_t rbx, uint64_t rcx, uint64_t rdx, uint64_t rsi, uint64_t rdi) {
+
+	printString("Registers: \n");
+
+	printString("RAX: ");
+	printHex(rax);
+	printChar('\n');
+
+	printString("RBX: ");
+	printHex(rbx);
+	printChar('\n');
+
+	printString("RCX: ");
+	printHex(rcx);
+	printChar('\n');
+
+	printString("RDX: ");
+	printHex(rdx);
+	printChar('\n');
+
+	printString("RSI: ");
+	printHex(rsi);
+	printChar('\n');
+
+	printString("RDI: ");
+	printHex(rdi);
 	printChar('\n');
 }

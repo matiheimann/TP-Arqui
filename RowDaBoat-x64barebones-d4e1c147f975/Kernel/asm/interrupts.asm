@@ -112,10 +112,30 @@ SECTION .text
 
 %macro exceptionHandler 1
 
-	mov rdi, %1 ; pasaje de parametro
+	;Guardo el valor de los registros
+	mov [raxReg], rax
+	mov [rbxReg], rbx
+	mov [rcxReg], rcx
+	mov [rdxReg], rdx
+	mov [rsiReg], rsi
+	mov [rdiReg], rdi
+
+	;Paso los parametros a exceptionDispatcher
+	mov rdi, %1 
 	mov rsi, rsp
+	mov rdx, [raxReg]
+	mov rcx, [rbxReg]
+	mov r8,  [rcxReg]
+	mov r9,  [rdxReg]
+	push qword [rdiReg]
+	push qword [rsiReg]
+
 	call exceptionDispatcher
 
+	;Restauro rsp a como estaba antes de llamar a exceptionDispatcher
+	add rsp, 16
+
+	;Pusheo la direccion de la terminal de Userland para devolver el control al retornar del handler
 	mov qword [rsp], 0x0000000000400000
 	iretq
 %endmacro
@@ -221,6 +241,11 @@ haltcpu:
 
 
 SECTION .bss
-	aux resq 1
+	raxReg resb 8
+	rbxReg resb 8
+	rcxReg resb 8
+	rdxReg resb 8
+	rsiReg resb 8
+	rdiReg resb 8
 
 SECTION .data
