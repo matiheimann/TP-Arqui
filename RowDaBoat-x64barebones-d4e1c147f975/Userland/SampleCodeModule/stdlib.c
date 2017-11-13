@@ -1,9 +1,5 @@
 #include <stdlib.h>
 
-extern int scan(char * str, int length);
-extern int print(char * str, int length);
-
-
 int strlen(char* str){
 	int i = 0;
 	while(*str){

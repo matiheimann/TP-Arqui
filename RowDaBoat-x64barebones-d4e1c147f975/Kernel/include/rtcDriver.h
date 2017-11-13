@@ -15,5 +15,6 @@ unsigned char getDay();
 unsigned char getMonth();
 unsigned char getYear();
 void displayTime();
+extern  char get_rtc_data(char);
 
 #endif

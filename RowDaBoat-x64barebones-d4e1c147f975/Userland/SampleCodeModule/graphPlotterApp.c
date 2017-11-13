@@ -15,7 +15,7 @@ void graphPlotter() {
 			scanf(command);
 			if(strcmp(command, "addplot")==0) {
 				clear();
-				plotCudratic();
+				plotCuadratic();
 			} 
 
 			else if(strcmp(command, "exit")==0) {
@@ -29,7 +29,7 @@ void graphPlotter() {
 		}
 }
 
-void plotCudratic(){
+void plotCuadratic(){
 	double a,b,c;
 
 		printf("A.X^2 + B.X + C ");

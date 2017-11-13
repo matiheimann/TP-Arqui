@@ -1,6 +1,7 @@
 /* sampleCodeModule.c */
 #include <stdlib.h>
 #include <graphPlotterApp.h>
+#include <sampleExceptions.h>
 
 int main() {
 	

@@ -9,4 +9,5 @@
 
 unsigned char consumeBuffer();
 void keyboard_handler();
+unsigned char read_port(char);
 #endif

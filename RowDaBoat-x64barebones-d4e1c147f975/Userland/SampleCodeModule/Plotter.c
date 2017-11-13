@@ -1,6 +1,7 @@
 #include <graphiclib.h>
 #include <plotter.h>
 
+
 void cuadratic(double grade0, double grade1, double grade2){
 	paintAxis();
 	for(double x = -300; x <= 300; x += 0.01){

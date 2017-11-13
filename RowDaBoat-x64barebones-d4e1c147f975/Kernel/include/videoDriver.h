@@ -1,3 +1,5 @@
+#ifndef VIDEODRIVER_H
+#define VIDEODRIVER_H
 #include <stdint.h>
 #include <font.h>
 
@@ -12,6 +14,11 @@ void printHex(uint64_t n);
 void printInt(uint64_t n);
 uint16_t getXres();
 uint16_t getYres();
+void endScreen();
+void nLine();
+void erase();
+void printString(char*  s);
+void blackOut();
 
 #pragma pack(push)    /* Push de la alineación actual */
 #pragma pack (1)    /* Alinear las siguiente estructuras a 1 byte */
@@ -55,3 +62,4 @@ typedef struct VBEModeInfoBlock
 
 #define charsPerLine (vesaInfo->XResolution / CHAR_WIDTH)
 #define charsPerHeight (vesaInfo->YResolution / CHAR_HEIGHT)
+#endif

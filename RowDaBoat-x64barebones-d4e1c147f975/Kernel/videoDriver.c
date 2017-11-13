@@ -2,13 +2,14 @@
 #include <videoDriver.h>
 
 
-static const VBEModeInfoBlock * vesaInfo =  (uint64_t*)0x0000000000005C00;
+static const VBEModeInfoBlock * vesaInfo =  (VBEModeInfoBlock*)0x0000000000005C00;
 static uint32_t videoCursor = 0;
 
 
 void putpixel(int x,int y) {
 	if(validPixelPosition(x,y)) {
-		uint8_t * position = vesaInfo->PhysBasePtr + ( x + y* vesaInfo->XResolution)*3;
+		uint8_t * initialPosition = (uint8_t *)((uint64_t)vesaInfo->PhysBasePtr);
+		uint8_t * position = (uint8_t *)(initialPosition + ( x + y* vesaInfo->XResolution)*3);
 	    position[0] = 0xFF;          
 	    position[1] = 0xFF; 
 	    position[2] = 0xFF; 
@@ -16,7 +17,7 @@ void putpixel(int x,int y) {
 }
 
 void putBlackPixel(int x, int y){
-	int8_t * position = vesaInfo->PhysBasePtr + ( x + y* vesaInfo->XResolution)*3;
+	uint8_t * position = (uint8_t *)( (uint8_t *)((uint64_t)vesaInfo->PhysBasePtr) + ( x + y* vesaInfo->XResolution)*3);
 	position[0] = 0x00;          
 	position[1] = 0x00; 
 	position[2] = 0x00; 
@@ -124,9 +125,10 @@ int countHexDigits(uint64_t n){
 }
 
 void endScreen(){
+	uint8_t * initialPosition = (uint8_t *)((uint64_t)vesaInfo->PhysBasePtr);
 	for(int i = 0; i < (vesaInfo->YResolution - CHAR_HEIGHT); i++){
 		for(int j = 0; j < (vesaInfo->XResolution) * 3; j++){
-			*((uint8_t *)(vesaInfo->PhysBasePtr) + i * charsPerLine*CHAR_WIDTH * 3 + j) = *((uint8_t *)(vesaInfo->PhysBasePtr) + (i + CHAR_HEIGHT) * charsPerLine*CHAR_WIDTH*3 + j);
+			*((uint8_t *)(initialPosition) + i * charsPerLine*CHAR_WIDTH * 3 + j) = *((uint8_t *)(initialPosition) + (i + CHAR_HEIGHT) * charsPerLine*CHAR_WIDTH*3 + j);
 		}
 	}
 	for(int i = vesaInfo->YResolution - CHAR_HEIGHT; i < vesaInfo->YResolution; i++){

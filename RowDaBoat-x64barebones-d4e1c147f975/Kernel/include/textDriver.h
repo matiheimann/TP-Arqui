@@ -15,5 +15,7 @@ void putInt(int n);
 int countDigits(int n);
 void endOfScreen();
 void deleteChar();
+void putCursor();
+void removeCursor();
 
 #endif

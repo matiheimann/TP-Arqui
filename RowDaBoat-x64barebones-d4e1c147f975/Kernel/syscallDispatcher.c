@@ -4,7 +4,7 @@
 #include <keyboard.h>
 #include <rtcDriver.h>
 
-static const syscall syscalls[]={0, 0, 0, read, write, clearScreen, paintPixel, getResolutionX, getResolutionY, printRTCInfo};
+static const syscall syscalls[]={0, 0, 0, read, write, (syscall)clearScreen, (syscall)paintPixel, (syscall)getResolutionX, (syscall)getResolutionY, (syscall)printRTCInfo};
 
 
 uint64_t syscallDispatcher(uint64_t rax, uint64_t rbx, uint64_t rcx, uint64_t rdx){
