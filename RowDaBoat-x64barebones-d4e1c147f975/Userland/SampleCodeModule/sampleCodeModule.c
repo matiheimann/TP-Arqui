@@ -46,7 +46,14 @@ int main() {
 
 		else if(strcmp(command, "help")==0) {
 			printf("Los comandos disponibles son: \n");
-			printf("(a completar...)");
+			printf("help: presenta una lista de los comandos disonibles\n");
+			printf("echo [str]: imprime en pantalla el string pasado como parametro\n");
+			printf("time: presenta la fecha actual y la hora actual\n");
+			printf("graph: ejecuta un programa para graficar funciones\n");
+			printf("invalid opcode: genera una excepcion de tipo invalid opcode y se imprimen los registros\n");
+			printf("divide by cero: genera una excepcion de division por cero, y se imprimen los registros\n");
+			printf("exit: se sale de la terminal\n");
+			printf("clear: limpia todo el contenido de la pantalla\n");
 			putchar('\n');
 		}
 
