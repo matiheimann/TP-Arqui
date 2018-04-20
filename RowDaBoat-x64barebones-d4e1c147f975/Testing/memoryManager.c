@@ -4,18 +4,20 @@
 #include <math.h>
 #include "memoryManager.h"
 
-unsigned char memory[4194304];
+static char* memory;
 
-void initializeMemory()
+void initializeMemory(void* beginningOfMemory)
 {
-    memset(memory, 0, 4194304);
+    memory = (char*)beginningOfMemory;
+    memset(memory, 0, MEMORY_SIZE);
     memset(memory, 42, 1);
 }
 
-void* alloc(size_t bytes)
+void* allocate(size_t bytes)
 {
-    if(bytes > 4194303)
+    if(bytes > MEMORY_SIZE - 1)
     {
+        printf("Error, not enough memory\n");
         return NULL;
     }
 
@@ -25,9 +27,9 @@ void* alloc(size_t bytes)
     unsigned char c = 0;
     metadata * currentBlockMetadata = memset(&c, 0, 1);
 
-    while(position < 4194304)
+    while(position < MEMORY_SIZE)
     {
-        readMetadata(position, currentBlockMetadata);
+        readMetadataFromPosition(position, currentBlockMetadata);
 
         if(orderOfBlockRequired <= currentBlockMetadata->order)
         {
@@ -64,20 +66,22 @@ void* alloc(size_t bytes)
 
     }
 
+    printf("Error, no more memory available\n");
     return NULL;
 
 }
 
-void dealloc(void* address)
+void deallocate(void* address)
 {
-    if(address <= (void*)memory || (address > (void*)memory + 4194304))
+    if(address <= (void*)memory || (address > (void*)memory + MEMORY_SIZE))
     {
+        printf("Error, invalid memory adress\n");
         return;
     }
 
     int position = address - (void*)memory - 1;
 
-    if(position % 4096 != 0 || memory[position] % 2 == 0)
+    if(position % SMALLEST_BLOCK_SIZE != 0 || memory[position] % 2 == 0)
     {
         return;
     }
@@ -89,19 +93,19 @@ void dealloc(void* address)
 
     memory[position] -= 1;
 
-    while(position >= 0 && position < 4194304)
+    while(position >= 0 && position < MEMORY_SIZE)
     {
-        readMetadata(position, metadata1);
+        readMetadataFromPosition(position, metadata1);
         if(metadata1->isLeft)
         {
             int positionBuddy = jumpNextPosition(position, metadata1->order);
 
-            if(positionBuddy < 0 || positionBuddy >= 4194304)
+            if(positionBuddy < 0 || positionBuddy >= MEMORY_SIZE)
             {
                 return;
             }
 
-            readMetadata(positionBuddy, metadata2);
+            readMetadataFromPosition(positionBuddy, metadata2);
 
             if(metadata2->isAllocated || metadata1->order != metadata2->order)
             {
@@ -115,12 +119,12 @@ void dealloc(void* address)
         {
             int positionBuddy = jumpPreviousPosition(position, metadata1->order);
 
-            if(positionBuddy < 0 || positionBuddy >= 4194304)
+            if(positionBuddy < 0 || positionBuddy >= MEMORY_SIZE)
             {
                 return;
             }
 
-            readMetadata(positionBuddy, metadata2);
+            readMetadataFromPosition(positionBuddy, metadata2);
 
             if(metadata2->isAllocated || metadata1->order != metadata2->order)
             {
@@ -164,19 +168,19 @@ int jumpPreviousPosition(int position, int order)
     return position;
 }
 
-void readMetadata(int position, metadata* blockMetadata)
+void readMetadataFromPosition(int position, metadata* blockMetadata)
 {
     memset(blockMetadata, memory[position], 1);
 }
 
 int calculateBlockOrder(size_t bytes)
 {
-    if(bytes < 4096)
+    if(bytes < SMALLEST_BLOCK_SIZE)
     {
         return 0;
     }
 
-    return floor(logBase2(bytes) - logBase2(4096)) + 1;
+    return floor(logBase2(bytes) - logBase2(SMALLEST_BLOCK_SIZE)) + 1;
 }
 
 double logBase2(size_t number)

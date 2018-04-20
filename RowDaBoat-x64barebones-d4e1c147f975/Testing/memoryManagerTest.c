@@ -3,33 +3,30 @@
 
 int main(int argc, char const *argv[])
 {
-	initializeMemory();
+	printf("lalala\n");
+
+	char memory[MEMORY_SIZE];
+	initializeMemory(memory);
 
 	void * ptr1;
 	void * ptr2;
 
 	int i = 0;
-	char * p[3000];
+	char * p[1024];
 
-	while (i < 3000) {
-		p[i] = (char *)alloc(sizeof(char)*1);
+	while (i < 1024) {
+		p[i] = (char *)allocate(sizeof(char)*2048);
 		i++;
 	}
 
 	i = 0;
 	
-	while (i < 3000) {
-		dealloc(p[i]);
+	while (i < 1024) {
+		deallocate(p[i]);
 		i++;
 	}
 
-	ptr1 = alloc(10);
-	ptr2 = alloc(10);
-	alloc(3000);
-	dealloc(ptr1);
-	dealloc(ptr2);
-	alloc(5000);
-
+	allocate(2048);
 
 	return 1;
 
