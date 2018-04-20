@@ -41,21 +41,11 @@ void* allocate(size_t bytes)
             {
                 memory[position]++;
                 position++;
-                printf("Position: %d\n", position);
                 return (void*) (memory + position);
             }
             else
             {
-                int buddy = jumpNextPosition(position, currentBlockMetadata->order - 1);
-
-                char metadataLeft = 2;
-                char metadataRight = 0;
-
-                metadataLeft += ((currentBlockMetadata->order - 1) * 4);
-                metadataRight += ((currentBlockMetadata->order - 1) * 4);
-
-                memory[position] = metadataLeft;
-                memory[buddy] = metadataRight;
+                subdivideBlock(position, currentBlockMetadata);
             }
         }
 
@@ -135,6 +125,20 @@ void deallocate(void* address)
         }
     }
 
+}
+
+void subdivideBlock(int position, metadata* positionBlockMetadata)
+{
+    int buddy = jumpNextPosition(position, positionBlockMetadata->order - 1);
+
+    char metadataLeft = 2;
+    char metadataRight = 0;
+
+    metadataLeft += ((positionBlockMetadata->order - 1) * 4);
+    metadataRight += ((positionBlockMetadata->order - 1) * 4);
+
+    memory[position] = metadataLeft;
+    memory[buddy] = metadataRight;
 }
 
 void mergeBlocks(int leftPosition, int rightPosition, int order)

@@ -1,3 +1,6 @@
+#ifndef MEMORY_MANAGER_H 
+#define MEMORY_MANAGER_H
+
 #include <stddef.h>
 
 #define MEMORY_SIZE 4194304 //Memory size of 4MB
@@ -21,3 +24,6 @@ void deallocate(void* address);
 void mergeBlocks(int leftPosition, int rightPosition, int order);
 int isLeft(int position, int order);
 int jumpPreviousPosition(int position, int order);
+void subdivideBlock(int position, metadata* positionBlockMetadata);
+
+#endif
