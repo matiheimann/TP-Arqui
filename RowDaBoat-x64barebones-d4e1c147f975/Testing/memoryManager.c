@@ -1,18 +1,10 @@
-#include <stdio.h>
 
-void* alloc(size_t bytes);
-int calculateBlockOrder(size_t bytes);
-double log2(size_t number);
+#include <string.h>
+#include <stdio.h>
+#include <math.h>
+#include "memoryManager.h"
 
 unsigned char memory[4194304];
-
-typedef struct metadata
-{
-    unsigned char isAllocated : 1;
-    unsigned char isLeft : 1;
-    unsigned char order : 6;
-
-}metadata;
 
 void initializeMemory()
 {
@@ -24,13 +16,14 @@ void* alloc(size_t bytes)
 {
     if(bytes > 4194303)
     {
-        return null;
+        return NULL;
     }
 
     int position = 0;
     int orderOfBlockRequired = calculateBlockOrder(bytes);
 
-    metadata * currentBlockMetadata;
+    unsigned char c = 0;
+    metadata * currentBlockMetadata = memset(&c, 0, 1);
 
     while(position < 4194304)
     {
@@ -46,6 +39,7 @@ void* alloc(size_t bytes)
             {
                 memory[position]++;
                 position++;
+                printf("Position: %d\n", position);
                 return (void*) (&memory + position);
             }
             else
@@ -70,7 +64,7 @@ void* alloc(size_t bytes)
 
     }
 
-    return null;
+    return NULL;
 
 }
 
@@ -92,10 +86,10 @@ int calculateBlockOrder(size_t bytes)
         return 0;
     }
 
-    return floor(log2(bytes) - log2(4096)) + 1;
+    return floor(logBase2(bytes) - logBase2(4096)) + 1;
 }
 
-double log2(size_t number)
+double logBase2(size_t number)
 {
     return log(number)/log(2);
 }
