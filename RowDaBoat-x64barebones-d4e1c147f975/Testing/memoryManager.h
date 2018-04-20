@@ -14,3 +14,7 @@ double logBase2(size_t number);
 int jumpNextPosition(int position, int order);
 void readMetadata(int position, metadata* blockMetadata);
 void initializeMemory();
+void dealloc(void* address);
+void mergeBlocks(int leftPosition, int rightPosition, int order);
+int isLeft(int position, int order);
+int jumpPreviousPosition(int position, int order);

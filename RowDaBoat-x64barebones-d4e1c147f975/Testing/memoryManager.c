@@ -40,7 +40,7 @@ void* alloc(size_t bytes)
                 memory[position]++;
                 position++;
                 printf("Position: %d\n", position);
-                return (void*) (&memory + position);
+                return (void*) (memory + position);
             }
             else
             {
@@ -70,12 +70,12 @@ void* alloc(size_t bytes)
 
 void dealloc(void* address)
 {
-    if(address <= (void*)&memory || (void*)(address > &memory + 4194304))
+    if(address <= (void*)memory || (address > (void*)memory + 4194304))
     {
         return;
     }
 
-    int position = address - (void*)&memory - 1;
+    int position = address - (void*)memory - 1;
 
     if(position % 4096 != 0 || memory[position] % 2 == 0)
     {
@@ -84,8 +84,8 @@ void dealloc(void* address)
 
     unsigned char c1 = 0;
     unsigned char c2 = 0;
-    metadata * metadata1 = (&c1, 0, 1);
-    metadata * metadata2 = (&c2, 0, 1);
+    metadata * metadata1 = memset(&c1, 0, 1);
+    metadata * metadata2 = memset(&c2, 0, 1);
 
     memory[position] -= 1;
 
@@ -137,7 +137,7 @@ void mergeBlocks(int leftPosition, int rightPosition, int order)
 {
     char newMetadata = 4 * (order + 1);
 
-    if(isLeft(position, order))
+    if(isLeft(leftPosition, order))
     {
         newMetadata += 2;
     }
@@ -149,7 +149,7 @@ void mergeBlocks(int leftPosition, int rightPosition, int order)
 
 int isLeft(int position, int order)
 {
-    return (position % pow(2, 13 + order) == 0) ? 1 : 0;
+    return (position % (int)pow(2, 13 + order) == 0) ? 1 : 0;
 }
 
 int jumpNextPosition(int position, int order)
