@@ -8,7 +8,7 @@
 
 typedef struct metadata
 {
-    unsigned char isAllocated : 1;
+    unsigned char isAllocated : 1; 
     unsigned char isLeft : 1;
     unsigned char order : 6;
 

@@ -15,7 +15,7 @@ void initializeMemory(void* beginningOfMemory)
 
 void* allocate(size_t bytes)
 {
-    if(bytes > MEMORY_SIZE - 1)
+    if(bytes >= MEMORY_SIZE)
     {
         printf("Error, not enough memory\n");
         return NULL;
@@ -39,8 +39,8 @@ void* allocate(size_t bytes)
             }
             else if(orderOfBlockRequired == currentBlockMetadata->order)
             {
-                memory[position]++;
-                position++;
+                memory[position]++; //Allocated bit set to 1
+                position++; //Position to return after metadata block
                 return (void*) (memory + position);
             }
             else
@@ -69,10 +69,10 @@ void deallocate(void* address)
         return;
     }
 
-    int position = address - (void*)memory - 1;
+    int position = address - (void*)memory - 1; //Metada block from corresponding adress
 
-    if(position % SMALLEST_BLOCK_SIZE != 0 || memory[position] % 2 == 0)
-    {
+    if(position % SMALLEST_BLOCK_SIZE != 0 || memory[position] % 2 == 0) //Check if is a valid metadata block position
+    {                                                                    // and if occupied position
         return;
     }
 
@@ -143,21 +143,21 @@ void subdivideBlock(int position, metadata* positionBlockMetadata)
 
 void mergeBlocks(int leftPosition, int rightPosition, int order)
 {
-    char newMetadata = 4 * (order + 1);
+    char newMetadata = 4 * (order + 1); // Set order field of metadata block
 
     if(isLeft(leftPosition, order))
     {
-        newMetadata += 2;
+        newMetadata += 2; //Set left field of metadata block to 1
     }
 
-    memory[rightPosition] = 0;
+    memory[rightPosition] = 0; //Clear metadata on right position
 
-    memory[leftPosition] = newMetadata;
+    memory[leftPosition] = newMetadata; 
 }
 
 int isLeft(int position, int order)
 {
-    return (position % (int)pow(2, 13 + order) == 0) ? 1 : 0;
+    return (position % (int)(SMALLEST_BLOCK_SIZE * pow(2, order + 1))== 0) ? 1 : 0;
 }
 
 int jumpNextPosition(int position, int order)
