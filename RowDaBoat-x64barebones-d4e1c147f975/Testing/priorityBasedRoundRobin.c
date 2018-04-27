@@ -1,10 +1,21 @@
 #include "queuelib.h"
 #include "priorityBasedRoundRobin.h"
-static que
-static queueADT * priorityRings[] = ;
 
+static queueCDT highPriorityQueue;
+static queueCDT mediumPriorityQueue;
+static queueCDT lowPriorityQueue;
+static queueADT priorityRings[3];
 
-void * schedule()
+void initRoundRobin()
 {
-	if(priorityRings[HIGH_PRIORITY] == )
+    priorityRings[HIGH_PRIORITY] = &highPriorityQueue;
+    priorityRings[MEDIUM_PRIORITY] = &mediumPriorityQueue;
+    priorityRings[LOW_PRIORITY] = &lowPriorityQueue;
 }
+
+void* schedule()
+{
+
+}
+
+
