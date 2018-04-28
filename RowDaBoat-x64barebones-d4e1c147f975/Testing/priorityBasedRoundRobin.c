@@ -1,5 +1,6 @@
 #include "queuelib.h"
 #include "priorityBasedRoundRobin.h"
+#include "process.h"
 
 static queueCDT highPriorityQueue;
 static queueCDT mediumPriorityQueue;
@@ -12,10 +13,13 @@ void initRoundRobin()
     priorityRings[MEDIUM_PRIORITY] = &mediumPriorityQueue;
     priorityRings[LOW_PRIORITY] = &lowPriorityQueue;
 }
-
-void* schedule()
+void addProcessToRoundRobin(PCB * newProcess)
 {
-
+    enqueueElement(priorityRings[newProcess->priority], newProcess);
+}
+S
+{
+    //TODO
 }
 
 
