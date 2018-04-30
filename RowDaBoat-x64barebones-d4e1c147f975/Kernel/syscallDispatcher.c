@@ -3,8 +3,11 @@
 #include <syscallDispatcher.h>
 #include <keyboard.h>
 #include <rtcDriver.h>
+#include "include/memoryManager.h"
 
-static const syscall syscalls[]={0, 0, 0, read, write, (syscall)clearScreen, (syscall)paintPixel, (syscall)getResolutionX, (syscall)getResolutionY, (syscall)printRTCInfo};
+static const syscall syscalls[]={0, 0, 0, read, write, (syscall)clearScreen, 
+	(syscall)paintPixel, (syscall)getResolutionX, (syscall)getResolutionY, 
+	(syscall)printRTCInfo, (syscall)allocateMemory, (syscall)deallocateMemory};
 
 
 uint64_t syscallDispatcher(uint64_t rax, uint64_t rbx, uint64_t rcx, uint64_t rdx){
@@ -54,4 +57,14 @@ uint16_t getResolutionX(){
 
 void printRTCInfo() {
 	displayTime();
+}
+
+void* allocateMemory(uint64_t memoryToReserve)
+{
+	return allocate(memoryToReserve);
+}
+
+void deallocateMemory(void* ptr)
+{
+	deallocate(ptr);
 }

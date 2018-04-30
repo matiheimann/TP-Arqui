@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
+#include "../Kernel/include/memoryManager.h"
 #include "memoryManagerTest.h"
-#include "memoryManager.h"
 
 char memory[MEMORY_SIZE];
 

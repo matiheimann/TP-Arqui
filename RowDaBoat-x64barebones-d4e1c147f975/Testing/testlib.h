@@ -1,7 +1,3 @@
-//
-// Created by lorant on 27/04/18.
-//
-
 #ifndef TESTLIB_H
 #define TESTLIB_H
 

@@ -11,6 +11,4 @@ void initRoundRobin();
 void* schedule();
 void addProcessToRoundRobin(PCB * newProcess);
 
-
-
 #endif 

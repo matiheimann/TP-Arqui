@@ -14,5 +14,7 @@ void paintPixel(uint64_t x, uint64_t y);
 uint16_t getResolutionY();
 uint16_t getResolutionX();
 void printRTCInfo();
+void* allocateMemory(uint64_t memoryToReserve);
+void deallocateMemory(void* ptr);
 
 #endif

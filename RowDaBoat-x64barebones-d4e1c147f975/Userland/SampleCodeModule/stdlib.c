@@ -136,3 +136,13 @@ int parseNumber(char * s, double * d) {
 int isNumeric(char c){
 	return (c >= '0' && c <= '9');
 }
+
+void* malloc(int size)
+{
+	return memoryAllocation(size);
+}
+
+void free(void* ptr)
+{
+	memoryFree(ptr);
+}

@@ -105,8 +105,11 @@ void printHex(uint64_t n){
 		else if(n%16 == 14){
 			s[i] = 'E';
 		}
-		else{
+		else if(n%16 == 15){
 			s[i] = 'F';
+		}
+		else{
+			s[i] = n%16 + '0';
 		}
 		n /= 16;
 		i--;

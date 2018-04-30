@@ -1,5 +1,5 @@
 #include "process.h"
-#include "memoryManager.h"
+#include "../Kernel/include/memoryManager.h"
 #include "priorityBasedRoundRobin.h"
 
 processTable table;
@@ -21,4 +21,3 @@ void addProcessToTable(PCB * newProcess)
     table.pidCounter++;
     table.numberOfPrcessesOnTable++;
 }
-

@@ -12,8 +12,12 @@
 	void clear();
 	int strcmp(const char* s1, const char* s2);
 	int startsWith(const char* str, const char* start);
+	void* malloc(int size);
+	void free(void* ptr);
 	extern void clearScreen();
 	extern void displayTimeData();
 	extern int scan(char * str, int length);
 	extern int print(char * str, int length);
+	extern void* memoryAllocation(int size);
+	extern void memoryFree(void* ptr);
 #endif

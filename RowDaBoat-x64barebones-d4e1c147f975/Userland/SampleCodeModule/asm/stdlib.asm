@@ -5,6 +5,8 @@ GLOBAL paintPixelAt
 GLOBAL XResolution
 GLOBAL YResolution
 GLOBAL displayTimeData
+GLOBAL memoryAllocation
+GLOBAL memoryFree
 
 print:
 	
@@ -92,6 +94,24 @@ displayTimeData:
 	pop rbp
 	ret
 
+memoryAllocation:
+	push rbp
+	mov rbp, rsp
+	mov rax, 10
+	mov rbx, rdi
+	int 80h
 
+	mov rsp, rbp
+	pop rbp
+	ret
 
+memoryFree:
+	push rbp
+	mov rbp, rsp
+	mov rax, 11
+	mov rbx, rdi
+	int 80h
 
+	mov rsp, rbp
+	pop rbp
+	ret
