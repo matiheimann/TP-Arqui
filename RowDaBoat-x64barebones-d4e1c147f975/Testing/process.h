@@ -32,12 +32,10 @@ typedef struct processTable{
     uint32_t pidCounter;
 }processTable;
 
-
 void initProcessTable(processTable * table)
 {
     table->pidCounter = 0;
     table->numberOfPrcessesOnTable = 0;
 }
-
 
 #endif

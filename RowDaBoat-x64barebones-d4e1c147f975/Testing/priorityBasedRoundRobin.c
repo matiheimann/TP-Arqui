@@ -18,3 +18,9 @@ void addProcessToRoundRobin(PCB * newProcess)
 {
     enqueueElement(priorityRings[newProcess->priority], newProcess);
 }
+
+
+void* schedule(void* rsp)
+{
+	
+}

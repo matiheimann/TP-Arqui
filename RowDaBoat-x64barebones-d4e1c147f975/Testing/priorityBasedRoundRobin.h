@@ -8,7 +8,7 @@
 #define LOW_PRIORITY 2
 
 void initRoundRobin();
-void* schedule();
+void* schedule(void* rsp);
 void addProcessToRoundRobin(PCB * newProcess);
 
 #endif 

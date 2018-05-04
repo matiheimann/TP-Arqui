@@ -1,13 +1,14 @@
 #include "process.h"
 #include "../Kernel/include/memoryManager.h"
 #include "priorityBasedRoundRobin.h"
+#include <stdlib.h>
 
 processTable table;
 
 void startNewProcess()
 {
     PCB newProcess;
-    newProcess.stackPointer = allocate(0x1000);
+    newProcess.stackPointer = malloc(0x1000);
     newProcess.state = 0; //TODO
     newProcess.priority = HIGH_PRIORITY;
     addProcessToTable(&newProcess);
