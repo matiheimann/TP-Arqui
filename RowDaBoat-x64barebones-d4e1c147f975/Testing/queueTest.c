@@ -78,13 +78,13 @@ void givenAnElement()
 
 void givenAQueueWithOneElement()
 {
-    initQueue(testQueueSize);
+    initQueue(queueToTest);
     enqueueElement(queueToTest, elementToEnqueue);
 }
 
 void givenAQueueWithTwoElements()
 {
-    initQueue(testQueueSize);
+    initQueue(queueToTest);
     enqueueElement(queueToTest, elementToEnqueueValue);
     enqueueElement(queueToTest, secondElementToEnqueueValue);
 }

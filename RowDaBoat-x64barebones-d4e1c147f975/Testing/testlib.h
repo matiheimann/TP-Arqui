@@ -3,5 +3,4 @@
 
 void ok();
 void fail(char* errorMessage);
-
-#endif TESTLIB_H
+#endif

@@ -1,5 +1,5 @@
 
-#include <stdio.h>
+#include "videoDriver.h"
 #include "queuelib.h"
 
 #define position(x) ((x)%MAX_SIZE)
@@ -33,16 +33,15 @@ void enqueueElement(queueADT myQueue, PCB* process)
 	}
 	else
 	{
-        printf("The queue is full");
+        printString("The queue is full");
 	}
 	return;
 }
 
 PCB* dequeueElement(queueADT myQueue)
 {
-	nodeADT aux;
 	if(isEmpty(myQueue)){
-        printf("The queue is empty\n");
+        printString("The queue is empty\n");
 		return 0;
 	}
 
