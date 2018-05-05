@@ -3,8 +3,8 @@
 #include <graphPlotterApp.h>
 #include <sampleExceptions.h>
 
+
 int main() {
-	
 	char exit = 0;
 	printf("SHELL - authors LORANT MIKOLAS, MATIAS HEIMANN & JOHNATHAN KATAN\n");
 	printf("-----------------------------------------------------------------\n");

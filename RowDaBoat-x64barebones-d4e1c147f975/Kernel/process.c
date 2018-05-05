@@ -1,30 +1,44 @@
 #include "process.h"
 #include "priorityBasedRoundRobin.h"
 #include "memoryManager.h"
+#include "videoDriver.h"
 
 static processTable table;
 
-void startNewProcess()
+
+void startNewProcess(uint64_t rip)
 {
-    PCB newProcess;
-    newProcess.stackPointer = allocate(0x0111);
-    newProcess.state = NEW; 
-    newProcess.priority = HIGH_PRIORITY;
-    addProcessToTable(&newProcess);
-    addProcessToRoundRobin(&newProcess);
+    PCB* newProcess = addNewProcessToTable(rip);
+    addProcessToRoundRobin(newProcess);
 }
 
-void addProcessToTable(PCB * newProcess)
+PCB* addNewProcessToTable(uint64_t rip)
 {
-    newProcess->pid = getNextPid();
-    table.list[table.numberOfPrcessesOnTable] = newProcess;
-    table.numberOfPrcessesOnTable++;
+    int current = table.numberOfProcessesOnTable;
+    if(current == MAX_QTY_PROCESSES)
+    {
+        printString("No more slots in process table\n");
+
+    }
+    else
+    {
+        table.list[current].pid = getNextPid();
+        table.list[current].state = NEW;
+        table.list[current].priority = HIGH_PRIORITY;
+        table.list[current].stackPointer = (uint64_t) allocate(0x0111);
+      
+        ((uint64_t*)(table.list[current].stackPointer))[16*8] = (uint64_t)rip;
+        ((uint64_t*)(table.list[current].stackPointer))[15*8]= (uint64_t)0x206;
+        
+        table.numberOfProcessesOnTable++;
+    }
+    return &(table.list[current]);
 }
 
 void initProcessTable(processTable * table)
 {
     table->pidCounter = 0;
-    table->numberOfPrcessesOnTable = 0;
+    table->numberOfProcessesOnTable = 0;
 }
 
 uint32_t getNextPid()

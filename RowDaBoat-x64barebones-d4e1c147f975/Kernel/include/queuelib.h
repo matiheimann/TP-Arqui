@@ -18,7 +18,6 @@ typedef struct queueCDT* queueADT;
 typedef struct queueCDT
 {
 	nodeCDT queue[MAX_SIZE];
-    uint32_t rear;
     uint32_t front;
     uint32_t maxSize;
     uint32_t actualSize;

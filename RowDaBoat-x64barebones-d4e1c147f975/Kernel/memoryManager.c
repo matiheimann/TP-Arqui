@@ -2,11 +2,11 @@
 #include <videoDriver.h>
 #include "include/memoryManager.h"
 
-static char* memory;
+static uint8_t* memory;
 
 void initializeMemory(void* beginningOfMemory)
 {
-    memory = (char*)beginningOfMemory;
+    memory = (uint8_t*)beginningOfMemory;
     memset(memory, 0, MEMORY_SIZE);
     memset(memory, 42, 1);
 }

@@ -6,10 +6,9 @@
 
 void initQueue(queueADT myQueue)
 {
-	myQueue->maxSize = MAX_SIZE;
-	myQueue->rear = 0;
 	myQueue->front = 0;
 	myQueue->actualSize = 0;
+	myQueue->maxSize = MAX_SIZE;
 }
 
 int queueCurrentSize(queueADT myQueue)
@@ -24,16 +23,15 @@ int isEmpty(queueADT myQueue)
 
 void enqueueElement(queueADT myQueue, PCB* process)
 {
-
 	if(myQueue->actualSize < myQueue->maxSize)
 	{
-        myQueue->queue[position(myQueue->actualSize)].processControlBlock = process;
+        myQueue->queue[position(myQueue->front + myQueue->actualSize)].processControlBlock = process;
         myQueue->actualSize++;
-		myQueue->rear = position(myQueue->rear + 1);
 	}
 	else
 	{
-        printString("The queue is full");
+        printString("The queue is full\n");
+        
 	}
 	return;
 }

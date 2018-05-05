@@ -22,6 +22,8 @@ GLOBAL _reset_rip
 EXTERN irqDispatcher
 EXTERN exceptionDispatcher
 EXTERN syscallDispatcher
+EXTERN schedule
+EXTERN printHex
 
 SECTION .text
 
@@ -179,9 +181,21 @@ picSlaveMask:
 
 ;8254 Timer (Timer Tick)
 _irq00Handler:
-	cli
-	irqHandlerMaster 0
-	sti
+	
+	pushfq
+	pushState
+	mov rdi, rsp
+	call schedule
+	mov rsp, rax
+	popState
+	popfq
+	; signal pic EOI (End of Interrupt)
+	mov al, 20h
+	out 20h, al
+	
+	iretq
+	
+
 ;Keyboard
 _irq01Handler:
 	cli
