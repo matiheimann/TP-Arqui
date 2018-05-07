@@ -8,6 +8,7 @@ static queueCDT mediumPriorityQueue;
 static queueCDT lowPriorityQueue;
 static queueADT priorityRings[3];
 static PCB* currentPCB;
+static int flag = 0;
 
 
 
@@ -25,6 +26,7 @@ void addProcessToRoundRobin(PCB * newProcess)
 {
 	//printString("\nAdd process to Round Robin: ");printInt(newProcess->pid);printString("\n");
     enqueueElement(priorityRings[newProcess->priority], newProcess);
+    flag = (flag > 1) ? flag : 1; 
 }
 
 
@@ -32,8 +34,14 @@ uint64_t schedule(uint64_t rsp)
 {
 	currentPCB->stackPointer = rsp;
 	currentPCB->state = READY;
-	currentPCB->priority = HIGH_PRIORITY;
-	enqueueElement(priorityRings[currentPCB->priority], currentPCB);
+	if(flag == 2)
+	{
+		enqueueElement(priorityRings[currentPCB->priority], currentPCB);
+	}
+	else if(flag == 1)
+	{
+		flag++;
+	}
 	if(!isEmpty(priorityRings[HIGH_PRIORITY]))
 	{
 		currentPCB = dequeueElement(priorityRings[HIGH_PRIORITY]);
