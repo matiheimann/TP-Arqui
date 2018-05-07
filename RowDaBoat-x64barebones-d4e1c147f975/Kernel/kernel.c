@@ -16,8 +16,6 @@ extern uint8_t data;
 extern uint8_t bss;
 extern uint8_t endOfKernelBinary;
 extern uint8_t endOfKernel;
-extern void _cli();
-extern void _sti();
 
 static const uint64_t PageSize = 0x1000;
 
@@ -57,11 +55,16 @@ void * initializeKernelBinary()
 
 int main()
 {
-	load_idt();
+	
 
 	initializeMemory(dynamicMemory);
-	initRoundRobin();
+	initializeRoundRobin();
+	initializeProcessTable();
 	startNewProcess((uint64_t)sampleCodeModuleAddress);
-	while(1);
+
+	load_idt();
+	while(1){
+		printString("IN");
+	};
 	return 0;
 }
