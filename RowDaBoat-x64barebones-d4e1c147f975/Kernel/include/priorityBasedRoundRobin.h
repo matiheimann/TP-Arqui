@@ -7,8 +7,9 @@
 #define MEDIUM_PRIORITY 1
 #define LOW_PRIORITY 2
 
-void initRoundRobin();
+void initializeRoundRobin();
 uint64_t schedule(uint64_t rsp);
 void addProcessToRoundRobin(PCB * newProcess);
+void printStack(uint64_t rsp);
 
 #endif 
