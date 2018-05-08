@@ -8,7 +8,6 @@ int main() {
 	char end = 0;
 	printf("SHELL - authors LORANT MIKOLAS, MATIAS HEIMANN & JOHNATHAN KATAN\n");
 	printf("-----------------------------------------------------------------\n");
-	printInt(getPid());
 	while(!end){
 		putchar('>');
 
