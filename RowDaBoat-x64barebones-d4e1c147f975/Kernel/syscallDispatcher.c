@@ -3,11 +3,12 @@
 #include <syscallDispatcher.h>
 #include <keyboard.h>
 #include <rtcDriver.h>
-#include "include/memoryManager.h"
+#include "memoryManager.h"
+#include "process.h"
 
 static const syscall syscalls[]={0, 0, 0, read, write, (syscall)clearScreen, 
 	(syscall)paintPixel, (syscall)getResolutionX, (syscall)getResolutionY, 
-	(syscall)printRTCInfo, (syscall)allocateMemory, (syscall)deallocateMemory};
+	(syscall)printRTCInfo, (syscall)allocateMemory, (syscall)deallocateMemory, (syscall)exit, (syscall)createNewProcess, (syscall)getpid};
 
 
 uint64_t syscallDispatcher(uint64_t rax, uint64_t rbx, uint64_t rcx, uint64_t rdx){
@@ -67,4 +68,19 @@ void* allocateMemory(uint64_t memoryToReserve)
 void deallocateMemory(void* ptr)
 {
 	deallocate(ptr);
+}
+
+void exit()
+{
+	terminateCurrentProcess();
+}
+
+uint32_t createNewProcess(void* ptr)
+{
+	return startNewProcess((uint64_t)ptr);
+}
+
+uint32_t getpid()
+{
+	return getCurrentProcessPID();
 }

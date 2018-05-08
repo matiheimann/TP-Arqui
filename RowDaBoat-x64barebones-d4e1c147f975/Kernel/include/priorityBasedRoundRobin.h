@@ -10,6 +10,6 @@
 void initializeRoundRobin();
 uint64_t schedule(uint64_t rsp);
 void addProcessToRoundRobin(PCB * newProcess);
-void printStack(uint64_t rsp);
+uint64_t getNextProcessRSP(uint64_t rsp);
 
 #endif 

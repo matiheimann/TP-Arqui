@@ -51,6 +51,7 @@ typedef struct processContext {
 }processContext;
 
 typedef struct PCB {
+    uint64_t allocatedMemoryAddress;
     uint32_t pid;
     processContext context;
     uint8_t state;
@@ -67,12 +68,18 @@ typedef struct processTable{
 
 
 void initializeProcessTable();
-void startNewProcess(uint64_t rip);
+uint32_t startNewProcess(uint64_t rip);
 stack* initializeStack(uint64_t rsp, uint64_t rip, int argc, char ** argv);
 PCB* addNewProcessToTable(uint64_t rip);
 uint32_t getNextPid();
+void setCurrentProcess(PCB* process);
+PCB* getCurrentProcess();
+void setCurrentProcessState(int state);
+void terminateCurrentProcess();
+void initializeProcessLog();
+uint32_t getCurrentProcessPID();
 
-extern uint64_t create_new_stack(uint64_t rsp, uint64_t rip);
+
 
 
 #endif

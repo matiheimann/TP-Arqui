@@ -2,13 +2,16 @@
 #include "priorityBasedRoundRobin.h"
 #include "memoryManager.h"
 #include "videoDriver.h"
+
 static processTable table;
+static PCB* currentPCB;
 
 
-void startNewProcess(uint64_t rip)
+uint32_t startNewProcess(uint64_t rip)
 {
     PCB* newProcess = addNewProcessToTable(rip);
     addProcessToRoundRobin(newProcess);
+    return newProcess->pid;
 }
 
 PCB* addNewProcessToTable(uint64_t rip)
@@ -22,14 +25,22 @@ PCB* addNewProcessToTable(uint64_t rip)
     else
     {
         table.list[current].pid = getNextPid();
+        table.list[current].context.rip = rip;
         table.list[current].state = NEW;
         table.list[current].priority = HIGH_PRIORITY;
-        table.list[current].stackPointer = (uint64_t)initializeStack((uint64_t) (allocate(0x0111) + 0x0111), rip, 0, NULL);
+        table.list[current].allocatedMemoryAddress = (uint64_t)allocate(0x0111);
+        table.list[current].stackPointer = (uint64_t)initializeStack(table.list[current].allocatedMemoryAddress + 0x0111, rip, 0, NULL);
         table.numberOfProcessesOnTable++;
     }
     return &(table.list[current]);
 }
 
+
+
+void initializeProcessLog()
+{
+     currentPCB = NULL;
+}
 
 void initializeProcessTable()
 {
@@ -72,5 +83,33 @@ stack* initializeStack(uint64_t rsp, uint64_t rip, int argc, char ** argv)
     newProcessStack->ss = 0x000;
     newProcessStack->base = 0x000;
     return newProcessStack;
+}
+
+
+void setCurrentProcess(PCB* process)
+{
+    currentPCB = process;
+}
+
+PCB* getCurrentProcess()
+{
+    return currentPCB;
+}
+
+void setCurrentProcessState(int state)
+{
+    currentPCB->state = state;
+}
+
+
+void terminateCurrentProcess()
+{
+    currentPCB->state = TERMINATED;
+    deallocate((void*)currentPCB->allocatedMemoryAddress);
+}
+
+uint32_t getCurrentProcessPID()
+{
+    return currentPCB->pid;
 }
 

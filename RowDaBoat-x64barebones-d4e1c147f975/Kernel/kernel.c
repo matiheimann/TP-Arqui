@@ -60,11 +60,11 @@ int main()
 	initializeMemory(dynamicMemory);
 	initializeRoundRobin();
 	initializeProcessTable();
+	initializeProcessLog();
 	startNewProcess((uint64_t)sampleCodeModuleAddress);
-
 	load_idt();
+
 	while(1){
-		printString("IN");
 	};
 	return 0;
 }

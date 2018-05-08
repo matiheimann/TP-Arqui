@@ -1,15 +1,13 @@
 #include "queuelib.h"
 #include "priorityBasedRoundRobin.h"
 #include "process.h"
+#include "memoryManager.h"
 #include "videoDriver.h"
 
 static queueCDT highPriorityQueue;
 static queueCDT mediumPriorityQueue;
 static queueCDT lowPriorityQueue;
 static queueADT priorityRings[3];
-static PCB* currentPCB;
-static int flag = 0;
-
 
 
 void initializeRoundRobin()
@@ -24,52 +22,48 @@ void initializeRoundRobin()
 
 void addProcessToRoundRobin(PCB * newProcess)
 {
-	//printString("\nAdd process to Round Robin: ");printInt(newProcess->pid);printString("\n");
+	newProcess->state = READY;
     enqueueElement(priorityRings[newProcess->priority], newProcess);
-    flag = (flag > 1) ? flag : 1; 
 }
 
 
 uint64_t schedule(uint64_t rsp)
+{	
+	PCB* current = getCurrentProcess();
+	if(current != NULL && current->state != TERMINATED)
+	{
+		current->stackPointer = rsp;
+		current->state = READY;
+		enqueueElement(priorityRings[current->priority], current);
+	}
+	return getNextProcessRSP(rsp);
+}
+
+uint64_t getNextProcessRSP(uint64_t rsp)
 {
-	currentPCB->stackPointer = rsp;
-	currentPCB->state = READY;
-	if(flag == 2)
-	{
-		enqueueElement(priorityRings[currentPCB->priority], currentPCB);
-	}
-	else if(flag == 1)
-	{
-		flag++;
-	}
 	if(!isEmpty(priorityRings[HIGH_PRIORITY]))
 	{
-		currentPCB = dequeueElement(priorityRings[HIGH_PRIORITY]);
-		currentPCB->state = RUNNING;
-
+		setCurrentProcess(dequeueElement(priorityRings[HIGH_PRIORITY]));
+		return getCurrentProcess()->stackPointer;
+		
 	}
 	else if(!isEmpty(priorityRings[MEDIUM_PRIORITY]))
 	{
-		currentPCB = dequeueElement(priorityRings[MEDIUM_PRIORITY]);
-		currentPCB->state = RUNNING;
+		setCurrentProcess(dequeueElement(priorityRings[MEDIUM_PRIORITY]));
+		return getCurrentProcess()->stackPointer;
+		
 	}
 	else if(!isEmpty(priorityRings[LOW_PRIORITY]))
 	{
-		currentPCB = dequeueElement(priorityRings[LOW_PRIORITY]);
-		currentPCB->state = RUNNING;
+		setCurrentProcess(dequeueElement(priorityRings[LOW_PRIORITY]));
+		return getCurrentProcess()->stackPointer;
 	}
-	//printString("\n Dequeue process from Round Robin: "); printInt(currentPCB->pid);printString("\n");
-	return currentPCB->stackPointer;
+	else if(getCurrentProcess() != NULL)
+	{
+		printString("\nERROR: there are no processes to run\n");
+		return getCurrentProcess()->stackPointer;
+	}
+	return rsp;
 }
 
-void printStack(uint64_t rsp)
-{
-		for(uint64_t i = rsp; i < 17*8 + rsp; i = i+8)
-		{
-			printString("(");
-			printInt(i);
-			printString(": ");
-			printInt((uint64_t)*((uint64_t*)i));
-			printString(")");
-		}
-}
+

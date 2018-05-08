@@ -7,6 +7,9 @@ GLOBAL YResolution
 GLOBAL displayTimeData
 GLOBAL memoryAllocation
 GLOBAL memoryFree
+GLOBAL exitProcess
+GLOBAL createProcess
+GLOBAL getProcessPid
 
 print:
 	
@@ -110,6 +113,37 @@ memoryFree:
 	mov rbp, rsp
 	mov rax, 11
 	mov rbx, rdi
+	int 80h
+
+	mov rsp, rbp
+	pop rbp
+	ret
+
+exitProcess:
+	push rbp
+	mov rbp, rsp
+	mov rax, 12
+	int 80h
+
+	mov rsp, rbp
+	pop rbp
+	ret
+
+createProcess:
+	push rbp
+	mov rbp, rsp
+	mov rax, 13
+	mov rbx, rdi
+	int 80h
+
+	mov rsp, rbp
+	pop rbp
+	ret
+
+getProcessPid:
+	push rbp
+	mov rbp, rsp
+	mov rax, 14
 	int 80h
 
 	mov rsp, rbp

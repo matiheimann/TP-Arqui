@@ -1,10 +1,9 @@
 GLOBAL cpuVendor
 GLOBAL read_port
 GLOBAL get_rtc_data
-GLOBAL create_new_stack
-EXTERN printInt
-EXTERN printChar
-EXTERN printStack
+
+
+
 section .text
 
 %macro pushState 0
@@ -75,47 +74,3 @@ get_rtc_data:
 	pop rbp
 	ret
 
-create_new_stack:
-	push rbp
-	mov rbp, rsp
-	
-	mov rsp, rdi
-	
-	mov rax, 518
-	
-	mov rdi, rsp
-	call printInt
-	mov rdi, 32
-	call printChar
-	
-	push rsi
-
-	mov rdi, rsp
-	call printInt
-	mov rdi, 32
-	call printChar
-
-	push rax
-
-	mov rdi, rsp
-	call printInt
-	mov rdi, 32
-	call printChar
-	
-	pushState
-
-	mov rdi, rsp
-	call printInt
-	mov rdi, 32
-	call printChar
-
-	mov rdi, rsp
-	call printStack
-
-
-	mov rax, rsp
-
-
-	mov rsp, rbp
-	pop rbp
-	ret

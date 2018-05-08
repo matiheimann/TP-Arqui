@@ -146,3 +146,18 @@ void free(void* ptr)
 {
 	memoryFree(ptr);
 }
+
+void exit()
+{
+	exitProcess();
+}
+
+int newProcess(void* ptr)
+{
+	return createProcess(ptr);
+}
+	
+int getPid()
+{
+	return getProcessPid();
+}

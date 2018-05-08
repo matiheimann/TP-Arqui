@@ -5,17 +5,18 @@
 
 
 int main() {
-	char exit = 0;
+	char end = 0;
 	printf("SHELL - authors LORANT MIKOLAS, MATIAS HEIMANN & JOHNATHAN KATAN\n");
 	printf("-----------------------------------------------------------------\n");
-	while(!exit){
+	printInt(getPid());
+	while(!end){
 		putchar('>');
 
 		char command[100] = {0};
 		scanf(command);
 
 		if(strcmp(command, "exit")==0)
-			exit = 1;
+			end = 1;
 
 		else if(startsWith(command, "echo ")) {
 			printf(command+5);
@@ -70,5 +71,6 @@ int main() {
 	}
 
 	clear();
-	return 1;
+	exit();
+	return 0;
 }
