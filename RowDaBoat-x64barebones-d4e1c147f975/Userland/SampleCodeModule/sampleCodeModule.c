@@ -1,11 +1,12 @@
 /* sampleCodeModule.c */
 #include <stdlib.h>
 #include "shlib.h"
+#include "processTest.h"
 
 void main() {
 	char end = 0;
 	printWelcomeMessage();
-	while(!end){
+	while(!end){		
 		putchar('>');
 		char command[100] = {0};
 		scanf(command);

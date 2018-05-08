@@ -28,8 +28,8 @@ PCB* addNewProcessToTable(uint64_t rip)
         table.list[rear].context.rip = rip;
         table.list[rear].state = NEW;
         table.list[rear].priority = HIGH_PRIORITY;
-        table.list[rear].allocatedMemoryAddress = (uint64_t)allocate(0x0111);
-        table.list[rear].stackPointer = (uint64_t)initializeStack(table.list[rear].allocatedMemoryAddress + 0x0111, rip, 0, NULL);
+        table.list[rear].allocatedMemoryAddress = (uint64_t)allocate(0x0FFE);
+        table.list[rear].stackPointer = (uint64_t)initializeStack(table.list[rear].allocatedMemoryAddress + 0x0FFE, rip, 0, NULL);
         table.numberOfProcessesOnTable++;
     }
     return &(table.list[rear]);
