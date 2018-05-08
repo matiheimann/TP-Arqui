@@ -19,5 +19,6 @@ void deallocateMemory(void* ptr);
 void exit();
 uint32_t createNewProcess(void* ptr);
 uint32_t getpid();
+void getProcesses(void* table);
 
 #endif

@@ -8,7 +8,7 @@
 
 static const syscall syscalls[]={0, 0, 0, read, write, (syscall)clearScreen, 
 	(syscall)paintPixel, (syscall)getResolutionX, (syscall)getResolutionY, 
-	(syscall)printRTCInfo, (syscall)allocateMemory, (syscall)deallocateMemory, (syscall)exit, (syscall)createNewProcess, (syscall)getpid};
+	(syscall)printRTCInfo, (syscall)allocateMemory, (syscall)deallocateMemory, (syscall)exit, (syscall)createNewProcess, (syscall)getpid, (syscall)getProcesses};
 
 
 uint64_t syscallDispatcher(uint64_t rax, uint64_t rbx, uint64_t rcx, uint64_t rdx){
@@ -40,11 +40,13 @@ uint64_t read(uint64_t fd, uint64_t buffer, uint64_t count){
 	return i;
 }
 
-void clearScreen() {
+void clearScreen() 
+{
 	blackOut();
 }
 
-void paintPixel(uint64_t x, uint64_t y){
+void paintPixel(uint64_t x, uint64_t y)
+{
 	putpixel(x,y);
 }
 
@@ -83,4 +85,11 @@ uint32_t createNewProcess(void* ptr)
 uint32_t getpid()
 {
 	return getCurrentProcessPID();
+}
+
+void getProcesses(void* table)
+{
+	processesInfoTable* info = (processesInfoTable*) table;
+	fillProcessesInfo(info);
+	
 }

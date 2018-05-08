@@ -59,6 +59,19 @@ typedef struct PCB {
     int priority;
 }PCB;
 
+typedef struct processInfo {
+    uint32_t pid;
+    uint64_t sizeAllocated;
+    uint8_t state;
+    int priority;
+}processInfo;
+
+typedef struct processesInfoTable {
+    uint32_t numberOfProcessesOnTable;
+    processInfo* list;
+}processesInfoTable;
+
+
 typedef struct processTable{
     PCB list[MAX_QTY_PROCESSES];
     uint32_t numberOfProcessesOnTable;
@@ -78,7 +91,7 @@ void setCurrentProcessState(int state);
 void terminateCurrentProcess();
 void initializeProcessLog();
 uint32_t getCurrentProcessPID();
-
+void fillProcessesInfo(processesInfoTable* processes);
 
 
 

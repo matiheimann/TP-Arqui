@@ -5,8 +5,10 @@
 int main() {
 	char end = 0;
 	printWelcomeMessage();
+
 	while(!end){
 		putchar('>');
+		ps();
 		char command[100] = {0};
 		scanf(command);
 		end = execute(command);

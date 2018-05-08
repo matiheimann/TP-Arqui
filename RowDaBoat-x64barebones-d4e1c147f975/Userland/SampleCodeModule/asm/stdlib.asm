@@ -10,6 +10,7 @@ GLOBAL memoryFree
 GLOBAL exitProcess
 GLOBAL createProcess
 GLOBAL getProcessPid
+GLOBAL getProcessesInfo
 
 print:
 	
@@ -144,6 +145,17 @@ getProcessPid:
 	push rbp
 	mov rbp, rsp
 	mov rax, 14
+	int 80h
+
+	mov rsp, rbp
+	pop rbp
+	ret
+
+getProcessesInfo:
+	push rbp
+	mov rbp, rsp
+	mov rax, 15
+	mov rbx, rdi
 	int 80h
 
 	mov rsp, rbp

@@ -16,23 +16,24 @@ uint32_t startNewProcess(uint64_t rip)
 
 PCB* addNewProcessToTable(uint64_t rip)
 {
-    int current = table.numberOfProcessesOnTable;
-    if(current == MAX_QTY_PROCESSES)
+    int rear = table.numberOfProcessesOnTable;
+    if(rear == MAX_QTY_PROCESSES)
     {
         printString("No more slots in process table\n");
 
     }
     else
     {
-        table.list[current].pid = getNextPid();
-        table.list[current].context.rip = rip;
-        table.list[current].state = NEW;
-        table.list[current].priority = HIGH_PRIORITY;
-        table.list[current].allocatedMemoryAddress = (uint64_t)allocate(0x0111);
-        table.list[current].stackPointer = (uint64_t)initializeStack(table.list[current].allocatedMemoryAddress + 0x0111, rip, 0, NULL);
+        printString("ADDED PROCESS");
+        table.list[rear].pid = getNextPid();
+        table.list[rear].context.rip = rip;
+        table.list[rear].state = NEW;
+        table.list[rear].priority = HIGH_PRIORITY;
+        table.list[rear].allocatedMemoryAddress = (uint64_t)allocate(0x0111);
+        table.list[rear].stackPointer = (uint64_t)initializeStack(table.list[rear].allocatedMemoryAddress + 0x0111, rip, 0, NULL);
         table.numberOfProcessesOnTable++;
     }
-    return &(table.list[current]);
+    return &(table.list[rear]);
 }
 
 
@@ -89,6 +90,7 @@ stack* initializeStack(uint64_t rsp, uint64_t rip, int argc, char ** argv)
 void setCurrentProcess(PCB* process)
 {
     currentPCB = process;
+    currentPCB->state = RUNNING;
 }
 
 PCB* getCurrentProcess()
@@ -113,3 +115,15 @@ uint32_t getCurrentProcessPID()
     return currentPCB->pid;
 }
 
+void fillProcessesInfo(processesInfoTable* processes)
+{
+    int i;
+    processes->numberOfProcessesOnTable = table.numberOfProcessesOnTable;
+    for(i = 0; i < table.numberOfProcessesOnTable; i++)
+    {
+        processes->list[i].pid = table.list[i].pid;
+        processes->list[i].priority = table.list[i].priority;
+        processes->list[i].state = table.list[i].state;
+        processes->list[i].sizeAllocated = 4*1024;
+    }
+}

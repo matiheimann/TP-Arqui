@@ -1,5 +1,18 @@
 #ifndef STDLIB_H
-#define STDLIB_H	
+#define STDLIB_H
+
+	typedef struct processInfo {
+	    int pid;
+	    long long sizeAllocated;
+	    char state;
+	    int priority;
+	}processInfo;
+
+	typedef struct processesInfoTable {
+	    int numberOfProcessesOnTable;
+	    processInfo* list;
+	}processesInfoTable;
+
 	void printf(char*);
 	int strlen(char*);
 	int scanf(char *);
@@ -17,6 +30,8 @@
 	void exit();
 	int newProcess(void* ptr);
 	int getPid();
+	void ps();
+
 	extern void clearScreen();
 	extern void displayTimeData();
 	extern int scan(char * str, int length);
@@ -26,5 +41,6 @@
 	extern void exitProcess();
 	extern int createProcess(void* ptr);
 	extern int getProcessPid();
+	extern void getProcessesInfo(processesInfoTable* processes);
 
 #endif
