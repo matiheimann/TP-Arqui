@@ -2,7 +2,7 @@
 #define MUTEX_H
 
 #include <stdint.h>
-#include <stddef.h>
+#include <stdlib.h>
 
 #define LOCKED 1
 #define UNLOCKED 0
@@ -22,8 +22,8 @@ typedef struct mutexLinkedList {
 } mutexLinkedList;
 
 mutex* createMutex(char id);
-mutex* retrieveMutex(uint64_t mutexId);
-void destroyMutex(uint64_t mutexId);
+mutex* retrieveMutex(char mutexId);
+void destroyMutex(char mutexId);
 void lock(mutex* mutexToLock);
 void unlock(mutex* mutexToUnlock);
 

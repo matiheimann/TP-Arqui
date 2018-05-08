@@ -1,6 +1,4 @@
 #include "mutex.h"
-#include <stdlib.h>
-#include <stdio.h>
 
 extern void enter_region(mutex* m);
 extern void leave_region(mutex* m);
@@ -17,7 +15,7 @@ void unlock(mutex* m)
   leave_region(m);
 }
 
-void destroyMutex(uint64_t mutexId)
+void destroyMutex(char mutexId)
 {
   if(mutexId <= 0)
   {
@@ -51,7 +49,7 @@ void destroyMutex(uint64_t mutexId)
   }
 }
 
-mutex* retrieveMutex(uint64_t mutexId)
+mutex* retrieveMutex(char mutexId)
 {
   if(mutexId <=0)
   {
