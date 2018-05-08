@@ -24,7 +24,6 @@ PCB* addNewProcessToTable(uint64_t rip)
     }
     else
     {
-        printString("ADDED PROCESS");
         table.list[rear].pid = getNextPid();
         table.list[rear].context.rip = rip;
         table.list[rear].state = NEW;

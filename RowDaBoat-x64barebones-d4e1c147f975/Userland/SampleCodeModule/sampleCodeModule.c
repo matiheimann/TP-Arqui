@@ -5,7 +5,6 @@
 void main() {
 	char end = 0;
 	printWelcomeMessage();
-
 	while(!end){
 		putchar('>');
 		char command[100] = {0};

@@ -165,36 +165,37 @@ int getPid()
 void ps()
 {
 	int i , aux;
-	processesInfoTable* processes = (processesInfoTable*)malloc(0x010000);
+	processesInfoTable processes;
+	processes.list = (processInfo*)malloc(0x010000);
 	
-	getProcessesInfo((void*)processes);
+	getProcessesInfo((void*)&processes);
 	printf("Processes count:\n");
-	printInt(processes->numberOfProcessesOnTable);
+	printInt(processes.numberOfProcessesOnTable);
 	printf("\n pid     | state   | memoryAllocation | priority\n");
 	printf(" -------------------------------------------------\n");
-	for(i = 0; i < processes->numberOfProcessesOnTable; i++)
+	for(i = 0; i < processes.numberOfProcessesOnTable; i++)
 	{
-		aux = 8 - countDigits(processes->list[i].pid);
+		aux = 8 - countDigits(processes.list[i].pid);
 		putchar(' ');
-		printInt(processes->list[i].pid);
+		printInt(processes.list[i].pid);
 		while(aux > 0)
 		{
 			putchar(' ');
 			aux--;
 		}
-		if(processes->list[i].state == 0)
+		if(processes.list[i].state == 0)
 		{
 			printf("| NEW     | ");
 		}
-		else if(processes->list[i].state == 1)
+		else if(processes.list[i].state == 1)
 		{
 			printf("| READY   | ");
 		}
-		else if(processes->list[i].state == 2)
+		else if(processes.list[i].state == 2)
 		{
 			printf("| RUNNING | ");
 		}
-		else if(processes->list[i].state == 3)
+		else if(processes.list[i].state == 3)
 		{
 			printf("| WAITING | ");
 		}
@@ -202,11 +203,11 @@ void ps()
 		{
 			printf("|TERMINATED| ");
 		}
-		printInt(processes->list[i].sizeAllocated);
+		printInt(processes.list[i].sizeAllocated);
 		printf("             | ");
-		printInt(processes->list[i].priority);
+		printInt(processes.list[i].priority);
 		printf("\n");
 	}
-	free(processes);
+	free(processes.list);
 	return;
 }
