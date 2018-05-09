@@ -8,7 +8,7 @@
 
 static const syscall syscalls[]={0, 0, 0, read, write, (syscall)clearScreen, 
 	(syscall)paintPixel, (syscall)getResolutionX, (syscall)getResolutionY, 
-	(syscall)printRTCInfo, (syscall)allocateMemory, (syscall)deallocateMemory, (syscall)exit, (syscall)createNewProcess, (syscall)getpid, (syscall)getProcesses};
+	(syscall)printRTCInfo, (syscall)allocateMemory, (syscall)deallocateMemory, (syscall)exitProcess, (syscall)createNewProcess, (syscall)getpid, (syscall)getProcesses};
 
 
 uint64_t syscallDispatcher(uint64_t rax, uint64_t rbx, uint64_t rcx, uint64_t rdx){
@@ -72,14 +72,14 @@ void deallocateMemory(void* ptr)
 	deallocate(ptr);
 }
 
-void exit()
+void exitProcess()
 {
 	terminateCurrentProcess();
 }
 
-uint32_t createNewProcess(void* ptr)
+uint32_t createNewProcess(void* ptr, int argc, char ** argv)
 {
-	return startNewProcess((uint64_t)ptr);
+	return startNewProcess((uint64_t)ptr, argc, argv);
 }
 
 uint32_t getpid()

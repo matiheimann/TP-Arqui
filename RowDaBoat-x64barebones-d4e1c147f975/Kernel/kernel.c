@@ -55,13 +55,11 @@ void * initializeKernelBinary()
 
 int main()
 {
-	
-
 	initializeMemory(dynamicMemory);
 	initializeRoundRobin();
 	initializeProcessTable();
 	initializeProcessLog();
-	startNewProcess((uint64_t)sampleCodeModuleAddress);
+	startNewProcess((uint64_t)sampleCodeModuleAddress, 0, NULL);
 	load_idt();
 
 	while(1){

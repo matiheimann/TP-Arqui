@@ -7,14 +7,14 @@ static processTable table;
 static PCB* currentPCB;
 
 
-uint32_t startNewProcess(uint64_t rip)
+uint32_t startNewProcess(uint64_t rip, int argc, char ** argv)
 {
     PCB* newProcess = addNewProcessToTable(rip);
     addProcessToRoundRobin(newProcess);
     return newProcess->pid;
 }
 
-PCB* addNewProcessToTable(uint64_t rip)
+PCB* addNewProcessToTable(uint64_t rip, int argc, char ** argv)
 {
     int rear = table.numberOfProcessesOnTable;
     if(rear == MAX_QTY_PROCESSES)
@@ -29,7 +29,7 @@ PCB* addNewProcessToTable(uint64_t rip)
         table.list[rear].state = NEW;
         table.list[rear].priority = HIGH_PRIORITY;
         table.list[rear].allocatedMemoryAddress = (uint64_t)allocate(0x0FFE);
-        table.list[rear].stackPointer = (uint64_t)initializeStack(table.list[rear].allocatedMemoryAddress + 0x0FFE, rip, 0, NULL);
+        table.list[rear].stackPointer = (uint64_t)initializeStack(table.list[rear].allocatedMemoryAddress + 0x0FFE, rip, argc, argv);
         table.numberOfProcessesOnTable++;
     }
     return &(table.list[rear]);

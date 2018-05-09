@@ -27,8 +27,8 @@
 	int startsWith(const char* str, const char* start);
 	void* malloc(int size);
 	void free(void* ptr);
-	void exit();
-	int newProcess(void* ptr);
+	void exitProcess();
+	int newProcess(void* ptr, int argc, char** argv);
 	int getPid();
 	void ps();
 
@@ -38,8 +38,8 @@
 	extern int print(char * str, int length);
 	extern void* memoryAllocation(int size);
 	extern void memoryFree(void* ptr);
-	extern void exitProcess();
-	extern int createProcess(void* ptr);
+	extern void leaveProcess();
+	extern int createProcess(void* ptr, int argc, char** argv);
 	extern int getProcessPid();
 	extern void getProcessesInfo(processesInfoTable* processes);
 

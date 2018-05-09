@@ -81,9 +81,9 @@ typedef struct processTable{
 
 
 void initializeProcessTable();
-uint32_t startNewProcess(uint64_t rip);
+uint32_t startNewProcess(uint64_t rip,  int argc, char ** argv);
 stack* initializeStack(uint64_t rsp, uint64_t rip, int argc, char ** argv);
-PCB* addNewProcessToTable(uint64_t rip);
+PCB* addNewProcessToTable(uint64_t rip, int argc, char ** argv);
 uint32_t getNextPid();
 void setCurrentProcess(PCB* process);
 PCB* getCurrentProcess();

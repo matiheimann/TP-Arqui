@@ -147,12 +147,12 @@ void free(void* ptr)
 	memoryFree(ptr);
 }
 
-void exit()
+void exitProcess()
 {
-	exitProcess();
+	leaveProcess();
 }
 
-int newProcess(void* ptr)
+int newProcess(void* ptr, int argc, char** argv)
 {
 	return createProcess(ptr);
 }

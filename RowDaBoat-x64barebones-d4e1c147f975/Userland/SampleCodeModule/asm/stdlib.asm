@@ -7,7 +7,7 @@ GLOBAL YResolution
 GLOBAL displayTimeData
 GLOBAL memoryAllocation
 GLOBAL memoryFree
-GLOBAL exitProcess
+GLOBAL leaveProcess
 GLOBAL createProcess
 GLOBAL getProcessPid
 GLOBAL getProcessesInfo
@@ -120,7 +120,7 @@ memoryFree:
 	pop rbp
 	ret
 
-exitProcess:
+leaveProcess:
 	push rbp
 	mov rbp, rsp
 	mov rax, 12
@@ -135,6 +135,7 @@ createProcess:
 	mov rbp, rsp
 	mov rax, 13
 	mov rbx, rdi
+	mov rcx, rsi
 	int 80h
 
 	mov rsp, rbp

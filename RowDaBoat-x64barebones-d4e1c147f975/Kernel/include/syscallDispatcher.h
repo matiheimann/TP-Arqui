@@ -17,7 +17,7 @@ void printRTCInfo();
 void* allocateMemory(uint64_t memoryToReserve);
 void deallocateMemory(void* ptr);
 void exit();
-uint32_t createNewProcess(void* ptr);
+uint32_t createNewProcess(void* ptr, int argc, char ** argv);
 uint32_t getpid();
 void getProcesses(void* table);
 
