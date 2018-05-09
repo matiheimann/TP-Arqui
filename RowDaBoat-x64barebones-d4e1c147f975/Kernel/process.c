@@ -117,6 +117,9 @@ void stopProcessWait(uint32_t pid)
             }
         }
     }
+    printString("Process pid: "); 
+    printInt(table.list[i].pid);
+    printString("not found in process table.\n");
 }
 
 void setCurrentProcessState(int state)
