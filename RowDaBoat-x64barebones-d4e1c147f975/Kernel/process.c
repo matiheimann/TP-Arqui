@@ -97,6 +97,28 @@ PCB* getCurrentProcess()
     return currentPCB;
 }
 
+void stopProcessWait(uint32_t pid)
+{
+    int i;
+    for(i = 0; i < table.numberOfProcessesOnTable; i++)
+    {
+        if(pid == table.list[i].pid)
+        {
+            if(table.list[i].state == WAITING)
+            {
+                addProcessToRoundRobin(&(table.list[i]));
+                return;
+            }
+            else
+            {
+                printString("Process pid: "); 
+                printInt(table.list[i].pid);
+                printString(" was not waiting. Why stop process wait?\n");
+            }
+        }
+    }
+}
+
 void setCurrentProcessState(int state)
 {
     currentPCB->state = state;

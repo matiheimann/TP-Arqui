@@ -92,6 +92,7 @@ void terminateCurrentProcess();
 void initializeProcessLog();
 uint32_t getCurrentProcessPID();
 void fillProcessesInfo(processesInfoTable* processes);
+void stopProcessWait(uint32_t pid);
 
 
 
