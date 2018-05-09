@@ -166,13 +166,13 @@ void ps()
 {
 	int i , aux;
 	processesInfoTable processes;
-	processes.list = (processInfo*)malloc(0x010000);
+	processes.list = (processInfo*)malloc(0xFFE);
 	
 	getProcessesInfo((void*)&processes);
 	printf("Processes count:\n");
 	printInt(processes.numberOfProcessesOnTable);
 	printf("\n pid     | state   | memoryAllocation | priority\n");
-	printf(" -------------------------------------------------\n");
+	printf(" -----------------------------------------------\n");
 	for(i = 0; i < processes.numberOfProcessesOnTable; i++)
 	{
 		aux = 8 - countDigits(processes.list[i].pid);
@@ -205,9 +205,22 @@ void ps()
 		}
 		printInt(processes.list[i].sizeAllocated);
 		printf("             | ");
-		printInt(processes.list[i].priority);
+		if(processes.list[i].priority == 0)
+		{
+			printf("HIGH");
+		}
+		else if(processes.list[i].priority == 1)
+		{
+			printf("MEDIUM");
+		}
+		else
+		{
+			printf("LOW");
+		}
+		
 		printf("\n");
 	}
 	free(processes.list);
 	return;
 }
+
