@@ -28,7 +28,7 @@ void addProcessToRoundRobin(PCB * newProcess)
 
 
 uint64_t schedule(uint64_t rsp)
-{	
+{
 	PCB* current = getCurrentProcess();
 	if(current != NULL && current->state != TERMINATED && current->state != WAITING)
 	{
@@ -45,13 +45,13 @@ uint64_t getNextProcessRSP(uint64_t rsp)
 	{
 		setCurrentProcess(dequeueElement(priorityRings[HIGH_PRIORITY]));
 		return getCurrentProcess()->stackPointer;
-		
+
 	}
 	else if(!isEmpty(priorityRings[MEDIUM_PRIORITY]))
 	{
 		setCurrentProcess(dequeueElement(priorityRings[MEDIUM_PRIORITY]));
 		return getCurrentProcess()->stackPointer;
-		
+
 	}
 	else if(!isEmpty(priorityRings[LOW_PRIORITY]))
 	{
@@ -65,5 +65,3 @@ uint64_t getNextProcessRSP(uint64_t rsp)
 	}
 	return rsp;
 }
-
-

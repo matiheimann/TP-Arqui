@@ -1,4 +1,4 @@
-#include "shlib.h"	
+#include "shlib.h"
 #include <graphPlotterApp.h>
 #include <sampleExceptions.h>
 
@@ -11,7 +11,7 @@ void printWelcomeMessage()
 
 
 
-void printHelp(int argc, char** argc)
+void printHelp(int argc, char** argv)
 {
 	printf("Los comandos disponibles son: \n");
 	printf("help: presenta una lista de los comandos disonibles.\n");
@@ -48,46 +48,46 @@ int execute(char* command)
 	}
 	else if(strcmp(command, "--divide by cero")==0)
 	{
-		newProcess((void*)&generate_divide_by_cero, 0, NULL);	
+		newProcess((void*)&generate_divide_by_cero, 0, NULL);
 	}
-	else if(strcmp(command, "overflow")==0) 
+	else if(strcmp(command, "overflow")==0)
 	{
 		generate_overflow();
 	}
-	else if(strcmp(command, "--overflow")==0) 
+	else if(strcmp(command, "--overflow")==0)
 	{
 		newProcess((void*)&generate_overflow, 0, NULL);
 	}
-	else if(strcmp(command, "invalid opcode")==0) 
+	else if(strcmp(command, "invalid opcode")==0)
 	{
 		generate_inavlid_opcode();
 	}
-	else if(strcmp(command, "--invalid opcode")==0) 
+	else if(strcmp(command, "--invalid opcode")==0)
 	{
 		newProcess((void*)&generate_inavlid_opcode, 0, NULL);
 	}
-	else if(strcmp(command, "time")==0) 
+	else if(strcmp(command, "time")==0)
 	{
 		displayTimeData();
 	}
-	else if(strcmp(command, "--time")==0) 
+	else if(strcmp(command, "--time")==0)
 	{
 		newProcess((void*)&displayTimeData, 0, NULL);
 	}
-	else if(strcmp(command, "help")==0) 
+	else if(strcmp(command, "help")==0)
 	{
-		printHelp();
+		printHelp(0, NULL);
 	}
-	else if(strcmp(command, "help")==0) 
+	else if(strcmp(command, "--help")==0)
 	{
 		newProcess((void*)&printHelp, 0, NULL);
 	}
-	else if(strcmp(command, "graph")==0) 
+	else if(strcmp(command, "graph")==0)
 	{
 		graphPlotter();
 		printWelcomeMessage();
 	}
-	else if(strcmp(command, "--graph")==0) 
+	else if(strcmp(command, "--graph")==0)
 	{
 		newProcess((void*)&graphPlotter, 0, NULL);
 		printWelcomeMessage();
@@ -97,4 +97,3 @@ int execute(char* command)
 	}
 	return 0;
 }
-		

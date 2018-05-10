@@ -11,9 +11,19 @@ GLOBAL leaveProcess
 GLOBAL createProcess
 GLOBAL getProcessPid
 GLOBAL getProcessesInfo
+GLOBAL generateMutex
+GLOBAL getMutex
+GLOBAL deleteMutex
+GLOBAL lockMutex
+GLOBAL unlockMutex
+GLOBAL generateMessageHolder
+GLOBAL getMessageHolder
+GLOBAL deleteMessageHolder
+GLOBAL send
+GLOBAL receive
 
 print:
-	
+
 	push rbp
 	mov rbp, rsp
 
@@ -56,7 +66,7 @@ clearScreen:
 	ret
 
 paintPixelAt:
-	
+
 	push rbp
 	mov rbp, rsp
 	mov rax, 6
@@ -157,6 +167,140 @@ getProcessesInfo:
 	mov rbp, rsp
 	mov rax, 15
 	mov rbx, rdi
+	int 80h
+
+	mov rsp, rbp
+	pop rbp
+	ret
+
+	generateMutex:
+
+	push rbp
+	mov rbp, rsp
+
+	mov rax, 16
+	mov rbx, rdi
+	int 80h
+
+	mov rsp, rbp
+	pop rbp
+	ret
+
+getMutex:
+
+	push rbp
+	mov rbp, rsp
+
+	mov rax, 17
+	mov rbx, rdi
+	int 80h
+
+	mov rsp, rbp
+	pop rbp
+	ret
+
+deleteMutex:
+
+	push rbp
+	mov rbp, rsp
+
+	mov rax, 18
+	mov rbx, rdi
+	int 80h
+
+	mov rsp, rbp
+	pop rbp
+	ret
+
+lockMutex:
+
+	push rbp
+	mov rbp, rsp
+
+	mov rax, 19
+	mov rbx, rdi
+	int 80h
+
+	mov rsp, rbp
+	pop rbp
+	ret
+
+unlockMutex:
+
+	push rbp
+	mov rbp, rsp
+
+	mov rax, 20
+	mov rbx, rdi
+	int 80h
+
+	mov rsp, rbp
+	pop rbp
+	ret
+
+generateMessageHolder:
+
+	push rbp
+	mov rbp, rsp
+
+	mov rax, 21
+	mov rbx, rdi
+	int 80h
+
+	mov rsp, rbp
+	pop rbp
+	ret
+
+getMessageHolder:
+
+	push rbp
+	mov rbp, rsp
+
+	mov rax, 22
+	mov rbx, rdi
+	int 80h
+
+	mov rsp, rbp
+	pop rbp
+	ret
+
+deleteMessageHolder:
+
+	push rbp
+	mov rbp, rsp
+
+	mov rax, 23
+	mov rbx, rdi
+	int 80h
+
+	mov rsp, rbp
+	pop rbp
+	ret
+
+send:
+
+	push rbp
+	mov rbp, rsp
+
+	mov rax, 24
+	mov rbx, rdi
+	mov rcx, rsi
+	mov rdx, rdx
+	int 80h
+
+	mov rsp, rbp
+	pop rbp
+	ret
+
+receive:
+
+	push rbp
+	mov rbp, rsp
+
+	mov rax, 25
+	mov rbx, rdi
+	mov rcx, rsi
+	mov rdx, rdx
 	int 80h
 
 	mov rsp, rbp

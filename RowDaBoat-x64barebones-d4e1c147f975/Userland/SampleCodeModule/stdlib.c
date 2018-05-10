@@ -100,7 +100,7 @@ int parseNumber(char * s, double * d) {
 	char isNegative = 0;
 	if(*s == '-'){
 		isNegative = 1;
-		s++;	
+		s++;
 	}
 	while(*s != 0){
 		if(!postDot){
@@ -119,7 +119,7 @@ int parseNumber(char * s, double * d) {
 		else{
 			if(isNumeric(*s)){
 				*d += i * ((*s) - '0');
-				i /= 10; 
+				i /= 10;
 			}
 			else{
 				return 0;
@@ -150,13 +150,14 @@ void free(void* ptr)
 void exitProcess()
 {
 	leaveProcess();
+	while(1);
 }
 
 int newProcess(void* ptr, int argc, char** argv)
 {
-	return createProcess(ptr);
+	return createProcess(ptr, argc, argv);
 }
-	
+
 int getPid()
 {
 	return getProcessPid();
@@ -167,12 +168,12 @@ void ps()
 	int i , aux;
 	processesInfoTable processes;
 	processes.list = (processInfo*)malloc(0xFFE);
-	
+
 	getProcessesInfo((void*)&processes);
 	printf("Processes count:\n");
 	printInt(processes.numberOfProcessesOnTable);
-	printf("\n pid     | state   | memoryAllocation | priority\n");
-	printf(" -----------------------------------------------\n");
+	printf("\n pid     | state      | memoryAllocation | priority\n");
+	printf(" --------------------------------------------------\n");
 	for(i = 0; i < processes.numberOfProcessesOnTable; i++)
 	{
 		aux = 8 - countDigits(processes.list[i].pid);
@@ -185,23 +186,23 @@ void ps()
 		}
 		if(processes.list[i].state == 0)
 		{
-			printf("| NEW     | ");
+			printf("| NEW        | ");
 		}
 		else if(processes.list[i].state == 1)
 		{
-			printf("| READY   | ");
+			printf("| READY      | ");
 		}
 		else if(processes.list[i].state == 2)
 		{
-			printf("| RUNNING | ");
+			printf("| RUNNING    | ");
 		}
 		else if(processes.list[i].state == 3)
 		{
-			printf("| WAITING | ");
+			printf("| WAITING    | ");
 		}
 		else
 		{
-			printf("|TERMINATED| ");
+			printf("| TERMINATED | ");
 		}
 		printInt(processes.list[i].sizeAllocated);
 		printf("             | ");
@@ -217,10 +218,9 @@ void ps()
 		{
 			printf("LOW");
 		}
-		
+
 		printf("\n");
 	}
 	free(processes.list);
 	return;
 }
-

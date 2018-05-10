@@ -5,14 +5,19 @@
 #include <rtcDriver.h>
 #include "memoryManager.h"
 #include "process.h"
+#include <messageHolder.h>
+#include <mutex.h>
 
-static const syscall syscalls[]={0, 0, 0, read, write, (syscall)clearScreen, 
-	(syscall)paintPixel, (syscall)getResolutionX, (syscall)getResolutionY, 
-	(syscall)printRTCInfo, (syscall)allocateMemory, (syscall)deallocateMemory, (syscall)exitProcess, (syscall)createNewProcess, (syscall)getpid, (syscall)getProcesses};
+static const syscall syscalls[]={0, 0, 0, read, write, (syscall)clearScreen,
+	(syscall)paintPixel, (syscall)getResolutionX, (syscall)getResolutionY,
+	(syscall)printRTCInfo, (syscall)allocateMemory, (syscall)deallocateMemory, (syscall)exitProcess, (syscall)createNewProcess, (syscall)getpid, (syscall)getProcesses,
+	(syscall)createMutexSysCall, (syscall)retrieveMutexSysCall, (syscall)destroyMutexSysCall, (syscall)lockSysCall, (syscall)unlockSysCall,
+	(syscall)createMessageHolderSysCall, (syscall)retrieveMessageHolderSysCall, (syscall)destroyMessageHolderSysCall,
+	(syscall)sendMessageSysCall, (syscall)receiveMessageSysCall};
 
 
 uint64_t syscallDispatcher(uint64_t rax, uint64_t rbx, uint64_t rcx, uint64_t rdx){
-	
+
 	return syscalls[rax](rbx, rcx, rdx);
 }
 
@@ -40,7 +45,7 @@ uint64_t read(uint64_t fd, uint64_t buffer, uint64_t count){
 	return i;
 }
 
-void clearScreen() 
+void clearScreen()
 {
 	blackOut();
 }
@@ -91,5 +96,54 @@ void getProcesses(void* table)
 {
 	processesInfoTable* info = (processesInfoTable*) table;
 	fillProcessesInfo(info);
-	
+}
+
+mutex* createMutexSysCall(char* id)
+{
+	return createMutex(id);
+}
+
+mutex* retrieveMutexSysCall(char* mutexId)
+{
+	return retrieveMutex(mutexId);
+}
+
+void destroyMutexSysCall(char* mutexId)
+{
+	destroyMutex(mutexId);
+}
+
+void lockSysCall(mutex* mutexToLock)
+{
+	lock(mutexToLock);
+}
+
+void unlockSysCall(mutex* mutexToUnlock)
+{
+	unlock(mutexToUnlock);
+}
+
+messageHolder* createMessageHolderSysCall(char* id)
+{
+	return createMessageHolder(id);
+}
+
+messageHolder* retrieveMessageHolderSysCall(char* id)
+{
+	return retrieveMessageHolder(id);
+}
+
+void destroyMessageHolderSysCall(char* id)
+{
+	destroyMessageHolder(id);
+}
+
+void sendMessageSysCall(messageHolder* message, char* data, int size)
+{
+	sendMessage(message, data, size);
+}
+
+void receiveMessageSysCall(messageHolder* message, char* storageBuffer, int size)
+{
+	receiveMessage(message, storageBuffer, size);
 }

@@ -9,7 +9,7 @@ static PCB* currentPCB;
 
 uint32_t startNewProcess(uint64_t rip, int argc, char ** argv)
 {
-    PCB* newProcess = addNewProcessToTable(rip);
+    PCB* newProcess = addNewProcessToTable(rip, argc, argv);
     addProcessToRoundRobin(newProcess);
     return newProcess->pid;
 }
@@ -111,13 +111,13 @@ void stopProcessWait(uint32_t pid)
             }
             else
             {
-                printString("Process pid: "); 
+                printString("Process pid: ");
                 printInt(table.list[i].pid);
                 printString(" was not waiting. Why stop process wait?\n");
             }
         }
     }
-    printString("Process pid: "); 
+    printString("Process pid: ");
     printInt(table.list[i].pid);
     printString("not found in process table.\n");
 }
@@ -132,6 +132,7 @@ void terminateCurrentProcess()
 {
     currentPCB->state = TERMINATED;
     deallocate((void*)currentPCB->allocatedMemoryAddress);
+    
 }
 
 uint32_t getCurrentProcessPID()

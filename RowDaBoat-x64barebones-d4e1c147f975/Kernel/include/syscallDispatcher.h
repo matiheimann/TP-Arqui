@@ -4,6 +4,9 @@
 #define STDOUT 1
 #define STDIN 0
 
+#include <messageHolder.h>
+#include <mutex.h>
+
 typedef uint64_t (* syscall)(uint64_t p, uint64_t q, uint64_t r);
 
 uint64_t syscallDispatcher(uint64_t rax, uint64_t rbx, uint64_t rcx, uint64_t rdx);
@@ -16,9 +19,19 @@ uint16_t getResolutionX();
 void printRTCInfo();
 void* allocateMemory(uint64_t memoryToReserve);
 void deallocateMemory(void* ptr);
-void exit();
+void exitProcess();
 uint32_t createNewProcess(void* ptr, int argc, char ** argv);
 uint32_t getpid();
 void getProcesses(void* table);
+mutex* createMutexSysCall(char* id);
+mutex* retrieveMutexSysCall(char* mutexId);
+void destroyMutexSysCall(char* mutexId);
+void lockSysCall(mutex* mutexToLock);
+void unlockSysCall(mutex* mutexToUnlock);
+messageHolder* createMessageHolderSysCall(char* id);
+messageHolder* retrieveMessageHolderSysCall(char* id);
+void destroyMessageHolderSysCall(char* id);
+void sendMessageSysCall(messageHolder* message, char* data, int size);
+void receiveMessageSysCall(messageHolder* message, char* storageBuffer, int size);
 
 #endif

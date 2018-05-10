@@ -2,7 +2,7 @@
 #define SHLIB_H
 
 void printWelcomeMessage();
-void printHelp();
+void printHelp(int argc, char** argv);
 int execute(char* command);
 
 #endif
