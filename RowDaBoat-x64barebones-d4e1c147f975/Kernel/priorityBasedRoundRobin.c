@@ -9,7 +9,6 @@ static queueCDT mediumPriorityQueue;
 static queueCDT lowPriorityQueue;
 static queueADT priorityRings[3];
 
-
 void initializeRoundRobin()
 {
     priorityRings[HIGH_PRIORITY] = &highPriorityQueue;
@@ -45,7 +44,6 @@ uint64_t getNextProcessRSP(uint64_t rsp)
 	{
 		setCurrentProcess(dequeueElement(priorityRings[HIGH_PRIORITY]));
 		return getCurrentProcess()->stackPointer;
-
 	}
 	else if(!isEmpty(priorityRings[MEDIUM_PRIORITY]))
 	{

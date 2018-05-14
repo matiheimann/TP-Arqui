@@ -31,7 +31,7 @@ void enqueueElement(queueADT myQueue, PCB* process)
 	else
 	{
         printString("The queue is full\n");
-        
+
 	}
 	return;
 }

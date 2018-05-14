@@ -1,18 +1,46 @@
 #include "mutex.h"
+#include <videoDriver.h>
+#include <memoryManager.h>
+#include <process.h>
 
 extern void enter_region(mutex* m);
 extern void leave_region(mutex* m);
 
 mutexLinkedList mutexList;
 
-void lock(mutex* m)
+PCB* lock(mutex* m)
 {
   enter_region(m);
+  return getCurrentProcess();
 }
 
 void unlock(mutex* m)
 {
   leave_region(m);
+}
+
+void addCurrentProcessToWaitingQueue(mutex* m)
+{
+  PCB* currentProcess = getCurrentProcess();
+  printString("Se agrega a la cola de espera al proceso de PID: ");
+  printInt(currentProcess->pid);
+  printString("\n");
+  enqueueElement(m->waitingProcesses, currentProcess);
+  setCurrentProcessState(WAITING);
+}
+
+void dequeueWaitingProcess(mutex* m)
+{
+  if(m->waitingProcesses->actualSize != 0)
+  {
+    PCB* waitingProcess = dequeueElement(m->waitingProcesses);
+    printString("Se desencola de la cola de espera al proceso de PID: ");
+    printInt(waitingProcess->pid);
+    printString("\nEstado del proceso desencolado: ");
+    printInt(waitingProcess->state);
+    printString("\n");
+    stopProcessWait(waitingProcess->pid);
+  }
 }
 
 void destroyMutex(char* mutexId)
@@ -30,7 +58,7 @@ void destroyMutex(char* mutexId)
     if(strcmp(currentMutex->data->id, mutexId)==0)
     {
 
-      if(previousMutex == NULL) //Current es el primer elemento de la lista
+      if(previousMutex == NULL)
       {
         mutexList.first = currentMutex->next;
         deallocate(currentMutex->data);
@@ -79,6 +107,7 @@ mutex* createMutex(char* id)
   }
 
   mutex* mutexToAdd;
+  queueADT waitingProcesses = allocate(1*sizeof(queueCDT));
   node* nodeToAdd;
   node* currentMutex = mutexList.first;
   node* previousMutex = NULL;
@@ -97,6 +126,8 @@ mutex* createMutex(char* id)
   mutexToAdd = allocate(1*sizeof(mutex));
   nodeToAdd = allocate(1*sizeof(node));
 
+  initQueue(waitingProcesses);
+  mutexToAdd->waitingProcesses = waitingProcesses;
   mutexToAdd->state = UNLOCKED;
   mutexToAdd->id = id;
   nodeToAdd->data = mutexToAdd;

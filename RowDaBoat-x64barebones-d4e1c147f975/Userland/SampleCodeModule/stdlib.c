@@ -153,6 +153,15 @@ void exitProcess()
 	while(1);
 }
 
+void lockMutex(mutex* m)
+{
+	PCB* pcb = blockMutex(m);
+	while(pcb->state == 3);
+	printf("_______________volviendo del bloqueo del proceso ");
+	printInt(pcb->pid);
+	printf("_______________\n");
+}
+
 int newProcess(void* ptr, int argc, char** argv)
 {
 	return createProcess(ptr, argc, argv);

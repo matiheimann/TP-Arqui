@@ -1,13 +1,17 @@
 #include <mutexTesting.h>
 #include <stdlib.h>
 
+char globalBuffer[500];
+
 void mutexTest()
 {
-  lockAndUnlockTest();
+  /*lockAndUnlockTest();
   printf("\n");
   generateAndGetTest();
   printf("\n");
-  deleteMutexTest();
+  deleteMutexTest();*/
+  printf("\n");
+  multiProcessSincronizationTest();
 }
 
 void lockAndUnlockTest()
@@ -59,4 +63,55 @@ void deleteMutexTest()
   {
     printf("Mutex succesfully deleted\n");
   }
+}
+
+void multiProcessSincronizationTest()
+{
+  mutex* m = generateMutex("multiProcessSincronizationTest");
+  newProcess((void*)&p1, 0, NULL);
+  newProcess((void*)&p2, 0, NULL);
+}
+
+void p1()
+{
+  printf("P1 empieza\n");
+  mutex* m = getMutex("multiProcessSincronizationTest");
+  lockMutex(m);
+  int j;
+  for(j=0; j<10000000; j++);
+  printf("P1 termina\n");
+  unlockMutex(m);
+  exitProcess();
+}
+
+void p2()
+{
+  printf("P2 empieza\n");
+  mutex* m = getMutex("multiProcessSincronizationTest");
+  lockMutex(m);
+  int j;
+  for(j=0; j<10000000; j++);
+  unlockMutex(m);
+  printf("P2 termina\n");
+  exitProcess();
+}
+
+void p3()
+{
+  mutex* m = getMutex("multiProcessSincronizationTest");
+  lockMutex(m);
+  int j;
+  for(j=0; j<10000000; j++);
+  unlockMutex(m);
+  exitProcess();
+}
+
+void p4()
+{
+  mutex* m = getMutex("multiProcessSincronizationTest");
+  lockMutex(m);
+  int j;
+  for(j=0; j<10000000; j++);
+  unlockMutex(m);
+  exitProcess();
 }
