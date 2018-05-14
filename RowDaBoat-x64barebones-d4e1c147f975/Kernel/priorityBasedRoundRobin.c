@@ -29,12 +29,17 @@ void addProcessToRoundRobin(PCB * newProcess)
 uint64_t schedule(uint64_t rsp)
 {
 	PCB* current = getCurrentProcess();
-	if(current != NULL && current->state != TERMINATED && current->state != WAITING)
+	
+	if(current != NULL)
 	{
 		current->stackPointer = rsp;
-		current->state = READY;
-		enqueueElement(priorityRings[current->priority], current);
+		if(current->state != TERMINATED && current->state != WAITING)
+		{
+			current->state = READY;
+			enqueueElement(priorityRings[current->priority], current);
+		}
 	}
+	
 	return getNextProcessRSP(rsp);
 }
 

@@ -72,19 +72,19 @@ void multiProcessSincronizationTest()
   newProcess((void*)&p2, 0, NULL);
 }
 
-void p1()
+void p1(int argc, char** argv)
 {
   printf("P1 empieza\n");
   mutex* m = getMutex("multiProcessSincronizationTest");
   lockMutex(m);
   int j;
-  for(j=0; j<10000000; j++);
+  for(j=0; j<100000000; j++);
   printf("P1 termina\n");
   unlockMutex(m);
   exitProcess();
 }
 
-void p2()
+void p2(int argc, char** argv)
 {
   printf("P2 empieza\n");
   mutex* m = getMutex("multiProcessSincronizationTest");
@@ -96,7 +96,7 @@ void p2()
   exitProcess();
 }
 
-void p3()
+void p3(int argc, char** argv)
 {
   mutex* m = getMutex("multiProcessSincronizationTest");
   lockMutex(m);
@@ -106,7 +106,7 @@ void p3()
   exitProcess();
 }
 
-void p4()
+void p4(int argc, char** argv)
 {
   mutex* m = getMutex("multiProcessSincronizationTest");
   lockMutex(m);
