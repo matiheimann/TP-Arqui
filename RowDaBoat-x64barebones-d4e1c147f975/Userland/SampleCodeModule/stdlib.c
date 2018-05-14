@@ -224,3 +224,8 @@ void ps()
 	free(processes.list);
 	return;
 }
+
+void wait(int pid)
+{
+	while(!waitProcess(pid));
+}

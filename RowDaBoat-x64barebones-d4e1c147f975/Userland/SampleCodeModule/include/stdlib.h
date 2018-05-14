@@ -51,6 +51,7 @@ void exitProcess();
 int newProcess(void* ptr, int argc, char** argv);
 int getPid();
 void ps();
+void wait(int pid);
 
 extern void clearScreen();
 extern void displayTimeData();
@@ -72,5 +73,6 @@ extern messageHolder* getMessageHolder(char* id);
 extern void deleteMessageHolder(char* id);
 extern void send(messageHolder* message, char* data, int size);
 extern void receive(messageHolder* message, char* storageBuffer, int size);
+extern int waitProcess(int pid);
 
 #endif

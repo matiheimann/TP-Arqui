@@ -93,6 +93,8 @@ void initializeProcessLog();
 uint32_t getCurrentProcessPID();
 void fillProcessesInfo(processesInfoTable* processes);
 void stopProcessWait(uint32_t pid);
+int isProcessTerminated(uint32_t pid);
+PCB* getProcessPCB(int pid);
 
 
 

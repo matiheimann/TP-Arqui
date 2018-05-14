@@ -21,6 +21,7 @@ GLOBAL getMessageHolder
 GLOBAL deleteMessageHolder
 GLOBAL send
 GLOBAL receive
+GLOBAL waitProcess
 
 print:
 
@@ -301,6 +302,20 @@ receive:
 	mov rbx, rdi
 	mov rcx, rsi
 	mov rdx, rdx
+	int 80h
+
+	mov rsp, rbp
+	pop rbp
+	ret
+
+
+waitProcess:
+	push rbp
+	mov rbp, rsp
+
+	mov rax, 26
+	mov rbx, rdi
+
 	int 80h
 
 	mov rsp, rbp

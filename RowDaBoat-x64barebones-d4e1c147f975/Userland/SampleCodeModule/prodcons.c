@@ -1,4 +1,4 @@
-#include <stdlib.h>
+/*#include <stdlib.h>
 
 #define BUFFSIZE 100
 
@@ -148,3 +148,4 @@ void consumer(int * buffer){
   }
   return NULL ;
 }
+*/

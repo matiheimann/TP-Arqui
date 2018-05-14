@@ -13,7 +13,7 @@ static const syscall syscalls[]={0, 0, 0, read, write, (syscall)clearScreen,
 	(syscall)printRTCInfo, (syscall)allocateMemory, (syscall)deallocateMemory, (syscall)exitProcess, (syscall)createNewProcess, (syscall)getpid, (syscall)getProcesses,
 	(syscall)createMutexSysCall, (syscall)retrieveMutexSysCall, (syscall)destroyMutexSysCall, (syscall)lockSysCall, (syscall)unlockSysCall,
 	(syscall)createMessageHolderSysCall, (syscall)retrieveMessageHolderSysCall, (syscall)destroyMessageHolderSysCall,
-	(syscall)sendMessageSysCall, (syscall)receiveMessageSysCall};
+	(syscall)sendMessageSysCall, (syscall)receiveMessageSysCall, (syscall) wait};
 
 
 uint64_t syscallDispatcher(uint64_t rax, uint64_t rbx, uint64_t rcx, uint64_t rdx){
@@ -146,4 +146,10 @@ void sendMessageSysCall(messageHolder* message, char* data, int size)
 void receiveMessageSysCall(messageHolder* message, char* storageBuffer, int size)
 {
 	receiveMessage(message, storageBuffer, size);
+}
+
+int wait(int pid)
+{
+	//TODO
+	return isProcessTerminated(pid);
 }

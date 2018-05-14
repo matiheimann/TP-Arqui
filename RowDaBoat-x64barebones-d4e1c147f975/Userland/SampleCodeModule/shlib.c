@@ -8,10 +8,13 @@ void printWelcomeMessage()
 	printf("-----------------------------------------------------------------\n");
 }
 
+void printWelcomeMessageProcess(int argc, char** argv)
+{
+	printWelcomeMessage();
+	exitProcess();
+}
 
-
-
-void printHelp(int argc, char** argv)
+void printHelpProcess(int argc, char** argv)
 {
 	printf("Los comandos disponibles son: \n");
 	printf("help: presenta una lista de los comandos disonibles.\n");
@@ -23,77 +26,95 @@ void printHelp(int argc, char** argv)
 	printf("exit: se sale de la terminal.\n");
 	printf("clear: limpia todo el contenido de la pantalla.\n");
 	putchar('\n');
+	exitProcess();
+}
+
+void graphPlotterProcess(int argc, char** argv)
+{
+	graphPlotter();
+	exitProcess();
+}
+
+void displayTimeDataProcess(int argc, char** argv)
+{
+	displayTimeData();
+	exitProcess();
+}
+
+void psProcess(int argc, char** argv)
+{
+	ps();
+	exitProcess();
+}
+void echoProcess(int argc, char** argv)
+{
+	printf(argv[0]);
+	putchar('\n');
+	exitProcess();
 }
 
 int execute(char* command)
 {
+	int pid;
+	int flag = 0;
+
 	if(strcmp(command, "exit")==0)
 		return 1;
-
-	if(startsWith(command, "echo ")) {
-		printf(command+5);
-		putchar('\n');
+	if(startsWith(command,"--"))
+	{
+		command += 2;
+		flag = 1;
 	}
-	else if(strcmp(command, "clear")==0) {
-		clear();
-		printWelcomeMessage();
+	if(startsWith(command, "echo ")) 
+	{
+		char* args[1];
+		args[0] = command + 5;
+		pid = newProcess((void*)&echoProcess, 1, args);
 	}
-	else if(strcmp(command, "--clear")==0) {
+	else if(strcmp(command, "clear")==0)
+	{
 		clear();
-		newProcess((void*)&printWelcomeMessage, 0, NULL);
+		pid = newProcess((void*)&printWelcomeMessageProcess, 0, NULL);
 	}
 	else if(strcmp(command, "divide by cero")==0)
 	{
-		generate_divide_by_cero();
-	}
-	else if(strcmp(command, "--divide by cero")==0)
-	{
-		newProcess((void*)&generate_divide_by_cero, 0, NULL);
+		pid = newProcess((void*)&generate_divide_by_cero, 0, NULL);
 	}
 	else if(strcmp(command, "overflow")==0)
 	{
-		generate_overflow();
-	}
-	else if(strcmp(command, "--overflow")==0)
-	{
-		newProcess((void*)&generate_overflow, 0, NULL);
+		pid = newProcess((void*)&generate_overflow, 0, NULL);
 	}
 	else if(strcmp(command, "invalid opcode")==0)
 	{
-		generate_inavlid_opcode();
-	}
-	else if(strcmp(command, "--invalid opcode")==0)
-	{
-		newProcess((void*)&generate_inavlid_opcode, 0, NULL);
+		pid = newProcess((void*)&generate_inavlid_opcode, 0, NULL);
 	}
 	else if(strcmp(command, "time")==0)
 	{
-		displayTimeData();
-	}
-	else if(strcmp(command, "--time")==0)
-	{
-		newProcess((void*)&displayTimeData, 0, NULL);
+		pid = newProcess((void*)&displayTimeDataProcess, 0, NULL);
 	}
 	else if(strcmp(command, "help")==0)
 	{
-		printHelp(0, NULL);
-	}
-	else if(strcmp(command, "--help")==0)
-	{
-		newProcess((void*)&printHelp, 0, NULL);
+		pid = newProcess((void*)&printHelpProcess, 0, NULL);
 	}
 	else if(strcmp(command, "graph")==0)
 	{
-		graphPlotter();
+		pid = newProcess((void*)&graphPlotterProcess, 0, NULL);
+		wait(pid);
 		printWelcomeMessage();
+		return 0;
 	}
-	else if(strcmp(command, "--graph")==0)
+	else if(strcmp(command, "ps")==0)
 	{
-		newProcess((void*)&graphPlotter, 0, NULL);
-		printWelcomeMessage();
+		pid = newProcess((void*)&psProcess, 0, NULL);
 	}
-	else {
+	else 
+	{
 		printf("Invalid command, use help to see available commands.\n");
+		return 0;
+	}
+	if(!flag)
+	{
+		wait(pid);
 	}
 	return 0;
 }

@@ -69,8 +69,8 @@ stack* initializeStack(uint64_t rsp, uint64_t rip, int argc, char ** argv)
     newProcessStack->r10 = 0x008;
     newProcessStack->r9 = 0x009;
     newProcessStack->r8 = 0x00A;
-    newProcessStack->rsi = (uint64_t) argc;
-    newProcessStack->rdi = (uint64_t) argv;
+    newProcessStack->rsi = (uint64_t) argv;
+    newProcessStack->rdi = (uint64_t) argc;
     newProcessStack->rbp = 0x00D;
     newProcessStack->rdx = rip;
     newProcessStack->rcx = 0x00F;
@@ -99,29 +99,45 @@ PCB* getCurrentProcess()
 
 void stopProcessWait(uint32_t pid)
 {
+    PCB* process = getProcessPCB(pid);
+    if(process->state == WAITING)
+    {
+        addProcessToRoundRobin(process);
+        return;
+    }
+    else
+    {
+        printString("Process pid: ");
+        printInt(pid);
+        printString(" was not waiting. Why stop process wait?\n");
+    }
+}
+
+int isProcessTerminated(uint32_t pid)
+{
+    
+    PCB* process = getProcessPCB(pid);
+    if(process->state == TERMINATED)
+        return 1;
+    return 0;
+
+}
+
+PCB* getProcessPCB(int pid)
+{
     int i;
     for(i = 0; i < table.numberOfProcessesOnTable; i++)
     {
         if(pid == table.list[i].pid)
-        {
-            if(table.list[i].state == WAITING)
-            {
-                addProcessToRoundRobin(&(table.list[i]));
-                return;
-            }
-            else
-            {
-                printString("Process pid: ");
-                printInt(table.list[i].pid);
-                printString(" was not waiting. Why stop process wait?\n");
-            }
+        {           
+            return &(table.list[i]);
         }
     }
     printString("Process pid: ");
-    printInt(table.list[i].pid);
+    printInt(pid);
     printString("not found in process table.\n");
+    return NULL;
 }
-
 void setCurrentProcessState(int state)
 {
     currentPCB->state = state;
