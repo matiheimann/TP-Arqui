@@ -14,9 +14,5 @@ void main() {
 		end = execute(command);
 	}
 
-	//mutexTest();
-
-	//while(1);
-
 	exitProcess();
 }

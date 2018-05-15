@@ -22,9 +22,6 @@ void unlock(mutex* m)
 void addCurrentProcessToWaitingQueue(mutex* m)
 {
   PCB* currentProcess = getCurrentProcess();
-  printString("Se agrega a la cola de espera al proceso de PID: ");
-  printInt(currentProcess->pid);
-  printString("\n");
   enqueueElement(m->waitingProcesses, currentProcess);
   setCurrentProcessState(WAITING);
 }
@@ -34,9 +31,6 @@ void dequeueWaitingProcess(mutex* m)
   if(m->waitingProcesses->actualSize != 0)
   {
     PCB* waitingProcess = dequeueElement(m->waitingProcesses);
-    printString("Se desencola de la cola de espera al proceso de PID: ");
-    printInt(waitingProcess->pid);
-    printString("\n");
     stopProcessWait(waitingProcess->pid);
   }
 }

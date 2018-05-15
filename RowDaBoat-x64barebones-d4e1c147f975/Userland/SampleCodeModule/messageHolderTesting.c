@@ -3,10 +3,10 @@
 
 void messageHolderTest()
 {
-  generateAndGetMessageHolderTest();
+/*  generateAndGetMessageHolderTest();
   printf("\n");
   deleteMessageHolderTest();
-  printf("\n");
+  printf("\n");*/
   sendAndReceiveTest();
   printf("\n");
 }
@@ -60,19 +60,30 @@ void sendAndReceiveTest()
 void sender(int argc, char** argv)
 {
   messageHolder* m1 = getMessageHolder("sendAndReceiveTest");
-  printf("Sending hola...\n");
-  send(m1, "hola", 4);
+  printf("Sending >200 bytes...\n");
+  int i;
+  for(i=0; i<100; i++)
+  {
+    send(m1, "a", 1);
+  }
+
+  int j;
+  for(j=0; j<100; j++)
+  {
+    send(m1, "b", 1);
+  }
+
   exitProcess();
 }
 
 void receiver(int argc, char** argv)
 {
-  char buff[4];
+  char buff[230];
 
   messageHolder* m2 = getMessageHolder("sendAndReceiveTest");
 
   printf("Receiving...\n");
-  receive(m2, buff, 4);
+  receive(m2, buff, 200);
 
   printf("MESSAGE RECEIVED: ");
   printf(buff);

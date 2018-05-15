@@ -163,7 +163,7 @@ SECTION .text
 	mov [rdiReg], rdi
 
 	;Paso los parametros a exceptionDispatcher
-	mov rdi, %1 
+	mov rdi, %1
 	mov rsi, rsp
 	mov rdx, [raxReg]
 	mov rcx, [rbxReg]
@@ -199,7 +199,8 @@ _sti:
 	push rbp
     mov rbp, rsp
 	sti
-	leave
+	mov rsp, rbp
+	pop rbp
 	ret
 
 picMasterMask:
@@ -221,19 +222,19 @@ picSlaveMask:
 
 ;8254 Timer (Timer Tick)
 _irq00Handler:
-	
+
 	pushaq
 	mov rdi, rsp
 	call schedule
 	mov rsp, rax
 	popaq
-	
+
 	; signal pic EOI (End of Interrupt)
 	mov al, 20h
 	out 20h, al
-	
+
 	iretq
-	
+
 
 ;Keyboard
 _irq01Handler:
@@ -272,13 +273,12 @@ _exception6Handler:
 ;int 80h software interruption
 _syscallHandler:
 	pushStateWithoutRax
-	
 	mov rdi, rax
 	mov rsi, rbx
 	mov rax, rdx
 	mov rdx, rcx
-	mov rcx, rax 
-	
+	mov rcx, rax
+
 	call syscallDispatcher
 
 	popStateWithoutRax

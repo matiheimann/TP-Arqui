@@ -140,11 +140,13 @@ void destroyMessageHolderSysCall(char* id)
 
 void sendMessageSysCall(messageHolder* message, char* data, int size)
 {
+	_sti();
 	sendMessage(message, data, size);
 }
 
 void receiveMessageSysCall(messageHolder* message, char* storageBuffer, int size)
 {
+	_sti();
 	receiveMessage(message, storageBuffer, size);
 }
 

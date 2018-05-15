@@ -2,6 +2,8 @@
 #include <process.h>
 #include "videoDriver.h"
 
+extern void _sti();
+
 messageHolderLinkedList messageHolderList;
 char messageMutexIdCounter;
 
@@ -18,13 +20,14 @@ void sendMessage(messageHolder* message, char* data, int size)
     if(message->currentMessageIndex == MAX_MESSAGE_SIZE)
     {
       setCurrentProcessState(WAITING);
+      while(getCurrentProcess()->state == WAITING); //Espera a que lo despierte el proceso receiver
     }
 
     message->message[message->currentMessageIndex] = *(data+i);
     message->currentMessageIndex++;
   }
 
-  if(message->receiverPID != -1)
+  if(message->receiverPID != -1 && getProcessPCB(message->receiverPID)->state == WAITING)
   {
     stopProcessWait(message->receiverPID);
   }
@@ -45,7 +48,7 @@ void receiveMessage(messageHolder* message, char* storageBuffer, int size)
     {
       message->currentMessageIndex -= i;
       setCurrentProcessState(WAITING);
-
+      while(getCurrentProcess()->state == WAITING); //Bloqueo hasta que lo despierte el proceso sender
     }
 
     storageBuffer[i] = message->message[message->currentMessageIndex-size+i];
@@ -53,7 +56,7 @@ void receiveMessage(messageHolder* message, char* storageBuffer, int size)
 
   message->currentMessageIndex -= i;
 
-  if(message->senderPID != -1)
+  if(message->senderPID != -1 && getProcessPCB(message->senderPID)->state == WAITING)
   {
     stopProcessWait(message->senderPID);
   }
