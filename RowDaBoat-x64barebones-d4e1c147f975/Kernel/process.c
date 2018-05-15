@@ -139,6 +139,7 @@ PCB* getProcessPCB(int pid)
     printString("not found in process table.\n");
     return NULL;
 }
+
 void setCurrentProcessState(int state)
 {
     currentPCB->state = state;

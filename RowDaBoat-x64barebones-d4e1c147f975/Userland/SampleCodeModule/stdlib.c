@@ -181,8 +181,8 @@ void ps()
 	getProcessesInfo((void*)&processes);
 	printf("Processes count:\n");
 	printInt(processes.numberOfProcessesOnTable);
-	printf("\n pid     | state      | memoryAllocation | priority\n");
-	printf(" --------------------------------------------------\n");
+	printf("\n pid     | state           | memoryAllocation | priority\n");
+	printf(" -------------------------------------------------------\n");
 	for(i = 0; i < processes.numberOfProcessesOnTable; i++)
 	{
 		aux = 8 - countDigits(processes.list[i].pid);
@@ -195,23 +195,27 @@ void ps()
 		}
 		if(processes.list[i].state == 0)
 		{
-			printf("| NEW        | ");
+			printf("| NEW             | ");
 		}
 		else if(processes.list[i].state == 1)
 		{
-			printf("| READY      | ");
+			printf("| READY           | ");
 		}
 		else if(processes.list[i].state == 2)
 		{
-			printf("| RUNNING    | ");
+			printf("| RUNNING         | ");
 		}
 		else if(processes.list[i].state == 3)
 		{
-			printf("| WAITING    | ");
+			printf("| WAITING         | ");
+		}
+		else if(processes.list[i].state == 5)
+		{
+			printf("| WAITING PROCESS | ");
 		}
 		else
 		{
-			printf("| TERMINATED | ");
+			printf("| TERMINATED      | ");
 		}
 		printInt(processes.list[i].sizeAllocated);
 		printf("             | ");
