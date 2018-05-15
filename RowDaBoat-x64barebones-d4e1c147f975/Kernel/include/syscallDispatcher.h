@@ -26,7 +26,7 @@ void getProcesses(void* table);
 mutex* createMutexSysCall(char* id);
 mutex* retrieveMutexSysCall(char* mutexId);
 void destroyMutexSysCall(char* mutexId);
-void lockSysCall(mutex* mutexToLock);
+PCB* lockSysCall(mutex* mutexToLock);
 void unlockSysCall(mutex* mutexToUnlock);
 messageHolder* createMessageHolderSysCall(char* id);
 messageHolder* retrieveMessageHolderSysCall(char* id);

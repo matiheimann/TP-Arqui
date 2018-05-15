@@ -113,9 +113,9 @@ void destroyMutexSysCall(char* mutexId)
 	destroyMutex(mutexId);
 }
 
-void lockSysCall(mutex* mutexToLock)
+PCB* lockSysCall(mutex* mutexToLock)
 {
-	lock(mutexToLock);
+	return lock(mutexToLock);
 }
 
 void unlockSysCall(mutex* mutexToUnlock)

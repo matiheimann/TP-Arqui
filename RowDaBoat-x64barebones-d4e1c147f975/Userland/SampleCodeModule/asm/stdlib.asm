@@ -14,7 +14,7 @@ GLOBAL getProcessesInfo
 GLOBAL generateMutex
 GLOBAL getMutex
 GLOBAL deleteMutex
-GLOBAL lockMutex
+GLOBAL blockMutex
 GLOBAL unlockMutex
 GLOBAL generateMessageHolder
 GLOBAL getMessageHolder
@@ -213,7 +213,7 @@ deleteMutex:
 	pop rbp
 	ret
 
-lockMutex:
+blockMutex:
 
 	push rbp
 	mov rbp, rsp

@@ -9,7 +9,6 @@ static queueCDT mediumPriorityQueue;
 static queueCDT lowPriorityQueue;
 static queueADT priorityRings[3];
 
-
 void initializeRoundRobin()
 {
     priorityRings[HIGH_PRIORITY] = &highPriorityQueue;
@@ -30,12 +29,17 @@ void addProcessToRoundRobin(PCB * newProcess)
 uint64_t schedule(uint64_t rsp)
 {
 	PCB* current = getCurrentProcess();
-	if(current != NULL && current->state != TERMINATED && current->state != WAITING)
+	
+	if(current != NULL)
 	{
 		current->stackPointer = rsp;
-		current->state = READY;
-		enqueueElement(priorityRings[current->priority], current);
+		if(current->state != TERMINATED && current->state != WAITING)
+		{
+			current->state = READY;
+			enqueueElement(priorityRings[current->priority], current);
+		}
 	}
+	
 	return getNextProcessRSP(rsp);
 }
 
@@ -45,7 +49,6 @@ uint64_t getNextProcessRSP(uint64_t rsp)
 	{
 		setCurrentProcess(dequeueElement(priorityRings[HIGH_PRIORITY]));
 		return getCurrentProcess()->stackPointer;
-
 	}
 	else if(!isEmpty(priorityRings[MEDIUM_PRIORITY]))
 	{

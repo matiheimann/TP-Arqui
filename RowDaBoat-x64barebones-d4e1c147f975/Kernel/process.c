@@ -148,7 +148,7 @@ void terminateCurrentProcess()
 {
     currentPCB->state = TERMINATED;
     deallocate((void*)currentPCB->allocatedMemoryAddress);
-    
+
 }
 
 uint32_t getCurrentProcessPID()

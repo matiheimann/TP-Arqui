@@ -3,12 +3,12 @@
 
 void messageHolderTest()
 {
-  /*generateAndGetMessageHolderTest();
+  generateAndGetMessageHolderTest();
   printf("\n");
   deleteMessageHolderTest();
-  printf("\n");*/
+  printf("\n");
   sendAndReceiveTest();
-  //printf("\n");
+  printf("\n");
 }
 
 void generateAndGetMessageHolderTest()
@@ -51,7 +51,7 @@ void deleteMessageHolderTest()
 
 void sendAndReceiveTest()
 {
-  printf("_______SEND AND RECEIVE TEST______\n");
+  printf("Send and receive test\n");
   generateMessageHolder("sendAndReceiveTest");
   newProcess((void*)&sender, 0, NULL);
   newProcess((void*)&receiver, 0, NULL);
@@ -62,7 +62,7 @@ void sender(int argc, char** argv)
   messageHolder* m1 = getMessageHolder("sendAndReceiveTest");
   printf("Sending hola...\n");
   send(m1, "hola", 4);
-  while(1);
+  exitProcess();
 }
 
 void receiver(int argc, char** argv)
@@ -78,13 +78,5 @@ void receiver(int argc, char** argv)
   printf(buff);
   printf("\n");
 
-  while(1);
-}
-
-void p1()
-{
-  printf("\nHello from ");
-  printInt(getPid());
-  printf("\n");
   exitProcess();
 }
