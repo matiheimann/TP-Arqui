@@ -99,9 +99,6 @@ int execute(char* command)
 	else if(strcmp(command, "graph")==0)
 	{
 		pid = newProcess((void*)&graphPlotterProcess, 0, NULL);
-		wait(pid);
-		printWelcomeMessage();
-		return 0;
 	}
 	else if(strcmp(command, "ps")==0)
 	{
