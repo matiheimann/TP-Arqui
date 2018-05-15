@@ -10,6 +10,7 @@
 #define RUNNING 2
 #define WAITING 3
 #define TERMINATED 4
+#define WAITINGPROCESS 5
 
 typedef struct {
     uint64_t gs;
@@ -53,6 +54,7 @@ typedef struct processContext {
 typedef struct PCB {
     uint64_t allocatedMemoryAddress;
     uint32_t pid;
+    uint32_t parentPid;
     processContext context;
     uint8_t state;
     uint64_t stackPointer;

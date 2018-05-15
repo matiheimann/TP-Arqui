@@ -33,7 +33,7 @@ uint64_t schedule(uint64_t rsp)
 	if(current != NULL)
 	{
 		current->stackPointer = rsp;
-		if(current->state != TERMINATED && current->state != WAITING)
+		if(current->state != TERMINATED && current->state != WAITING && current->state != WAITINGPROCESS)
 		{
 			current->state = READY;
 			enqueueElement(priorityRings[current->priority], current);
@@ -63,7 +63,8 @@ uint64_t getNextProcessRSP(uint64_t rsp)
 	}
 	else if(getCurrentProcess() != NULL)
 	{
-		printString("\nERROR: there are no processes to run\n");
+		printString("\nATTENTION: there are no processes to run. \nShutting down...\n");
+		while(1); //FREEZE SYSTEM 
 		return getCurrentProcess()->stackPointer;
 	}
 	return rsp;

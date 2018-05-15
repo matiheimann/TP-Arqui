@@ -114,6 +114,6 @@ extern messageHolder* getMessageHolder(char* id);
 extern void deleteMessageHolder(char* id);
 extern void send(messageHolder* message, char* data, int size);
 extern void receive(messageHolder* message, char* storageBuffer, int size);
-extern int waitProcess(int pid);
+extern int* waitProcess(int pid);
 
 #endif

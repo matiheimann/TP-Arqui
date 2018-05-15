@@ -27,6 +27,7 @@ PCB* addNewProcessToTable(uint64_t rip, int argc, char ** argv)
         table.list[rear].pid = getNextPid();
         table.list[rear].context.rip = rip;
         table.list[rear].state = NEW;
+        table.list[rear].parentPid = (currentPCB == NULL)? -1 : currentPCB->pid;
         table.list[rear].priority = HIGH_PRIORITY;
         table.list[rear].allocatedMemoryAddress = (uint64_t)allocate(0x0FFE);
         table.list[rear].stackPointer = (uint64_t)initializeStack(table.list[rear].allocatedMemoryAddress + 0x0FFE, rip, argc, argv);
@@ -147,7 +148,18 @@ void setCurrentProcessState(int state)
 void terminateCurrentProcess()
 {
     currentPCB->state = TERMINATED;
+    if(currentPCB->parentPid == -1)
+    {
+        printString("\nConfirming shuttdown...\n");
+    }
+    else
+    {
+        PCB* process = getProcessPCB(currentPCB->parentPid);
+        if(process->state == WAITINGPROCESS)
+            addProcessToRoundRobin(process);
+    }
     deallocate((void*)currentPCB->allocatedMemoryAddress);
+
 
 }
 

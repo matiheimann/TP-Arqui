@@ -236,5 +236,6 @@ void ps()
 
 void wait(int pid)
 {
-	while(!waitProcess(pid));
+	int* state = waitProcess(pid);
+	while(*state == 5);
 }

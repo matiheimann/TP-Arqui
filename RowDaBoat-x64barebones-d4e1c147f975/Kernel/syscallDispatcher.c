@@ -148,8 +148,9 @@ void receiveMessageSysCall(messageHolder* message, char* storageBuffer, int size
 	receiveMessage(message, storageBuffer, size);
 }
 
-int wait(int pid)
+int* wait(int pid)
 {
-	//TODO
-	return isProcessTerminated(pid);
+	PCB* current = getCurrentProcess();
+	current->state = WAITINGPROCESS;
+	return &(current->state);
 }
