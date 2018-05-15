@@ -10,5 +10,6 @@ void p1(int argc, char** argv);
 void p2(int argc, char** argv);
 void p3(int argc, char** argv);
 void p4(int argc, char** argv);
+void p5(int argc, char** argv);
 
 #endif

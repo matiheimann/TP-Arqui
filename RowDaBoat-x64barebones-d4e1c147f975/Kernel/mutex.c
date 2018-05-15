@@ -36,8 +36,6 @@ void dequeueWaitingProcess(mutex* m)
     PCB* waitingProcess = dequeueElement(m->waitingProcesses);
     printString("Se desencola de la cola de espera al proceso de PID: ");
     printInt(waitingProcess->pid);
-    printString("\nEstado del proceso desencolado: ");
-    printInt(waitingProcess->state);
     printString("\n");
     stopProcessWait(waitingProcess->pid);
   }
