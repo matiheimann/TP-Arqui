@@ -3,27 +3,30 @@
 
 #define MAX_MESSAGE_SIZE 200
 
-#include <stdlib.h>
+#include "mutex.h"
 #include <stddef.h>
 #include <stdint.h>
+#include <stdlib.h>
 #include <string.h>
-#include "mutex.h"
 
-typedef struct messageHolder {
+typedef struct messageHolder
+{
   uint32_t senderPID;
   uint32_t receiverPID;
   char* id;
   char message[MAX_MESSAGE_SIZE];
   int currentMessageIndex;
   mutex* messageMutex;
-}messageHolder;
+} messageHolder;
 
-typedef struct messageHolderNode {
+typedef struct messageHolderNode
+{
   messageHolder* data;
   struct messageHolderNode* next;
 } messageHolderNode;
 
-typedef struct messageHolderLinkedList {
+typedef struct messageHolderLinkedList
+{
   messageHolderNode* first;
 } messageHolderLinkedList;
 

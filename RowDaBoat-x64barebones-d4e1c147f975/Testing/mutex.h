@@ -7,17 +7,20 @@
 #define LOCKED 1
 #define UNLOCKED 0
 
-typedef struct mutex {
+typedef struct mutex
+{
   char state;
   char id;
-}mutex;
+} mutex;
 
-typedef struct node {
+typedef struct node
+{
   mutex* data;
   struct node* next;
 } node;
 
-typedef struct mutexLinkedList {
+typedef struct mutexLinkedList
+{
   node* first;
 } mutexLinkedList;
 

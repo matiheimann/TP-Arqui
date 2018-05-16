@@ -1,7 +1,8 @@
 #include "messageHolder.h"
 #include <stdio.h>
 
-int main(int argc, char const *argv[]) {
+int main(int argc, char const* argv[])
+{
 
   char* id1 = "id1";
   char* id2 = "id2";
@@ -34,7 +35,7 @@ int main(int argc, char const *argv[]) {
   destroyMessageHolder(id5);
 
   messageHolder* m4 = retrieveMessageHolder("id4");
-  if(m4 == NULL)
+  if (m4 == NULL)
   {
     printf("M4 does not exist\n");
   }

@@ -1,8 +1,8 @@
 #ifndef MEMORY_MANAGER_TEST_H
 #define MEMORY_MANAGER_TEST_H
 
-#define PAGE_SIZE 4096 //Page size of 4KB
-#define AMOUNT_OF_MEMORY_TO_ALLOCATE 1048576 //1MB
+#define PAGE_SIZE 4096                       // Page size of 4KB
+#define AMOUNT_OF_MEMORY_TO_ALLOCATE 1048576 // 1MB
 #define BLOCK_TEST_SIZE_1 5674
 #define BLOCK_TEST_SIZE_2 8
 #define BLOCK_TEST_SIZE_3 50000

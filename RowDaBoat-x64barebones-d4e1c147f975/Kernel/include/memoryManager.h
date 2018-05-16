@@ -1,18 +1,18 @@
-#ifndef MEMORY_MANAGER_H 
+#ifndef MEMORY_MANAGER_H
 #define MEMORY_MANAGER_H
 
 #include <stddef.h>
 
-#define MEMORY_SIZE 4194304 //Memory size of 4MB
-#define SMALLEST_BLOCK_SIZE 4096 //Page size of 4KB
+#define MEMORY_SIZE 4194304      // Memory size of 4MB
+#define SMALLEST_BLOCK_SIZE 4096 // Page size of 4KB
 
 typedef struct metadata
 {
-    unsigned char isAllocated : 1; 
-    unsigned char isLeft : 1;
-    unsigned char order : 6;
+  unsigned char isAllocated : 1;
+  unsigned char isLeft : 1;
+  unsigned char order : 6;
 
-}metadata;
+} metadata;
 
 void* allocate(size_t bytes);
 int calculateBlockOrder(size_t bytes);

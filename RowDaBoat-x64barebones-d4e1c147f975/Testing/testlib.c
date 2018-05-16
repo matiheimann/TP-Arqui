@@ -1,12 +1,12 @@
-#include <stdio.h>
 #include "testlib.h"
+#include <stdio.h>
 
 void ok()
 {
-    printf("Ok!\n");
+  printf("Ok!\n");
 }
 
 void fail(char* errorMessage)
 {
-    printf("%s\n", errorMessage);
+  printf("%s\n", errorMessage);
 }

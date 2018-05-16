@@ -17,7 +17,7 @@ void unlock(mutex* m)
 
 void destroyMutex(char mutexId)
 {
-  if(mutexId <= 0)
+  if (mutexId <= 0)
   {
     return;
   }
@@ -25,12 +25,13 @@ void destroyMutex(char mutexId)
   node* currentMutex = mutexList.first;
   node* previousMutex = NULL;
 
-  while(currentMutex!=NULL)
+  while (currentMutex != NULL)
   {
-    if(currentMutex->data->id == mutexId)
+    if (currentMutex->data->id == mutexId)
     {
 
-      if(previousMutex == NULL) //Current es el primer elemento de la lista
+      if (previousMutex == NULL) // Current es el primer elemento de la
+                                 // lista
       {
         mutexList.first = currentMutex->next;
         free(currentMutex->data);
@@ -51,16 +52,16 @@ void destroyMutex(char mutexId)
 
 mutex* retrieveMutex(char mutexId)
 {
-  if(mutexId <=0)
+  if (mutexId <= 0)
   {
     return NULL;
   }
 
   node* currentMutex = mutexList.first;
 
-  while(currentMutex!=NULL)
+  while (currentMutex != NULL)
   {
-    if(currentMutex->data->id == mutexId)
+    if (currentMutex->data->id == mutexId)
     {
       return currentMutex->data;
     }
@@ -73,7 +74,7 @@ mutex* retrieveMutex(char mutexId)
 
 mutex* createMutex(char id)
 {
-  if(id <= 0)
+  if (id <= 0)
   {
     return NULL;
   }
@@ -83,9 +84,9 @@ mutex* createMutex(char id)
   node* currentMutex = mutexList.first;
   node* previousMutex = NULL;
 
-  while(currentMutex!=NULL)
+  while (currentMutex != NULL)
   {
-    if(currentMutex->data->id == id)
+    if (currentMutex->data->id == id)
     {
       return NULL;
     }
@@ -94,14 +95,14 @@ mutex* createMutex(char id)
     currentMutex = currentMutex->next;
   }
 
-  mutexToAdd = malloc(1*sizeof(mutex));
-  nodeToAdd = malloc(1*sizeof(node));
+  mutexToAdd = malloc(1 * sizeof(mutex));
+  nodeToAdd = malloc(1 * sizeof(node));
 
   mutexToAdd->state = UNLOCKED;
   mutexToAdd->id = id;
   nodeToAdd->data = mutexToAdd;
 
-  if(previousMutex == NULL)
+  if (previousMutex == NULL)
   {
     mutexList.first = nodeToAdd;
   }

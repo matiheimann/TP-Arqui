@@ -3,10 +3,10 @@
 
 void messageHolderTest()
 {
-/*  generateAndGetMessageHolderTest();
+  generateAndGetMessageHolderTest();
   printf("\n");
   deleteMessageHolderTest();
-  printf("\n");*/
+  printf("\n");
   sendAndReceiveTest();
   printf("\n");
 }
@@ -41,7 +41,7 @@ void deleteMessageHolderTest()
 
   messageHolder* retrieved = getMessageHolder("m1");
 
-  if(retrieved == NULL)
+  if (retrieved == NULL)
   {
     printf("Message holder succesfully deleted\n");
   }
@@ -62,13 +62,13 @@ void sender(int argc, char** argv)
   messageHolder* m1 = getMessageHolder("sendAndReceiveTest");
   printf("Sending >200 bytes...\n");
   int i;
-  for(i=0; i<100; i++)
+  for (i = 0; i < 100; i++)
   {
     send(m1, "a", 1);
   }
 
   int j;
-  for(j=0; j<100; j++)
+  for (j = 0; j < 100; j++)
   {
     send(m1, "b", 1);
   }

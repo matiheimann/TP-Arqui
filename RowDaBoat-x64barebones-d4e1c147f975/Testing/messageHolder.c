@@ -9,28 +9,30 @@ void sendMessage(messageHolder* message, char* data, int size)
 
   int i;
 
-  for(i=0; i<size; i++)
+  for (i = 0; i < size; i++)
   {
-    if(message->currentMessageIndex == MAX_MESSAGE_SIZE)
+    if (message->currentMessageIndex == MAX_MESSAGE_SIZE)
     {
-      //Bloquear el proceso en el scheduler hasta que el receiver lo desbloquee
-      //blockProcess(getProcessId);
+      // Bloquear el proceso en el scheduler hasta que el receiver lo
+      // desbloquee
+      // blockProcess(getProcessId);
     }
 
-    message->message[message->currentMessageIndex] = *(data+i);
+    message->message[message->currentMessageIndex] = *(data + i);
     message->currentMessageIndex++;
   }
 
-  //Avisarle al receiver que escribi cosas en el buffer y se puede desbloquear del scheduler
-  //en caso de que se haya bloqueado por estar vacio el buffer
-  //unblockProcess(message->receiverPID);
+  // Avisarle al receiver que escribi cosas en el buffer y se puede desbloquear
+  // del scheduler
+  // en caso de que se haya bloqueado por estar vacio el buffer
+  // unblockProcess(message->receiverPID);
 
   unlock(message->messageMutex);
 }
 
 void destroyMessageHolder(char* id)
 {
-  if(id == NULL)
+  if (id == NULL)
   {
     return;
   }
@@ -38,12 +40,12 @@ void destroyMessageHolder(char* id)
   messageHolderNode* currentMessage = messageHolderList.first;
   messageHolderNode* previousMessage = NULL;
 
-  while(currentMessage!=NULL)
+  while (currentMessage != NULL)
   {
-    if(strcmp(currentMessage->data->id, id) == 0)
+    if (strcmp(currentMessage->data->id, id) == 0)
     {
 
-      if(previousMessage == NULL) //Current es el primer elemento de la lista
+      if (previousMessage == NULL) // Current es el primer elemento de la lista
       {
         messageHolderList.first = currentMessage->next;
         free(currentMessage->data);
@@ -64,16 +66,16 @@ void destroyMessageHolder(char* id)
 
 messageHolder* retrieveMessageHolder(char* id)
 {
-  if(id == NULL)
+  if (id == NULL)
   {
     return NULL;
   }
 
   messageHolderNode* currentMessage = messageHolderList.first;
 
-  while(currentMessage!=NULL)
+  while (currentMessage != NULL)
   {
-    if(strcmp(currentMessage->data->id, id) == 0)
+    if (strcmp(currentMessage->data->id, id) == 0)
     {
       return currentMessage->data;
     }
@@ -86,7 +88,7 @@ messageHolder* retrieveMessageHolder(char* id)
 
 messageHolder* createMessageHolder(char* id)
 {
-  if(id == NULL)
+  if (id == NULL)
   {
     return NULL;
   }
@@ -97,9 +99,9 @@ messageHolder* createMessageHolder(char* id)
   messageHolderNode* currentMessage = messageHolderList.first;
   messageHolderNode* previousMessage = NULL;
 
-  while(currentMessage!=NULL)
+  while (currentMessage != NULL)
   {
-    if(strcmp(currentMessage->data->id, id) == 0)
+    if (strcmp(currentMessage->data->id, id) == 0)
     {
       return NULL;
     }
@@ -108,9 +110,9 @@ messageHolder* createMessageHolder(char* id)
     currentMessage = currentMessage->next;
   }
 
-  messageHolderToAdd = malloc(1*sizeof(messageHolder));
-  messageHolderNodeToAdd = malloc(1*sizeof(messageHolderNode));
-  messageMutexToAdd = createMutex(messageMutexIdCounter+1);
+  messageHolderToAdd = malloc(1 * sizeof(messageHolder));
+  messageHolderNodeToAdd = malloc(1 * sizeof(messageHolderNode));
+  messageMutexToAdd = createMutex(messageMutexIdCounter + 1);
 
   messageHolderToAdd->id = id;
   messageHolderToAdd->messageMutex = messageMutexToAdd;
@@ -120,7 +122,7 @@ messageHolder* createMessageHolder(char* id)
 
   messageMutexIdCounter++;
 
-  if(previousMessage == NULL)
+  if (previousMessage == NULL)
   {
     messageHolderList.first = messageHolderNodeToAdd;
   }

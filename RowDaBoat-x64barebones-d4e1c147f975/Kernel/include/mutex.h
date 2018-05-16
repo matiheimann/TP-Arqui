@@ -1,27 +1,30 @@
 #ifndef MUTEX_H
 #define MUTEX_H
 
-#include <stdint.h>
 #include "memoryManager.h"
 #include <lib.h>
-#include <queuelib.h>
 #include <process.h>
+#include <queuelib.h>
+#include <stdint.h>
 
 #define LOCKED 1
 #define UNLOCKED 0
 
-typedef struct mutex {
+typedef struct mutex
+{
   char state;
   char* id;
   queueADT waitingProcesses;
-}mutex;
+} mutex;
 
-typedef struct node {
+typedef struct node
+{
   mutex* data;
   struct node* next;
 } node;
 
-typedef struct mutexLinkedList {
+typedef struct mutexLinkedList
+{
   node* first;
 } mutexLinkedList;
 
