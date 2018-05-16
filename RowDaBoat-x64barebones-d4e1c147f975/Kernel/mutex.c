@@ -45,12 +45,15 @@ void destroyMutex(char *mutexId)
 
 			if (previousMutex == NULL) {
 				mutexList.first = currentMutex->next;
+				deallocate(
+				    currentMutex->data->waitingProcesses);
 				deallocate(currentMutex->data);
 				deallocate(currentMutex);
 				return;
 			}
 
 			previousMutex->next = currentMutex->next;
+			deallocate(currentMutex->data->waitingProcesses);
 			deallocate(currentMutex->data);
 			deallocate(currentMutex);
 			return;

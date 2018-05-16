@@ -137,5 +137,7 @@ void p5(int argc, char **argv)
 		;
 	unlockMutex(m);
 	printf("P5 termina\n");
+
+	deleteMutex("multiProcessSincronizationTest");
 	exitProcess();
 }

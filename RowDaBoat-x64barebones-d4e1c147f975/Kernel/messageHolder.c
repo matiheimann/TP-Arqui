@@ -79,17 +79,16 @@ void destroyMessageHolder(char *id)
 			    NULL) // Current es el primer elemento de la lista
 			{
 				messageHolderList.first = currentMessage->next;
-				destroyMutex(
-				    currentMessage->data->messageMutex->id);
 				deallocate(currentMessage->data);
 				deallocate(currentMessage);
+				destroyMutex(id);
 				return;
 			}
 
 			previousMessage->next = currentMessage->next;
-			destroyMutex(currentMessage->data->messageMutex->id);
 			deallocate(currentMessage->data);
 			deallocate(currentMessage);
+			destroyMutex(id);
 			return;
 		}
 

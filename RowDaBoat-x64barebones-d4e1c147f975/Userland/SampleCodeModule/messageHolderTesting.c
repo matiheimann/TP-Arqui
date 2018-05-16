@@ -76,7 +76,7 @@ void sender(int argc, char **argv)
 
 void receiver(int argc, char **argv)
 {
-	char buff[230];
+	char buff[200];
 
 	messageHolder *m2 = getMessageHolder("sendAndReceiveTest");
 
