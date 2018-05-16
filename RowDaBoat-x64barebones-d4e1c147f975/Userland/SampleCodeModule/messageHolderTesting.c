@@ -9,6 +9,7 @@ void messageHolderTest()
 	printf("\n");
 	sendAndReceiveTest();
 	printf("\n");
+	exitProcess();
 }
 
 void generateAndGetMessageHolderTest()
@@ -85,6 +86,8 @@ void receiver(int argc, char **argv)
 	printf("MESSAGE RECEIVED: ");
 	printf(buff);
 	printf("\n");
+
+	deleteMessageHolder("sendAndReceiveTest");
 
 	exitProcess();
 }

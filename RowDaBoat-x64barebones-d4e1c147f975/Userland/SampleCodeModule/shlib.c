@@ -2,6 +2,8 @@
 #include "fourProcessDemo.h"
 #include "producerConsumer.h"
 #include <graphPlotterApp.h>
+#include <messageHolderTesting.h>
+#include <mutexTesting.h>
 #include <sampleExceptions.h>
 
 void printWelcomeMessage()
@@ -39,6 +41,12 @@ void printHelpProcess(int argc, char **argv)
 	printf("prodcons: productor consumidor con buffer acotado.\n");
 	printf("four process demo: crea 4 procesos nuevo que imprimen un "
 	       "mensaje y los muestra\nen la tabla de procesos.\n");
+	printf(
+	    "mutex demo: crea un proceso que ejecuta una serie de "
+	    "de funciones que demuestran el\nfuncionamiento de los mutexes.\n");
+	printf("ipc demo: crea un proceso que ejecuta una serie de "
+	       "de funciones que demuestran el\nfuncionamiento de la "
+	       "comunicacion\n entre proceso.\n");
 	printf("\n");
 	printf("Agregar el prefijo -- para ejecutar en paralelo. (por ejemplo "
 	       "--time).\n");
@@ -109,6 +117,10 @@ int execute(char *command)
 		pid = newProcess((void *)&initializeProdcons, 0, NULL);
 	} else if (strcmp(command, "four process demo") == 0) {
 		pid = newProcess((void *)&fourProcessesDemo, 0, NULL);
+	} else if (strcmp(command, "mutex demo") == 0) {
+		pid = newProcess((void *)&mutexTest, 0, NULL);
+	} else if (strcmp(command, "ipc demo") == 0) {
+		pid = newProcess((void *)&messageHolderTest, 0, NULL);
 	} else {
 		printf(
 		    "Invalid command, use help to see available commands.\n");

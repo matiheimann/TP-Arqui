@@ -1,8 +1,6 @@
 #include <mutexTesting.h>
 #include <stdlib.h>
 
-char globalBuffer[500];
-
 void mutexTest()
 {
 	lockAndUnlockTest();
@@ -12,6 +10,7 @@ void mutexTest()
 	deleteMutexTest();
 	printf("\n");
 	multiProcessSincronizationTest();
+	exitProcess();
 }
 
 void lockAndUnlockTest()
@@ -66,7 +65,9 @@ void deleteMutexTest()
 
 void multiProcessSincronizationTest()
 {
-	mutex *m = generateMutex("multiProcessSincronizationTest");
+	printf("Multiprocess sincronization with mutex test: \n");
+
+	generateMutex("multiProcessSincronizationTest");
 	newProcess((void *)&p1, 0, NULL);
 	newProcess((void *)&p2, 0, NULL);
 	newProcess((void *)&p3, 0, NULL);
