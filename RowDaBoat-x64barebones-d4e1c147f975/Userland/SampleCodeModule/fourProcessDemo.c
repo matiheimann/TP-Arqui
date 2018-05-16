@@ -1,7 +1,7 @@
 #include "fourProcessDemo.h"
 #include <stdlib.h>
 
-void fourProcessesDemo(int argc, char** argv)
+void fourProcessesDemo(int argc, char **argv)
 {
 	int i;
 	for (i = 0; i < 4; i++) {
@@ -10,11 +10,11 @@ void fourProcessesDemo(int argc, char** argv)
 	ps();
 	exitProcess();
 }
-void processDemo(int argc, char** argv)
+void processDemo(int argc, char **argv)
 {
-  int pid = getPid();
-  printf("\n-----Hi from process ");
-  printInt(pid);
-  printf("-----\n");
-  exitProcess();
+	int pid = getPid();
+	printf("\n-----Hi from process ");
+	printInt(pid);
+	printf("-----\n");
+	exitProcess();
 }
