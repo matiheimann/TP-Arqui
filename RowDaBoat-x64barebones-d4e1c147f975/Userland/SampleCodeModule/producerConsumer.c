@@ -9,28 +9,32 @@ static end = 0;
 
 void initializeProdcons(int argc, char **argv)
 {
-	clear();
-	end = 0;
-	printf("PRODCONS DEMO\n");
-	criticalZone = generateMutex("criticalZone");
-	newProcess((void *)&producer, 0, NULL);
-	newProcess((void *)&consumer, 0, NULL);
-	while (!end) {
-		printf(">");
-		char command[2];
-		scanf(command);
-		printf("\n");
-		if (strcmp(command, "c") == 0) {
-			newProcess((void *)&consumer, 0, NULL);
-		} else if (strcmp(command, "p") == 0) {
-			newProcess((void *)&producer, 0, NULL);
-		} else if (strcmp(command, "e") == 0) {
-			end = 1;
-		}
-	}
-	deleteMutex("criticalZone");
-	printf("Exiting consumer\n");
-	exitProcess();
+  clear();
+  end = 0;
+  printf("PRODCONS DEMO\n");
+  criticalZone = generateMutex("criticalZone");
+  newProcess((void*)&producer, 0, NULL);
+  newProcess((void*)&consumer, 0, NULL);
+  while (!end)
+  {
+    char command[2];
+    scanf(command);
+    if (strcmp(command, "c") == 0)
+    {
+      newProcess((void*)&consumer, 0, NULL);
+    }
+    else if (strcmp(command, "p") == 0)
+    {
+      newProcess((void*)&producer, 0, NULL);
+    }
+    else if (strcmp(command, "e") == 0)
+    {
+      end = 1;
+    }
+  }
+  deleteMutex("criticalZone");
+  printf("Exiting prodcons...\n");
+  exitProcess();
 }
 
 void producer(int argc, char **argv)
