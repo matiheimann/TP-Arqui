@@ -2,11 +2,11 @@
 #include <string.h>
 #include <videoDriver.h>
 
-static int *memory;
+static uint64_t *memory;
 
 void initializeMemory(void *beginningOfMemory)
 {
-	memory = (int *)beginningOfMemory;
+	memory = (uint64_t *)beginningOfMemory;
 	memset(memory, 0, MEMORY_SIZE);
 	memset(memory, 42, 1);
 }
@@ -54,8 +54,8 @@ void *allocate(size_t bytes)
 
 void deallocate(void *address)
 {
-	if ((int *)address <= memory ||
-	    ((int *)address > memory + MEMORY_SIZE)) {
+	if ((uint64_t *)address <= memory ||
+	    ((uint64_t *)address > memory + MEMORY_SIZE)) {
 		printString("Error, invalid memory adress\n");
 		return;
 	}
