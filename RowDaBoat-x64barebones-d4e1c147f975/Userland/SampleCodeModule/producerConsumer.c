@@ -5,7 +5,7 @@ static mutex *criticalZone;
 static int messagesWithoutRead = 0;
 static char *sharedBuffer[MAX_MESSAGES_TO_SEND];
 static int index = 0;
-static end = 0;
+static int end = 0;
 
 void initializeProdcons(int argc, char **argv)
 {
@@ -35,10 +35,10 @@ void producer(int argc, char **argv)
 {
 	int i = 0;
 
-	char *messages[4] = {"hola",  "como estas?", "chau",
+	char *messages[6] = {"hola",  "como estas?", "chau",
 			     "troca", "ok",	  "perdon"};
 	while (!end) {
-		while (i < 4) {
+		while (i < 6) {
 			lockMutex(criticalZone);
 			if (MAX_MESSAGES_TO_SEND > messagesWithoutRead) {
 				sharedBuffer[(index + messagesWithoutRead) %

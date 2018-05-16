@@ -1,4 +1,4 @@
-#include "../Kernel/include/memoryManager.h"
+#include "memoryManager.h"
 #include "memoryManagerTest.h"
 #include <stdio.h>
 #include <string.h>
