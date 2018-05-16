@@ -7,27 +7,24 @@
 #define LOCKED 1
 #define UNLOCKED 0
 
-typedef struct mutex
-{
-  char state;
-  char id;
+typedef struct mutex {
+	char state;
+	char id;
 } mutex;
 
-typedef struct node
-{
-  mutex* data;
-  struct node* next;
+typedef struct node {
+	mutex *data;
+	struct node *next;
 } node;
 
-typedef struct mutexLinkedList
-{
-  node* first;
+typedef struct mutexLinkedList {
+	node *first;
 } mutexLinkedList;
 
-mutex* createMutex(char id);
-mutex* retrieveMutex(char mutexId);
+mutex *createMutex(char id);
+mutex *retrieveMutex(char mutexId);
 void destroyMutex(char mutexId);
-void lock(mutex* mutexToLock);
-void unlock(mutex* mutexToUnlock);
+void lock(mutex *mutexToLock);
+void unlock(mutex *mutexToUnlock);
 
 #endif

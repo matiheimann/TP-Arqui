@@ -10,30 +10,27 @@
 #define LOCKED 1
 #define UNLOCKED 0
 
-typedef struct mutex
-{
-  char state;
-  char* id;
-  queueADT waitingProcesses;
+typedef struct mutex {
+	char state;
+	char *id;
+	queueADT waitingProcesses;
 } mutex;
 
-typedef struct node
-{
-  mutex* data;
-  struct node* next;
+typedef struct node {
+	mutex *data;
+	struct node *next;
 } node;
 
-typedef struct mutexLinkedList
-{
-  node* first;
+typedef struct mutexLinkedList {
+	node *first;
 } mutexLinkedList;
 
-mutex* createMutex(char* id);
-mutex* retrieveMutex(char* mutexId);
-void destroyMutex(char* mutexId);
-PCB* lock(mutex* mutexToLock);
-void unlock(mutex* mutexToUnlock);
-void addCurrentProcessToWaitingQueue(mutex* m);
-void dequeueWaitingProcess(mutex* m);
+mutex *createMutex(char *id);
+mutex *retrieveMutex(char *mutexId);
+void destroyMutex(char *mutexId);
+PCB *lock(mutex *mutexToLock);
+void unlock(mutex *mutexToUnlock);
+void addCurrentProcessToWaitingQueue(mutex *m);
+void dequeueWaitingProcess(mutex *m);
 
 #endif

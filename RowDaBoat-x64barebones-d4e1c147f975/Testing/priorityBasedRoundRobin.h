@@ -9,6 +9,6 @@
 
 void initRoundRobin();
 uint64_t schedule(uint64_t rsp);
-void addProcessToRoundRobin(PCB* newProcess);
+void addProcessToRoundRobin(PCB *newProcess);
 
 #endif

@@ -1,115 +1,98 @@
 #include "mutex.h"
 
-extern void enter_region(mutex* m);
-extern void leave_region(mutex* m);
+extern void enter_region(mutex *m);
+extern void leave_region(mutex *m);
 
 mutexLinkedList mutexList;
 
-void lock(mutex* m)
-{
-  enter_region(m);
-}
+void lock(mutex *m) { enter_region(m); }
 
-void unlock(mutex* m)
-{
-  leave_region(m);
-}
+void unlock(mutex *m) { leave_region(m); }
 
 void destroyMutex(char mutexId)
 {
-  if (mutexId <= 0)
-  {
-    return;
-  }
+	if (mutexId <= 0) {
+		return;
+	}
 
-  node* currentMutex = mutexList.first;
-  node* previousMutex = NULL;
+	node *currentMutex = mutexList.first;
+	node *previousMutex = NULL;
 
-  while (currentMutex != NULL)
-  {
-    if (currentMutex->data->id == mutexId)
-    {
+	while (currentMutex != NULL) {
+		if (currentMutex->data->id == mutexId) {
 
-      if (previousMutex == NULL) // Current es el primer elemento de la
-                                 // lista
-      {
-        mutexList.first = currentMutex->next;
-        free(currentMutex->data);
-        free(currentMutex);
-        return;
-      }
+			if (previousMutex ==
+			    NULL) // Current es el primer elemento de la
+				  // lista
+			{
+				mutexList.first = currentMutex->next;
+				free(currentMutex->data);
+				free(currentMutex);
+				return;
+			}
 
-      previousMutex->next = currentMutex->next;
-      free(currentMutex->data);
-      free(currentMutex);
-      return;
-    }
+			previousMutex->next = currentMutex->next;
+			free(currentMutex->data);
+			free(currentMutex);
+			return;
+		}
 
-    previousMutex = currentMutex;
-    currentMutex = currentMutex->next;
-  }
+		previousMutex = currentMutex;
+		currentMutex = currentMutex->next;
+	}
 }
 
-mutex* retrieveMutex(char mutexId)
+mutex *retrieveMutex(char mutexId)
 {
-  if (mutexId <= 0)
-  {
-    return NULL;
-  }
+	if (mutexId <= 0) {
+		return NULL;
+	}
 
-  node* currentMutex = mutexList.first;
+	node *currentMutex = mutexList.first;
 
-  while (currentMutex != NULL)
-  {
-    if (currentMutex->data->id == mutexId)
-    {
-      return currentMutex->data;
-    }
+	while (currentMutex != NULL) {
+		if (currentMutex->data->id == mutexId) {
+			return currentMutex->data;
+		}
 
-    currentMutex = currentMutex->next;
-  }
+		currentMutex = currentMutex->next;
+	}
 
-  return NULL;
+	return NULL;
 }
 
-mutex* createMutex(char id)
+mutex *createMutex(char id)
 {
-  if (id <= 0)
-  {
-    return NULL;
-  }
+	if (id <= 0) {
+		return NULL;
+	}
 
-  mutex* mutexToAdd;
-  node* nodeToAdd;
-  node* currentMutex = mutexList.first;
-  node* previousMutex = NULL;
+	mutex *mutexToAdd;
+	node *nodeToAdd;
+	node *currentMutex = mutexList.first;
+	node *previousMutex = NULL;
 
-  while (currentMutex != NULL)
-  {
-    if (currentMutex->data->id == id)
-    {
-      return NULL;
-    }
+	while (currentMutex != NULL) {
+		if (currentMutex->data->id == id) {
+			return NULL;
+		}
 
-    previousMutex = currentMutex;
-    currentMutex = currentMutex->next;
-  }
+		previousMutex = currentMutex;
+		currentMutex = currentMutex->next;
+	}
 
-  mutexToAdd = malloc(1 * sizeof(mutex));
-  nodeToAdd = malloc(1 * sizeof(node));
+	mutexToAdd = malloc(1 * sizeof(mutex));
+	nodeToAdd = malloc(1 * sizeof(node));
 
-  mutexToAdd->state = UNLOCKED;
-  mutexToAdd->id = id;
-  nodeToAdd->data = mutexToAdd;
+	mutexToAdd->state = UNLOCKED;
+	mutexToAdd->id = id;
+	nodeToAdd->data = mutexToAdd;
 
-  if (previousMutex == NULL)
-  {
-    mutexList.first = nodeToAdd;
-  }
-  else
-  {
-    previousMutex->next = nodeToAdd;
-  }
+	if (previousMutex == NULL) {
+		mutexList.first = nodeToAdd;
+	} else {
+		previousMutex->next = nodeToAdd;
+	}
 
-  return mutexToAdd;
+	return mutexToAdd;
 }

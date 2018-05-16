@@ -9,31 +9,28 @@
 #include <stdlib.h>
 #include <string.h>
 
-typedef struct messageHolder
-{
-  uint32_t senderPID;
-  uint32_t receiverPID;
-  char* id;
-  char message[MAX_MESSAGE_SIZE];
-  int currentMessageIndex;
-  mutex* messageMutex;
+typedef struct messageHolder {
+	uint32_t senderPID;
+	uint32_t receiverPID;
+	char *id;
+	char message[MAX_MESSAGE_SIZE];
+	int currentMessageIndex;
+	mutex *messageMutex;
 } messageHolder;
 
-typedef struct messageHolderNode
-{
-  messageHolder* data;
-  struct messageHolderNode* next;
+typedef struct messageHolderNode {
+	messageHolder *data;
+	struct messageHolderNode *next;
 } messageHolderNode;
 
-typedef struct messageHolderLinkedList
-{
-  messageHolderNode* first;
+typedef struct messageHolderLinkedList {
+	messageHolderNode *first;
 } messageHolderLinkedList;
 
-messageHolder* createMessageHolder(char* id);
-messageHolder* retrieveMessageHolder(char* id);
-void destroyMessageHolder(char* id);
-void sendMessage(messageHolder* message, char* data, int size);
-void receiveMessage(messageHolder* message, char* data, int size);
+messageHolder *createMessageHolder(char *id);
+messageHolder *retrieveMessageHolder(char *id);
+void destroyMessageHolder(char *id);
+void sendMessage(messageHolder *message, char *data, int size);
+void receiveMessage(messageHolder *message, char *data, int size);
 
 #endif

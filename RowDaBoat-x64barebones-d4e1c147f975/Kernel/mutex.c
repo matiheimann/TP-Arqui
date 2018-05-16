@@ -3,135 +3,118 @@
 #include <process.h>
 #include <videoDriver.h>
 
-extern void enter_region(mutex* m);
-extern void leave_region(mutex* m);
+extern void enter_region(mutex *m);
+extern void leave_region(mutex *m);
 
 mutexLinkedList mutexList;
 
-PCB* lock(mutex* m)
+PCB *lock(mutex *m)
 {
-  enter_region(m);
-  return getCurrentProcess();
+	enter_region(m);
+	return getCurrentProcess();
 }
 
-void unlock(mutex* m)
+void unlock(mutex *m) { leave_region(m); }
+
+void addCurrentProcessToWaitingQueue(mutex *m)
 {
-  leave_region(m);
+	PCB *currentProcess = getCurrentProcess();
+	enqueueElement(m->waitingProcesses, currentProcess);
+	setCurrentProcessState(WAITING);
 }
 
-void addCurrentProcessToWaitingQueue(mutex* m)
+void dequeueWaitingProcess(mutex *m)
 {
-  PCB* currentProcess = getCurrentProcess();
-  enqueueElement(m->waitingProcesses, currentProcess);
-  setCurrentProcessState(WAITING);
+	if (m->waitingProcesses->actualSize != 0) {
+		PCB *waitingProcess = dequeueElement(m->waitingProcesses);
+		stopProcessWait(waitingProcess->pid);
+	}
 }
 
-void dequeueWaitingProcess(mutex* m)
+void destroyMutex(char *mutexId)
 {
-  if (m->waitingProcesses->actualSize != 0)
-  {
-    PCB* waitingProcess = dequeueElement(m->waitingProcesses);
-    stopProcessWait(waitingProcess->pid);
-  }
+	if (mutexId == NULL) {
+		return;
+	}
+
+	node *currentMutex = mutexList.first;
+	node *previousMutex = NULL;
+
+	while (currentMutex != NULL) {
+		if (strcmp(currentMutex->data->id, mutexId) == 0) {
+
+			if (previousMutex == NULL) {
+				mutexList.first = currentMutex->next;
+				deallocate(currentMutex->data);
+				deallocate(currentMutex);
+				return;
+			}
+
+			previousMutex->next = currentMutex->next;
+			deallocate(currentMutex->data);
+			deallocate(currentMutex);
+			return;
+		}
+
+		previousMutex = currentMutex;
+		currentMutex = currentMutex->next;
+	}
 }
 
-void destroyMutex(char* mutexId)
+mutex *retrieveMutex(char *mutexId)
 {
-  if (mutexId == NULL)
-  {
-    return;
-  }
+	if (mutexId == NULL) {
+		return NULL;
+	}
 
-  node* currentMutex = mutexList.first;
-  node* previousMutex = NULL;
+	node *currentMutex = mutexList.first;
 
-  while (currentMutex != NULL)
-  {
-    if (strcmp(currentMutex->data->id, mutexId) == 0)
-    {
+	while (currentMutex != NULL) {
+		if (strcmp(currentMutex->data->id, mutexId) == 0) {
+			return currentMutex->data;
+		}
 
-      if (previousMutex == NULL)
-      {
-        mutexList.first = currentMutex->next;
-        deallocate(currentMutex->data);
-        deallocate(currentMutex);
-        return;
-      }
+		currentMutex = currentMutex->next;
+	}
 
-      previousMutex->next = currentMutex->next;
-      deallocate(currentMutex->data);
-      deallocate(currentMutex);
-      return;
-    }
-
-    previousMutex = currentMutex;
-    currentMutex = currentMutex->next;
-  }
+	return NULL;
 }
 
-mutex* retrieveMutex(char* mutexId)
+mutex *createMutex(char *id)
 {
-  if (mutexId == NULL)
-  {
-    return NULL;
-  }
+	if (id == NULL) {
+		return NULL;
+	}
 
-  node* currentMutex = mutexList.first;
+	mutex *mutexToAdd;
+	queueADT waitingProcesses = allocate(1 * sizeof(queueCDT));
+	node *nodeToAdd;
+	node *currentMutex = mutexList.first;
+	node *previousMutex = NULL;
 
-  while (currentMutex != NULL)
-  {
-    if (strcmp(currentMutex->data->id, mutexId) == 0)
-    {
-      return currentMutex->data;
-    }
+	while (currentMutex != NULL) {
+		if (strcmp(currentMutex->data->id, id) == 0) {
+			return NULL;
+		}
 
-    currentMutex = currentMutex->next;
-  }
+		previousMutex = currentMutex;
+		currentMutex = currentMutex->next;
+	}
 
-  return NULL;
-}
+	mutexToAdd = allocate(1 * sizeof(mutex));
+	nodeToAdd = allocate(1 * sizeof(node));
 
-mutex* createMutex(char* id)
-{
-  if (id == NULL)
-  {
-    return NULL;
-  }
+	initQueue(waitingProcesses);
+	mutexToAdd->waitingProcesses = waitingProcesses;
+	mutexToAdd->state = UNLOCKED;
+	mutexToAdd->id = id;
+	nodeToAdd->data = mutexToAdd;
 
-  mutex* mutexToAdd;
-  queueADT waitingProcesses = allocate(1 * sizeof(queueCDT));
-  node* nodeToAdd;
-  node* currentMutex = mutexList.first;
-  node* previousMutex = NULL;
+	if (previousMutex == NULL) {
+		mutexList.first = nodeToAdd;
+	} else {
+		previousMutex->next = nodeToAdd;
+	}
 
-  while (currentMutex != NULL)
-  {
-    if (strcmp(currentMutex->data->id, id) == 0)
-    {
-      return NULL;
-    }
-
-    previousMutex = currentMutex;
-    currentMutex = currentMutex->next;
-  }
-
-  mutexToAdd = allocate(1 * sizeof(mutex));
-  nodeToAdd = allocate(1 * sizeof(node));
-
-  initQueue(waitingProcesses);
-  mutexToAdd->waitingProcesses = waitingProcesses;
-  mutexToAdd->state = UNLOCKED;
-  mutexToAdd->id = id;
-  nodeToAdd->data = mutexToAdd;
-
-  if (previousMutex == NULL)
-  {
-    mutexList.first = nodeToAdd;
-  }
-  else
-  {
-    previousMutex->next = nodeToAdd;
-  }
-
-  return mutexToAdd;
+	return mutexToAdd;
 }

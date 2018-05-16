@@ -11,50 +11,48 @@
 
 pthread_t tid[2];
 int counter;
-mutex* mutexLock;
+mutex *mutexLock;
 
-void* doSomeThing(void* arg)
+void *doSomeThing(void *arg)
 {
-  lock(mutexLock);
+	lock(mutexLock);
 
-  unsigned long i = 0;
-  counter += 1;
-  printf("\n Job %d started\n", counter);
+	unsigned long i = 0;
+	counter += 1;
+	printf("\n Job %d started\n", counter);
 
-  for (i = 0; i < (0xFFFFFFFF); i++)
-    ;
+	for (i = 0; i < (0xFFFFFFFF); i++)
+		;
 
-  printf("\n Job %d finished\n", counter);
+	printf("\n Job %d finished\n", counter);
 
-  unlock(mutexLock);
+	unlock(mutexLock);
 
-  return NULL;
+	return NULL;
 }
 
 int main(void)
 {
-  int i = 0;
-  int err;
+	int i = 0;
+	int err;
 
-  mutexLock = createMutex(1);
+	mutexLock = createMutex(1);
 
-  if (mutexLock == NULL)
-  {
-    printf("\n mutex init failed\n");
-    return 1;
-  }
+	if (mutexLock == NULL) {
+		printf("\n mutex init failed\n");
+		return 1;
+	}
 
-  while (i < 2)
-  {
-    err = pthread_create(&(tid[i]), NULL, &doSomeThing, NULL);
-    if (err != 0)
-      printf("\ncan't create thread :[%s]", strerror(err));
-    i++;
-  }
+	while (i < 2) {
+		err = pthread_create(&(tid[i]), NULL, &doSomeThing, NULL);
+		if (err != 0)
+			printf("\ncan't create thread :[%s]", strerror(err));
+		i++;
+	}
 
-  pthread_join(tid[0], NULL);
-  pthread_join(tid[1], NULL);
-  destroyMutex(1);
+	pthread_join(tid[0], NULL);
+	pthread_join(tid[1], NULL);
+	destroyMutex(1);
 
-  return 0;
+	return 0;
 }
