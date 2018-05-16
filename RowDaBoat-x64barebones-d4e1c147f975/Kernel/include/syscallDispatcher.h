@@ -34,5 +34,6 @@ void destroyMessageHolderSysCall(char* id);
 void sendMessageSysCall(messageHolder* message, char* data, int size);
 void receiveMessageSysCall(messageHolder* message, char* storageBuffer, int size);
 int* wait(int pid);
+extern void _sti();
 
 #endif

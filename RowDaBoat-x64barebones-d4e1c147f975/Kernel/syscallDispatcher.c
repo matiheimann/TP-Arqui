@@ -154,5 +154,5 @@ int* wait(int pid)
 {
 	PCB* current = getCurrentProcess();
 	current->state = WAITINGPROCESS;
-	return &(current->state);
+	return (int*) &(current->state);
 }

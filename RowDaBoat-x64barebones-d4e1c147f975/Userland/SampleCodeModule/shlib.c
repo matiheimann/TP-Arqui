@@ -1,6 +1,7 @@
 #include "shlib.h"
 #include <graphPlotterApp.h>
 #include <sampleExceptions.h>
+#include "producerConsumer.h"
 
 void printWelcomeMessage()
 {
@@ -103,6 +104,10 @@ int execute(char* command)
 	else if(strcmp(command, "ps")==0)
 	{
 		pid = newProcess((void*)&psProcess, 0, NULL);
+	}
+	else if(strcmp(command, "prodcons") == 0)
+	{
+		pid = newProcess((void*)&initializeProdcons, 0, NULL);
 	}
 	else 
 	{
