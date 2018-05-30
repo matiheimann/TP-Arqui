@@ -3,6 +3,10 @@
 
 *.o
 
+RowDaBoat-x64barebones-d4e1c147f975/Testing/memoryManagerTest
+
+RowDaBoat-x64barebones-d4e1c147f975/Testing/queueTest
+
 cmake-build-debug/CMakeFiles/3\.10\.3/CMakeDetermineCompilerABI_C\.bin
 
 cmake-build-debug/CMakeFiles/3\.10\.3/CompilerIdCXX/
