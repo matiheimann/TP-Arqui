@@ -36,6 +36,12 @@ void sendMessageSysCall(messageHolder *message, char *data, int size);
 void receiveMessageSysCall(messageHolder *message, char *storageBuffer,
 			   int size);
 int *wait(int pid);
+void openAFile(char* filename);
+void closeAFile(char* filename);
+void readAFile(char* filename);
+void writeAFile(char* filename, char* text);
+void appendAFile(char* filename, char* text);
+
 extern void _sti();
 
 #endif

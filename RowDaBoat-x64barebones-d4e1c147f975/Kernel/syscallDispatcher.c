@@ -1,5 +1,6 @@
 #include "memoryManager.h"
 #include "process.h"
+#include "fileSystem.h"
 #include <keyboard.h>
 #include <messageHolder.h>
 #include <mutex.h>
@@ -34,7 +35,13 @@ static const syscall syscalls[] = {0,
 				   (syscall)destroyMessageHolderSysCall,
 				   (syscall)sendMessageSysCall,
 				   (syscall)receiveMessageSysCall,
-				   (syscall)wait};
+				   (syscall)wait,
+				   (syscall)openAFile,
+				   (syscall)closeAFile,
+				   (syscall)readAFile,
+				   (syscall)writeAFile,
+				   (syscall)appendAFile};
+
 
 uint64_t syscallDispatcher(uint64_t rax, uint64_t rbx, uint64_t rcx,
 			   uint64_t rdx)
@@ -142,3 +149,13 @@ int *wait(int pid)
 	current->state = WAITINGPROCESS;
 	return (int *)&(current->state);
 }
+
+void openAFile(char* filename){ openFile(filename); }
+
+void closeAFile(char* filename){ closeFile(filename); }
+
+void readAFile (char* filename) { readFile(filename); }
+
+void writeAFile(char* filename, char* text) { writeFile(filename, text); }
+
+void appendAFile(char* filename, char* text) { appendFile(filename, text); }

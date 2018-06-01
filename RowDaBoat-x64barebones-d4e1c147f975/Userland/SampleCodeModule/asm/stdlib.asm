@@ -22,6 +22,11 @@ GLOBAL deleteMessageHolder
 GLOBAL send
 GLOBAL receive
 GLOBAL waitProcess
+GLOBAL fileOpen
+GLOBAL fileClose
+GLOBAL fileRead
+GLOBAL fileWrite
+GLOBAL fileAppend
 
 print:
 
@@ -315,6 +320,73 @@ waitProcess:
 
 	mov rax, 26
 	mov rbx, rdi
+
+	int 80h
+
+	mov rsp, rbp
+	pop rbp
+	ret
+
+fileOpen:
+	push rbp
+	mov rbp, rsp
+
+	mov rax, 27
+	mov rbx, rdi
+
+	int 80h
+
+	mov rsp, rbp
+	pop rbp
+	ret
+
+fileClose:
+	push rbp
+	mov rbp, rsp
+
+	mov rax, 28
+	mov rbx, rdi
+
+	int 80h
+
+	mov rsp, rbp
+	pop rbp
+	ret
+
+fileRead:
+	push rbp
+	mov rbp, rsp
+
+	mov rax, 29
+	mov rbx, rdi
+
+	int 80h
+
+	mov rsp, rbp
+	pop rbp
+	ret
+
+fileWrite:
+	push rbp
+	mov rbp, rsp
+
+	mov rax, 30
+	mov rbx, rdi
+	mov rcx, rsi
+
+	int 80h
+
+	mov rsp, rbp
+	pop rbp
+	ret
+
+fileAppend:
+	push rbp
+	mov rbp, rsp
+
+	mov rax, 31
+	mov rbx, rdi
+	mov rcx, rsi
 
 	int 80h
 
