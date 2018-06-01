@@ -105,7 +105,6 @@ void writeFile(char* filename, char* text)
 		*(fd->fileAdress + i) = text[i];
 		(fd->charactersWriten)++;
 	}
-	return;
 }
 
 void readFile(char* filename)
@@ -116,5 +115,14 @@ void readFile(char* filename)
 	{
 		printChar((char)*(fd->fileAdress + i));
 	}
-	return;
+}
+
+void appendFile(char* filename, char* text)
+{
+	fileData* fd = getFile(filename, fileAllocatorTable.first);
+	int i = 0;
+	while(text[i] != 0)
+	{
+		*(fd->fileAdress + fd->charactersWriten + i) = text[i];
+	}
 }
