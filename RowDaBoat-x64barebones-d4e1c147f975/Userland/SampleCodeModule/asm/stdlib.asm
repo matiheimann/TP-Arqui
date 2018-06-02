@@ -28,6 +28,8 @@ GLOBAL fileRead
 GLOBAL fileWrite
 GLOBAL fileAppend
 
+EXTERN printf
+
 print:
 
 	push rbp

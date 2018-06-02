@@ -1,4 +1,5 @@
 #include "memoryManager.h"
+#include "fileSystem.h"
 #include "priorityBasedRoundRobin.h"
 #include "process.h"
 #include <idtLoader.h>
@@ -54,6 +55,7 @@ int main()
 	initializeMemory(dynamicMemory);
 	initializeRoundRobin();
 	initializeProcessTable();
+	initializeFileSystem();
 	initializeProcessLog();
 	startNewProcess((uint64_t)sampleCodeModuleAddress, 0, NULL);
 	load_idt();

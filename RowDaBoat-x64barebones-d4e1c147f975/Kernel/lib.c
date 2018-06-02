@@ -11,6 +11,17 @@ void *memset(void *destination, int32_t c, uint64_t length)
 	return destination;
 }
 
+uint64_t stringlen(char* str)
+{
+	int i = 0;
+	while(str[i] != 0)
+	{
+		i++;
+	}
+	return i;
+}
+
+
 void *memcpy(void *destination, const void *source, uint64_t length)
 {
 	/*

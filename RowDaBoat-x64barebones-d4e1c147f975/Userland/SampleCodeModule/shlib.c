@@ -1,6 +1,7 @@
 #include "shlib.h"
 #include "fourProcessDemo.h"
 #include "producerConsumer.h"
+#include "fileSystemApp.h"
 #include <graphPlotterApp.h>
 #include <messageHolderTesting.h>
 #include <mutexTesting.h>
@@ -47,7 +48,8 @@ void printHelpProcess(int argc, char **argv)
 	printf("ipc demo: crea un proceso que ejecuta una serie de "
 	       "de funciones que demuestran el\nfuncionamiento de la "
 	       "comunicacion\n entre proceso.\n");
-	printf("\n");
+	printf("file system app: aplicacion para el manejo consistente de archivos. \n");
+	putchar('\n');
 	printf("Agregar el prefijo -- para ejecutar en paralelo. (por ejemplo "
 	       "--time).\n");
 	printf("Tener en cuenta que se puede producir comportamiento "
@@ -121,7 +123,10 @@ int execute(char *command)
 		pid = newProcess((void *)&mutexTest, 0, NULL);
 	} else if (strcmp(command, "ipc demo") == 0) {
 		pid = newProcess((void *)&messageHolderTest, 0, NULL);
-	} else {
+	} else if (strcmp(command, "file system app") == 0){
+		pid = newProcess((void*)&fileSystemApp, 0, NULL);
+	} 
+	else {
 		printf(
 		    "Invalid command, use help to see available commands.\n");
 		return 0;

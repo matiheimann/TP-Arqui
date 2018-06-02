@@ -7,7 +7,7 @@ typedef struct fileData fileData;
 
 typedef struct fileData
 {
-	char* filename;
+	char filename[256];
 	uint64_t* fileAdress;
 	uint64_t charactersWriten;
 	fileData* next;

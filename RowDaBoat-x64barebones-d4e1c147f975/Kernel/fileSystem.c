@@ -1,5 +1,6 @@
 #include "fileSystem.h"
 #include "memoryManager.h"
+#include <lib.h>
 #include <videoDriver.h>
 
 static fileTable fileAllocatorTable;
@@ -19,21 +20,19 @@ fileTable createTable()
 fileData createFileData(char* filename)
 {
 	fileData fd;
-	fd.filename = filename;
+	memcpy(fd.filename, filename, stringlen(filename));
 	fd.next = NULL;
 	fd.charactersWriten = 0;
-	fd.fileAdress = allocate(4095);
+	fd.fileAdress = allocate(1);
 	return fd;
 }
 
 void openFile(char* filename)
 {
-	addToTable(filename, &fileAllocatorTable);
-}
-
-void addToTable(char* filename, fileTable* table)
-{
-	table->first = addNode(filename, table->first);
+	fileAllocatorTable.first = addNode(filename, fileAllocatorTable.first);
+	printInt(fileAllocatorTable.first);
+	printChar('\n');
+	printString(fileAllocatorTable.first->filename);
 }
 
 fileData* addNode(char* filename, fileData* current)
@@ -41,10 +40,11 @@ fileData* addNode(char* filename, fileData* current)
 	if(current == NULL)
 	{
 		fileData fd = createFileData(filename);
-		return &fd;
+		fileData* fds = &fd;
+		return fds;
 	}
 
-	if(current->filename == filename)
+	if(strcmp(filename, current->filename) == 0)
 	{
 		return current;
 	}
@@ -69,7 +69,7 @@ fileData* deleteNode(char* filename, fileData* current)
 		return NULL;
 	}
 
-	if(current->filename == filename)
+	if(strcmp(filename, current->filename) == 0)
 	{
 		deallocate(current->fileAdress);
 		return current->next;
@@ -82,12 +82,14 @@ fileData* deleteNode(char* filename, fileData* current)
 
 fileData* getFile(char* filename, fileData* current)
 {
+	printString("\n");
+	printInt(current);
 	if(current == NULL)
 	{
 		return NULL;
 	}
 
-	if(filename == current->filename)
+	if(strcmp(filename, current->filename) == 0)
 	{
 		return current;
 	}
@@ -98,10 +100,17 @@ fileData* getFile(char* filename, fileData* current)
 void writeFile(char* filename, char* text)
 {
 	fileData* fd = getFile(filename, fileAllocatorTable.first);
+	if(fd == NULL)
+	{
+		printString("The file does not exist\n");
+		return;
+	}
 	fd->charactersWriten = 0;
 	int i = 0;
 	while(text[i] != 0)
 	{
+		i++;
+		printInt(i);
 		*(fd->fileAdress + i) = text[i];
 		(fd->charactersWriten)++;
 	}
@@ -110,19 +119,30 @@ void writeFile(char* filename, char* text)
 void readFile(char* filename)
 {
 	fileData* fd = getFile(filename, fileAllocatorTable.first);
+	if(fd == NULL)
+	{
+		printString("The file does not exist\n");
+		return;
+	}	
 	int i = 0;
 	for(i = 0; i < fd->charactersWriten; i++)
 	{
-		printChar((char)*(fd->fileAdress + i));
+		printChar(*(fd->fileAdress + i));
 	}
 }
 
 void appendFile(char* filename, char* text)
 {
 	fileData* fd = getFile(filename, fileAllocatorTable.first);
+	if(fd == NULL)
+	{
+		printString("The file does not exist\n");
+		return;
+	}
 	int i = 0;
 	while(text[i] != 0)
 	{
 		*(fd->fileAdress + fd->charactersWriten + i) = text[i];
+		i++;
 	}
 }
