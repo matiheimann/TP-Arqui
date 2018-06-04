@@ -66,10 +66,15 @@ void killThread(int id, int pid)
 {
 	
 	TCB* thread = getThreadTCB(pid, id);
-	thread->state = TERMINATED
+	thread->state = TERMINATED;
+	//wakeUp(thread)
 	if(thread->id == currentTCB->id 
 		&& ((PCB*)(thread->pcb)) == ((PCB*)currentTCB->pcb))
 	{
+
+		if (thread->state == WAITINGPROCESS){
+			addThreadToRoundRobin(thread);
+		}
 		_sti();
 		while(thread->state == TERMINATED);
 	}
