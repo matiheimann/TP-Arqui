@@ -2,14 +2,16 @@
 #include "memoryManager.h"
 #include "priorityBasedRoundRobin.h"
 #include "videoDriver.h"
+#include "kernelThread.h"
 
 static processTable table;
 static PCB *currentPCB;
 
+
 uint32_t startNewProcess(uint64_t rip, int argc, char **argv)
 {
 	PCB *newProcess = addNewProcessToTable(rip, argc, argv);
-	addProcessToRoundRobin(newProcess);
+	addThreadToRoundRobin(&(newProcess->threads[0]));
 	return newProcess->pid;
 }
 
@@ -18,19 +20,18 @@ PCB *addNewProcessToTable(uint64_t rip, int argc, char **argv)
 	int rear = table.numberOfProcessesOnTable;
 	if (rear == MAX_QTY_PROCESSES) {
 		printString("No more slots in process table\n");
-	} else {
+	}
+	else
+	{
 		table.list[rear].pid = getNextPid();
-		table.list[rear].context.rip = rip;
-		table.list[rear].state = NEW;
 		table.list[rear].parentPid =
 		    (currentPCB == NULL) ? -1 : currentPCB->pid;
-		table.list[rear].priority = HIGH_PRIORITY;
-		table.list[rear].allocatedMemoryAddress =
-		    (uint64_t)allocate(0x0FFE);
-		table.list[rear].stackPointer = (uint64_t)initializeStack(
-		    table.list[rear].allocatedMemoryAddress + 0x0FFE, rip, argc,
-		    argv);
+
+		initializeThreads(&(table.list[rear]));
+		createThread(&(table.list[rear]), HIGH_PRIORITY, rip, argc, argv, MAIN_THREAD);
+	
 		table.numberOfProcessesOnTable++;
+
 	}
 	return &(table.list[rear]);
 }
@@ -83,24 +84,12 @@ stack *initializeStack(uint64_t rsp, uint64_t rip, int argc, char **argv)
 void setCurrentProcess(PCB *process)
 {
 	currentPCB = process;
-	currentPCB->state = RUNNING;
 }
 
-PCB *getCurrentProcess() { return currentPCB; }
+PCB* getCurrentProcess() { return currentPCB; }
 
-void stopProcessWait(uint32_t pid)
-{
-	PCB *process = getProcessPCB(pid);
-	if (process->state == WAITING) {
-		addProcessToRoundRobin(process);
-		return;
-	} else {
-		printString("Process pid: ");
-		printInt(pid);
-		printString(" was not waiting. Why stop process wait?\n");
-	}
-}
 
+/*
 int isProcessTerminated(uint32_t pid)
 {
 
@@ -109,8 +98,8 @@ int isProcessTerminated(uint32_t pid)
 		return 1;
 	return 0;
 }
-
-PCB *getProcessPCB(int pid)
+*/
+PCB* getProcessPCB(int pid)
 {
 	int i;
 	for (i = 0; i < table.numberOfProcessesOnTable; i++) {
@@ -124,20 +113,9 @@ PCB *getProcessPCB(int pid)
 	return NULL;
 }
 
-void setCurrentProcessState(int state) { currentPCB->state = state; }
+void setCurrentProcessState(int state) { getCurrentThread()->state = state; }
 
-void terminateCurrentProcess()
-{
-	currentPCB->state = TERMINATED;
-	if (currentPCB->parentPid == -1) {
-		printString("\nConfirming shuttdown...\n");
-	} else {
-		PCB *process = getProcessPCB(currentPCB->parentPid);
-		if (process->state == WAITINGPROCESS)
-			addProcessToRoundRobin(process);
-	}
-	deallocate((void *)currentPCB->allocatedMemoryAddress);
-}
+
 
 uint32_t getCurrentProcessPID() { return currentPCB->pid; }
 
@@ -147,8 +125,8 @@ void fillProcessesInfo(processesInfoTable *processes)
 	processes->numberOfProcessesOnTable = table.numberOfProcessesOnTable;
 	for (i = 0; i < table.numberOfProcessesOnTable; i++) {
 		processes->list[i].pid = table.list[i].pid;
-		processes->list[i].priority = table.list[i].priority;
-		processes->list[i].state = table.list[i].state;
+		processes->list[i].priority = table.list[i].threads[0].priority;
+		processes->list[i].state = table.list[i].threads[0].state;
 		processes->list[i].sizeAllocated = 4 * 1024;
 	}
 }

@@ -7,6 +7,10 @@
 #define MAX_MESSAGE_SIZE 200
 #define MAX_QUEUE_SIZE 256
 
+#define MAX_QTY_THREADS 100
+#define MAIN_THREAD 0
+#define SECONDARY_THREAD 1
+
 typedef struct processInfo {
 	int pid;
 	long long sizeAllocated;
@@ -19,7 +23,7 @@ typedef struct processesInfoTable {
 	processInfo *list;
 } processesInfoTable;
 
-typedef struct processContext {
+typedef struct threadContext {
 	uint64_t rax;
 	uint64_t rbx;
 	uint64_t rcx;
@@ -30,21 +34,36 @@ typedef struct processContext {
 	uint64_t rflags;
 	uint64_t cr3; // en duda
 	uint64_t rip;
-} processContext;
+} threadContext;
 
-typedef struct PCB {
+typedef struct TCB {
+	void* pcb;
+	void* parentTCB;
 	uint64_t allocatedMemoryAddress;
-	uint32_t pid;
-	processContext context;
+	uint32_t id;
+	threadContext context;
 	uint8_t state;
+	uint8_t mainThread;
 	uint64_t stackPointer;
 	int priority;
+}TCB;
+
+
+typedef struct PCB {
+	uint32_t pid;
+	uint32_t parentPid;
+	TCB threads[MAX_QTY_THREADS];
+	uint32_t numberOfThreads;
+	uint32_t idCounter;
 } PCB;
+
+
+
 
 typedef struct nodeCDT *nodeADT;
 
 typedef struct nodeCDT {
-	PCB *processControlBlock;
+	TCB *thread;
 } nodeCDT;
 
 typedef struct queueCDT *queueADT;
@@ -59,7 +78,7 @@ typedef struct queueCDT {
 typedef struct mutex {
 	char state;
 	char *id;
-	queueADT waitingProcesses;
+	queueADT waitingThreads;
 } mutex;
 
 typedef struct messageHolder {
@@ -105,13 +124,13 @@ extern void getProcessesInfo(processesInfoTable *processes);
 extern mutex *generateMutex(char *id);
 extern mutex *getMutex(char *mutexId);
 extern void deleteMutex(char *mutexId);
-extern PCB *blockMutex(mutex *mutexToLock);
+extern TCB *blockMutex(mutex *mutexToLock);
 extern void unlockMutex(mutex *mutexToUnlock);
 extern messageHolder *generateMessageHolder(char *id);
 extern messageHolder *getMessageHolder(char *id);
 extern void deleteMessageHolder(char *id);
 extern void send(messageHolder *message, char *data, int size);
 extern void receive(messageHolder *message, char *storageBuffer, int size);
-extern int *waitProcess(int pid);
+extern char* waitProcess(int pid);
 
 #endif

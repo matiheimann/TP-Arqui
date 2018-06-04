@@ -56,8 +56,11 @@ int main()
 	initializeRoundRobin();
 	initializeProcessTable();
 	initializeFileSystem();
+	initializeThreadsLog();
 	initializeProcessLog();
+	
 	startNewProcess((uint64_t)sampleCodeModuleAddress, 0, NULL);
+	
 	load_idt();
 
 	while (1) {

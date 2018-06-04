@@ -9,7 +9,7 @@
 
 void initializeRoundRobin();
 uint64_t schedule(uint64_t rsp);
-void addProcessToRoundRobin(PCB *newProcess);
-uint64_t getNextProcessRSP(uint64_t rsp);
+void addThreadToRoundRobin(TCB *newThread);
+uint64_t getNextThreadRSP(uint64_t rsp);
 
 #endif

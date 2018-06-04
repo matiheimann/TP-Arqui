@@ -15,11 +15,11 @@ int queueCurrentSize(queueADT myQueue) { return myQueue->actualSize; }
 
 int isEmpty(queueADT myQueue) { return (myQueue->actualSize == 0) ? 1 : 0; }
 
-void enqueueElement(queueADT myQueue, PCB *process)
+void enqueueElement(queueADT myQueue, TCB *thread)
 {
 	if (myQueue->actualSize < myQueue->maxSize) {
 		myQueue->queue[position(myQueue->front + myQueue->actualSize)]
-		    .processControlBlock = process;
+		    .thread = thread;
 		myQueue->actualSize++;
 	} else {
 		printString("The queue is full\n");
@@ -27,16 +27,16 @@ void enqueueElement(queueADT myQueue, PCB *process)
 	return;
 }
 
-PCB *dequeueElement(queueADT myQueue)
+TCB *dequeueElement(queueADT myQueue)
 {
 	if (isEmpty(myQueue)) {
 		printString("The queue is empty\n");
 		return 0;
 	}
 
-	PCB *processToPop =
-	    myQueue->queue[position(myQueue->front)].processControlBlock;
+	TCB *threadToPop =
+	    myQueue->queue[position(myQueue->front)].thread;
 	myQueue->front = position(myQueue->front + 1);
 	myQueue->actualSize--;
-	return processToPop;
+	return threadToPop;
 }

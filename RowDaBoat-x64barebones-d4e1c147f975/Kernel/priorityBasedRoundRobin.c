@@ -19,15 +19,19 @@ void initializeRoundRobin()
 	initQueue(priorityRings[LOW_PRIORITY]);
 }
 
-void addProcessToRoundRobin(PCB *newProcess)
+void addThreadToRoundRobin(TCB *newThread)
 {
-	newProcess->state = READY;
-	enqueueElement(priorityRings[newProcess->priority], newProcess);
+	newThread->state = READY;
+	enqueueElement(priorityRings[newThread->priority], newThread);
 }
+
 
 uint64_t schedule(uint64_t rsp)
 {
-	PCB *current = getCurrentProcess();
+	TCB *current = getCurrentThread();
+	
+
+	
 
 	if (current != NULL) {
 		current->stackPointer = rsp;
@@ -39,27 +43,29 @@ uint64_t schedule(uint64_t rsp)
 		}
 	}
 
-	return getNextProcessRSP(rsp);
+
+	return getNextThreadRSP(rsp);
 }
 
-uint64_t getNextProcessRSP(uint64_t rsp)
+uint64_t getNextThreadRSP(uint64_t rsp)
 {
 	if (!isEmpty(priorityRings[HIGH_PRIORITY])) {
-		setCurrentProcess(dequeueElement(priorityRings[HIGH_PRIORITY]));
-		return getCurrentProcess()->stackPointer;
+		setCurrentThread(dequeueElement(priorityRings[HIGH_PRIORITY]));
+		return getCurrentThread()->stackPointer;
 	} else if (!isEmpty(priorityRings[MEDIUM_PRIORITY])) {
-		setCurrentProcess(
-		    dequeueElement(priorityRings[MEDIUM_PRIORITY]));
-		return getCurrentProcess()->stackPointer;
+		setCurrentThread( dequeueElement(priorityRings[MEDIUM_PRIORITY]));
+		return getCurrentThread()->stackPointer;
 	} else if (!isEmpty(priorityRings[LOW_PRIORITY])) {
-		setCurrentProcess(dequeueElement(priorityRings[LOW_PRIORITY]));
-		return getCurrentProcess()->stackPointer;
-	} else if (getCurrentProcess() != NULL) {
+		setCurrentThread(dequeueElement(priorityRings[LOW_PRIORITY]));
+		return getCurrentThread()->stackPointer;
+	} else if (getCurrentThread() != NULL) {
 		printString("\nATTENTION: there are no processes to run. "
 			    "\nShutting down...\n");
 		while (1)
 			; // FREEZE SYSTEM
-		return getCurrentProcess()->stackPointer;
+		return getCurrentThread()->stackPointer;
 	}
+	
+	
 	return rsp;
 }

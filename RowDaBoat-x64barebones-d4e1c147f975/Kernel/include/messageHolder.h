@@ -12,6 +12,8 @@
 typedef struct messageHolder {
 	uint32_t senderPID;
 	uint32_t receiverPID;
+	uint32_t senderThreadID;
+	uint32_t receiverThreadID;
 	char *id;
 	char message[MAX_MESSAGE_SIZE];
 	int currentMessageIndex;

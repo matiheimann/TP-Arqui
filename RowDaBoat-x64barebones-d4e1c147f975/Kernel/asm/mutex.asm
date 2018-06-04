@@ -2,8 +2,8 @@
 GLOBAL enter_region
 GLOBAL leave_region
 
-EXTERN addCurrentProcessToWaitingQueue
-EXTERN dequeueWaitingProcess
+EXTERN addCurrentThreadToWaitingQueue
+EXTERN dequeueWaitingThread
 
 section .text
 
@@ -25,7 +25,7 @@ _continue:
 	ret
 
 _addCurrentProcessToQueue:
-	call addCurrentProcessToWaitingQueue
+	call addCurrentThreadToWaitingQueue
 	jmp _continue
 
 leave_region:
@@ -33,7 +33,7 @@ leave_region:
 	mov rbp, rsp
 
 	mov BYTE [rdi], 0
-	call dequeueWaitingProcess
+	call dequeueWaitingThread
 
 	mov rsp, rbp
 	pop rbp

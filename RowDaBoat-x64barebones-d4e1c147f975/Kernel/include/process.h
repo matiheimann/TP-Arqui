@@ -2,6 +2,8 @@
 #define PROCESS_H
 
 #include <stdint.h>
+#include "kernelThread.h"
+
 #define MAX_QTY_PROCESSES 512
 
 #define NEW 0
@@ -37,27 +39,14 @@ typedef struct {
 	uint64_t base;
 } stack;
 
-typedef struct processContext {
-	uint64_t rax;
-	uint64_t rbx;
-	uint64_t rcx;
-	uint64_t rdx;
-	uint64_t rbp;
-	uint64_t rsi;
-	uint64_t rdi;
-	uint64_t rflags;
-	uint64_t cr3; // en duda
-	uint64_t rip;
-} processContext;
+
 
 typedef struct PCB {
-	uint64_t allocatedMemoryAddress;
 	uint32_t pid;
 	uint32_t parentPid;
-	processContext context;
-	uint8_t state;
-	uint64_t stackPointer;
-	int priority;
+	TCB threads[MAX_QTY_THREADS];
+	uint32_t numberOfThreads;
+	uint32_t idCounter;
 } PCB;
 
 typedef struct processInfo {
@@ -78,20 +67,21 @@ typedef struct processTable {
 	uint32_t pidCounter;
 } processTable;
 
+
+
 void initializeProcessTable();
 uint32_t startNewProcess(uint64_t rip, int argc, char **argv);
 stack *initializeStack(uint64_t rsp, uint64_t rip, int argc, char **argv);
 PCB *addNewProcessToTable(uint64_t rip, int argc, char **argv);
 uint32_t getNextPid();
-void setCurrentProcess(PCB *process);
 PCB *getCurrentProcess();
 void setCurrentProcessState(int state);
-void terminateCurrentProcess();
+void setCurrentProcess(PCB *process);
 void initializeProcessLog();
 uint32_t getCurrentProcessPID();
 void fillProcessesInfo(processesInfoTable *processes);
-void stopProcessWait(uint32_t pid);
-int isProcessTerminated(uint32_t pid);
+
+
 PCB *getProcessPCB(int pid);
 
 #endif

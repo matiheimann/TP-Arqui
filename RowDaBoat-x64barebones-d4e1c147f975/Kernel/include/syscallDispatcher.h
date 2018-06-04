@@ -4,6 +4,7 @@
 #define STDOUT 1
 #define STDIN 0
 
+#include "kernelThread.h"
 #include <messageHolder.h>
 #include <mutex.h>
 
@@ -27,7 +28,7 @@ void getProcesses(void *table);
 mutex *createMutexSysCall(char *id);
 mutex *retrieveMutexSysCall(char *mutexId);
 void destroyMutexSysCall(char *mutexId);
-PCB *lockSysCall(mutex *mutexToLock);
+TCB *lockSysCall(mutex *mutexToLock);
 void unlockSysCall(mutex *mutexToUnlock);
 messageHolder *createMessageHolderSysCall(char *id);
 messageHolder *retrieveMessageHolderSysCall(char *id);
@@ -35,7 +36,7 @@ void destroyMessageHolderSysCall(char *id);
 void sendMessageSysCall(messageHolder *message, char *data, int size);
 void receiveMessageSysCall(messageHolder *message, char *storageBuffer,
 			   int size);
-int *wait(int pid);
+char *wait(int pid);
 void openAFile(char* filename);
 void closeAFile(char* filename);
 void readAFile(char* filename);

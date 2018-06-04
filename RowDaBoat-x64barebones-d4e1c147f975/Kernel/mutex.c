@@ -1,6 +1,7 @@
 #include "mutex.h"
 #include <memoryManager.h>
 #include <process.h>
+#include "kernelThread.h"
 #include <videoDriver.h>
 
 extern void enter_region(mutex *m);
@@ -8,26 +9,26 @@ extern void leave_region(mutex *m);
 
 mutexLinkedList mutexList;
 
-PCB *lock(mutex *m)
+TCB *lock(mutex *m)
 {
 	enter_region(m);
-	return getCurrentProcess();
+	return getCurrentThread();
 }
 
 void unlock(mutex *m) { leave_region(m); }
 
-void addCurrentProcessToWaitingQueue(mutex *m)
+void addCurrentThreadToWaitingQueue(mutex *m)
 {
-	PCB *currentProcess = getCurrentProcess();
-	enqueueElement(m->waitingProcesses, currentProcess);
-	setCurrentProcessState(WAITING);
+	TCB *currentProcess = getCurrentThread();
+	enqueueElement(m->waitingThreads, currentProcess);
+	setCurrentThreadState(WAITING);
 }
 
-void dequeueWaitingProcess(mutex *m)
+void dequeueWaitingThread(mutex *m)
 {
-	if (m->waitingProcesses->actualSize != 0) {
-		PCB *waitingProcess = dequeueElement(m->waitingProcesses);
-		stopProcessWait(waitingProcess->pid);
+	if (m->waitingThreads->actualSize != 0) {
+		TCB *waitingThread = dequeueElement(m->waitingThreads);
+		stopThreadWait(waitingThread);
 	}
 }
 
@@ -46,14 +47,14 @@ void destroyMutex(char *mutexId)
 			if (previousMutex == NULL) {
 				mutexList.first = currentMutex->next;
 				deallocate(
-				    currentMutex->data->waitingProcesses);
+				    currentMutex->data->waitingThreads);
 				deallocate(currentMutex->data);
 				deallocate(currentMutex);
 				return;
 			}
 
 			previousMutex->next = currentMutex->next;
-			deallocate(currentMutex->data->waitingProcesses);
+			deallocate(currentMutex->data->waitingThreads);
 			deallocate(currentMutex->data);
 			deallocate(currentMutex);
 			return;
@@ -90,7 +91,7 @@ mutex *createMutex(char *id)
 	}
 
 	mutex *mutexToAdd;
-	queueADT waitingProcesses = allocate(1 * sizeof(queueCDT));
+	queueADT waitingThreads = allocate(1 * sizeof(queueCDT));
 	node *nodeToAdd;
 	node *currentMutex = mutexList.first;
 	node *previousMutex = NULL;
@@ -107,8 +108,8 @@ mutex *createMutex(char *id)
 	mutexToAdd = allocate(1 * sizeof(mutex));
 	nodeToAdd = allocate(1 * sizeof(node));
 
-	initQueue(waitingProcesses);
-	mutexToAdd->waitingProcesses = waitingProcesses;
+	initQueue(waitingThreads);
+	mutexToAdd->waitingThreads = waitingThreads;
 	mutexToAdd->state = UNLOCKED;
 	mutexToAdd->id = id;
 	nodeToAdd->data = mutexToAdd;

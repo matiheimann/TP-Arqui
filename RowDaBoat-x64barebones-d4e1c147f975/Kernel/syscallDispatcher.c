@@ -8,6 +8,7 @@
 #include <stdint.h>
 #include <syscallDispatcher.h>
 #include <videoDriver.h>
+#include "kernelThread.h"
 
 static const syscall syscalls[] = {0,
 				   0,
@@ -93,7 +94,7 @@ void *allocateMemory(uint64_t memoryToReserve)
 
 void deallocateMemory(void *ptr) { deallocate(ptr); }
 
-void exitProcess() { terminateCurrentProcess(); }
+void exitProcess() { terminateCurrentThread(); }
 
 uint32_t createNewProcess(void *ptr, int argc, char **argv)
 {
@@ -114,7 +115,7 @@ mutex *retrieveMutexSysCall(char *mutexId) { return retrieveMutex(mutexId); }
 
 void destroyMutexSysCall(char *mutexId) { destroyMutex(mutexId); }
 
-PCB *lockSysCall(mutex *mutexToLock) { return lock(mutexToLock); }
+TCB *lockSysCall(mutex *mutexToLock) { return lock(mutexToLock); }
 
 void unlockSysCall(mutex *mutexToUnlock) { unlock(mutexToUnlock); }
 
@@ -143,11 +144,11 @@ void receiveMessageSysCall(messageHolder *message, char *storageBuffer,
 	receiveMessage(message, storageBuffer, size);
 }
 
-int *wait(int pid)
+char* wait(int pid)
 {
-	PCB *current = getCurrentProcess();
+	TCB *current = getCurrentThread();
 	current->state = WAITINGPROCESS;
-	return (int *)&(current->state);
+	return &(current->state);
 }
 
 void openAFile(char* filename){ openFile(filename); }

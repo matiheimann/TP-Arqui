@@ -9,7 +9,7 @@
 typedef struct nodeCDT *nodeADT;
 
 typedef struct nodeCDT {
-	PCB *processControlBlock;
+	TCB *thread;
 } nodeCDT;
 
 typedef struct queueCDT *queueADT;
@@ -22,8 +22,8 @@ typedef struct queueCDT {
 } queueCDT;
 
 void initQueue(queueADT MyQueue);
-void enqueueElement(queueADT myQueue, PCB *process);
-PCB *dequeueElement(queueADT myQueue);
+void enqueueElement(queueADT myQueue, TCB *thread);
+TCB *dequeueElement(queueADT myQueue);
 int isEmpty(queueADT myQueue);
 int queueCurrentSize(queueADT myQueue);
 

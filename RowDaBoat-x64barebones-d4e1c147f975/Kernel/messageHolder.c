@@ -1,6 +1,7 @@
 #include "videoDriver.h"
 #include <messageHolder.h>
 #include <process.h>
+#include "kernelThread.h"
 
 messageHolderLinkedList messageHolderList;
 char messageMutexIdCounter;
@@ -10,13 +11,14 @@ void sendMessage(messageHolder *message, char *data, int size)
 	lock(message->messageMutex);
 
 	message->senderPID = getCurrentProcessPID();
+	message->senderThreadID = getCurrentThreadID();
 
 	int i;
 
 	for (i = 0; i < size; i++) {
 		if (message->currentMessageIndex == MAX_MESSAGE_SIZE) {
-			setCurrentProcessState(WAITING);
-			while (getCurrentProcess()->state == WAITING)
+			setCurrentThreadState(WAITING);
+			while (getCurrentThread()->state == WAITING)
 				; // Espera a que lo despierte el proceso
 				  // receiver
 		}
@@ -26,8 +28,8 @@ void sendMessage(messageHolder *message, char *data, int size)
 	}
 
 	if (message->receiverPID != -1 &&
-	    getProcessPCB(message->receiverPID)->state == WAITING) {
-		stopProcessWait(message->receiverPID);
+	    getThreadTCB(message->receiverPID, message->receiverThreadID)->state == WAITING) {
+		stopThreadWait(getThreadTCB(message->receiverPID, message->receiverThreadID));
 	}
 	unlock(message->messageMutex);
 }
@@ -37,14 +39,14 @@ void receiveMessage(messageHolder *message, char *storageBuffer, int size)
 	lock(message->messageMutex);
 
 	message->receiverPID = getCurrentProcessPID();
-
+	message->receiverThreadID = getCurrentThreadID();
 	int i;
 
 	for (i = 0; i <= size; i++) {
 		if (message->currentMessageIndex - i < 0) {
 			message->currentMessageIndex -= i;
-			setCurrentProcessState(WAITING);
-			while (getCurrentProcess()->state == WAITING)
+			setCurrentThreadState(WAITING);
+			while (getCurrentThread()->state == WAITING)
 				; // Bloqueo hasta que lo despierte el proceso
 				  // sender
 		}
@@ -56,8 +58,8 @@ void receiveMessage(messageHolder *message, char *storageBuffer, int size)
 	message->currentMessageIndex -= i;
 
 	if (message->senderPID != -1 &&
-	    getProcessPCB(message->senderPID)->state == WAITING) {
-		stopProcessWait(message->senderPID);
+	    getThreadTCB(message->senderPID, message->senderThreadID)->state == WAITING) {
+		stopThreadWait(getThreadTCB(message->senderPID, message->senderThreadID));
 	}
 
 	unlock(message->messageMutex);

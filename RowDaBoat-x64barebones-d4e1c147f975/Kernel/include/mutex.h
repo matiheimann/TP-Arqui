@@ -13,7 +13,7 @@
 typedef struct mutex {
 	char state;
 	char *id;
-	queueADT waitingProcesses;
+	queueADT waitingThreads;
 } mutex;
 
 typedef struct node {
@@ -28,9 +28,9 @@ typedef struct mutexLinkedList {
 mutex *createMutex(char *id);
 mutex *retrieveMutex(char *mutexId);
 void destroyMutex(char *mutexId);
-PCB *lock(mutex *mutexToLock);
+TCB *lock(mutex *mutexToLock);
 void unlock(mutex *mutexToUnlock);
-void addCurrentProcessToWaitingQueue(mutex *m);
-void dequeueWaitingProcess(mutex *m);
+void addCurrentThreadToWaitingQueue(mutex *m);
+void dequeueWaitingThread(mutex *m);
 
 #endif

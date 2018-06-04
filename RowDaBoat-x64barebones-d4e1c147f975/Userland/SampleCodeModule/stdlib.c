@@ -144,8 +144,8 @@ void exitProcess()
 
 void lockMutex(mutex *m)
 {
-	PCB *pcb = blockMutex(m);
-	while (pcb->state == 3)
+	TCB *tcb = blockMutex(m);
+	while (tcb->state == 3)
 		;
 }
 
@@ -206,7 +206,7 @@ void ps()
 
 void wait(int pid)
 {
-	int *state = waitProcess(pid);
-	while (*state == 5)
-		;
+	char *state = waitProcess(pid);
+	while(*state == 5);
+
 }
