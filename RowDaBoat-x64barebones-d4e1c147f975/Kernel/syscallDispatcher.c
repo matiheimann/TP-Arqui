@@ -9,6 +9,7 @@
 #include <syscallDispatcher.h>
 #include <videoDriver.h>
 #include "kernelThread.h"
+#include "priorityBasedRoundRobin.h"
 
 static const syscall syscalls[] = {0,
 				   0,
@@ -41,7 +42,10 @@ static const syscall syscalls[] = {0,
 				   (syscall)closeAFile,
 				   (syscall)readAFile,
 				   (syscall)writeAFile,
-				   (syscall)appendAFile};
+				   (syscall)appendAFile,
+				   (syscall)waitForThread,
+				   (syscall)kill,
+				   (syscall)createNewThread};
 
 
 uint64_t syscallDispatcher(uint64_t rax, uint64_t rbx, uint64_t rcx,
@@ -148,7 +152,7 @@ char* wait(int pid)
 {
 	TCB *current = getCurrentThread();
 	current->state = WAITINGPROCESS;
-	return &(current->state);
+	return (char*)&(current->state);
 }
 
 void openAFile(char* filename){ openFile(filename); }
@@ -160,3 +164,20 @@ void readAFile (char* filename) { readFile(filename); }
 void writeAFile(char* filename, char* text) { writeFile(filename, text); }
 
 void appendAFile(char* filename, char* text) { appendFile(filename, text); }
+
+void waitForThread(int pid, int id)
+{
+	 char* state = waitThread(id, pid);
+	 _sti();
+	 while(*state == WAITINGPROCESS);
+}
+
+void kill(int pid, int id)
+{
+	killThread(id, pid);
+}
+
+void createNewThread(void *ptr, int argc, char **argv)
+{
+	return createThread((void*)getCurrentProcess(), HIGH_PRIORITY,(uint64_t)ptr, argc, argv, SECONDARY_THREAD);
+}

@@ -3,6 +3,7 @@
 #include "process.h"
 #include "videoDriver.h"
 #include "priorityBasedRoundRobin.h"
+#include "syscallDispatcher.h"
 
 static TCB *currentTCB;
 
@@ -59,26 +60,44 @@ char* waitThread(int id, int pid)
 {
 	TCB* thread = getCurrentThread();
 	thread->state = WAITINGPROCESS;
-	return thread->state;
+	return &(thread->state);
+}
+
+void wakeUpThread(TCB* thread)
+{
+	if(thread->state == WAITINGPROCESS)
+	{
+		addThreadToRoundRobin(thread);
+	}
 }
 
 void killThread(int id, int pid)
 {
 	
 	TCB* thread = getThreadTCB(pid, id);
-	thread->state = TERMINATED;
-	//wakeUp(thread)
-	if(thread->id == currentTCB->id 
-		&& ((PCB*)(thread->pcb)) == ((PCB*)currentTCB->pcb))
+	if(thread->state == READY || thread->state == RUNNING)
 	{
-
-		if (thread->state == WAITINGPROCESS){
-			addThreadToRoundRobin(thread);
+		thread->state = TERMINATED;
+		wakeUpThread(thread->parentTCB);
+		deallocate((void *)thread->allocatedMemoryAddress);
+		if(thread->id == currentTCB->id 
+			&& ((PCB*)(thread->pcb)) == ((PCB*)currentTCB->pcb))
+		{
+			_sti();
+			while(thread->state == TERMINATED);
 		}
-		_sti();
-		while(thread->state == TERMINATED);
+		return;
+	}
+	else
+	{
+		printString("Can't kill thread id ");
+		printInt(id);
+		printString(" pid ");
+		printInt(pid);
+		printString("\n");
 	}
 	return;
+	
 		
 }
 

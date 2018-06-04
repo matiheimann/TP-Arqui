@@ -27,6 +27,9 @@ GLOBAL fileClose
 GLOBAL fileRead
 GLOBAL fileWrite
 GLOBAL fileAppend
+GLOBAL waitThread
+GLOBAL killThread
+GLOBAL createThread
 
 EXTERN printf
 
@@ -389,6 +392,50 @@ fileAppend:
 	mov rax, 31
 	mov rbx, rdi
 	mov rcx, rsi
+
+	int 80h
+
+	mov rsp, rbp
+	pop rbp
+	ret
+
+
+waitThread:
+	push rbp
+	mov rbp, rsp
+
+	mov rax, 32
+	mov rbx, rdi
+	mov rcx, rsi
+
+	int 80h
+
+	mov rsp, rbp
+	pop rbp
+	ret
+
+killThread:
+	push rbp
+	mov rbp, rsp
+
+	mov rax, 33
+	mov rbx, rdi
+	mov rcx, rsi
+
+	int 80h
+
+	mov rsp, rbp
+	pop rbp
+	ret
+
+createThread:
+	push rbp
+	mov rbp, rsp
+
+	mov rax, 34
+	mov rbx, rdi
+	mov rcx, rsi
+	mov rdx, rdx
 
 	int 80h
 

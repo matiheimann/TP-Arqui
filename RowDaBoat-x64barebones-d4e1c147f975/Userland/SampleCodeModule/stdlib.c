@@ -208,5 +208,5 @@ void wait(int pid)
 {
 	char *state = waitProcess(pid);
 	while(*state == 5);
-
 }
+

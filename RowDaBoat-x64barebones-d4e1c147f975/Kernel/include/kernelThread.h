@@ -27,7 +27,7 @@ typedef struct TCB {
 	uint64_t allocatedMemoryAddress;
 	uint32_t id;
 	threadContext context;
-	uint8_t state;
+	char state;
 	uint8_t mainThread;
 	uint64_t stackPointer;
 	int priority;
@@ -38,6 +38,7 @@ typedef struct TCB {
 void createThread(void* pcb, int priority, uint64_t rip, int argc, char** argv, int mainFlag);
 void setCurrentThread(TCB* thread);
 TCB* getCurrentThread();
+void wakeUpThread(TCB* thread);
 char* waitThread(int id, int pid);
 void killThread(int id, int pid);
 void initializeThreads(void* pcb);
