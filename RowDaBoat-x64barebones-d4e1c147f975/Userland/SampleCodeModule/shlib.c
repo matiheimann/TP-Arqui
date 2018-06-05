@@ -2,6 +2,7 @@
 #include "fourProcessDemo.h"
 #include "producerConsumer.h"
 #include "fileSystemApp.h"
+#include "kernelThreadsDemo.h"
 #include <graphPlotterApp.h>
 #include <messageHolderTesting.h>
 #include <mutexTesting.h>
@@ -125,6 +126,8 @@ int execute(char *command)
 		pid = newProcess((void *)&messageHolderTest, 0, NULL);
 	} else if (strcmp(command, "file system app") == 0){
 		pid = newProcess((void*)&fileSystemApp, 0, NULL);
+	} else if (strcmp(command, "kernel-threads demo") == 0){
+		pid = newProcess((void*)&kernelThreadsDemo, 0, NULL);
 	} 
 	else {
 		printf(

@@ -32,6 +32,10 @@ void createThread(void * pcb, int priority, uint64_t rip, int argc, char** argv,
 		threads[rear].pcb = pcb;
 		((PCB*)pcb)->numberOfThreads++;
 		((PCB*)pcb)->idCounter++;
+		if(mainFlag == SECONDARY_THREAD)
+		{
+			addThreadToRoundRobin(&(threads[rear]));
+		}
 	}
 }
 
