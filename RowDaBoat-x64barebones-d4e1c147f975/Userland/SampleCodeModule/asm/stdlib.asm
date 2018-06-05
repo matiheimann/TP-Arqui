@@ -30,6 +30,7 @@ GLOBAL fileAppend
 GLOBAL waitThread
 GLOBAL killThread
 GLOBAL createThread
+GLOBAL filesShow
 
 EXTERN printf
 
@@ -442,3 +443,15 @@ createThread:
 	mov rsp, rbp
 	pop rbp
 	ret
+
+filesShow:
+	push rbp
+	mov rbp, rsp
+
+	mov rax, 35
+
+	int 80h
+
+	mov rsp, rbp
+	pop rbp
+	ret	

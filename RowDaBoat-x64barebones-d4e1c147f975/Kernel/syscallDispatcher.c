@@ -45,7 +45,8 @@ static const syscall syscalls[] = {0,
 				   (syscall)appendAFile,
 				   (syscall)waitForThread,
 				   (syscall)kill,
-				   (syscall)createNewThread};
+				   (syscall)createNewThread,
+				   (syscall)showFile};
 
 
 uint64_t syscallDispatcher(uint64_t rax, uint64_t rbx, uint64_t rcx,
@@ -181,3 +182,5 @@ void createNewThread(void *ptr, int argc, char **argv)
 {
 	return createThread((void*)getCurrentProcess(), HIGH_PRIORITY,(uint64_t)ptr, argc, argv, SECONDARY_THREAD);
 }
+
+void showFile() { showFiles(); }

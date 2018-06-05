@@ -7,18 +7,11 @@ typedef struct fileData fileData;
 
 typedef struct fileData
 {
-	char filename[256];
-	uint64_t* fileAdress;
+	char filename[100];
+	uint8_t* fileAdress;
 	uint64_t charactersWriten;
-	fileData* next;
 
 }fileData;
-
-typedef struct fileTable
-{
-	fileData* first;
-
-}fileTable;
 
 
 void readFile(char* filename);
@@ -26,13 +19,8 @@ void writeFile(char* filename, char* text);
 void appendFile(char* filename, char* text);
 void openFile(char* filename);
 void closeFile(char* filename);
-void addToTable(char* filename, fileTable* table);
-void deleteFromTable(char* filename, fileTable* table);
-fileTable createTable();
 fileData createFileData(char* filename);
 void initializeFileSystem();
-fileData* addNode(char* filename, fileData* current);
-fileData* deleteNode(char* filename, fileData* current);
-fileData* getFile(char* filename, fileData* current);
+void showFiles();
 
 #endif

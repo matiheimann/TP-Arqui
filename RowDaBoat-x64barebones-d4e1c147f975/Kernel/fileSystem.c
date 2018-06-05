@@ -3,146 +3,114 @@
 #include <lib.h>
 #include <videoDriver.h>
 
-static fileTable fileAllocatorTable;
+static fileData files[100];
 
 void initializeFileSystem()
 {
-	fileAllocatorTable = createTable();
-}
-
-fileTable createTable()
-{
-	fileTable ft;
-	ft.first = NULL;
-	return ft;
-}
-
-fileData createFileData(char* filename)
-{
-	fileData fd;
-	memcpy(fd.filename, filename, stringlen(filename));
-	fd.next = NULL;
-	fd.charactersWriten = 0;
-	fd.fileAdress = allocate(1);
-	return fd;
+	for(int i = 0; i < 100; i++)
+	{
+		files[i].filename[0] = 0;
+		files[i].fileAdress = NULL;
+		files[i].charactersWriten = 0;
+	}
 }
 
 void openFile(char* filename)
 {
-	fileAllocatorTable.first = addNode(filename, fileAllocatorTable.first);
-	printInt(fileAllocatorTable.first);
-	printChar('\n');
-	printString(fileAllocatorTable.first->filename);
-}
+	int indexToAllocate = -1;
 
-fileData* addNode(char* filename, fileData* current)
-{
-	if(current == NULL)
+	for(int i = 0; i < 100; i++)
 	{
-		fileData fd = createFileData(filename);
-		fileData* fds = &fd;
-		return fds;
+		if(stringlen(files[i].filename) == 0)
+		{
+			indexToAllocate = i;
+		}
+		else if(strcmp(filename, files[i].filename) == 0)
+		{
+			return;
+		}
 	}
 
-	if(strcmp(filename, current->filename) == 0)
+	if(indexToAllocate == -1)
 	{
-		return current;
+		printString("There is no space to allocate a new file\n");
+		return;
 	}
-	current->next = addNode(filename, current->next);
-	return current;
+
+	memcpy(files[indexToAllocate].filename, filename, stringlen(filename));
+	files[indexToAllocate].fileAdress = allocate(256);
+	files[indexToAllocate].charactersWriten = 0;
+
 }
 
 void closeFile(char* filename)
 {
-	deleteFromTable(filename, &fileAllocatorTable);
-}
-
-void deleteFromTable(char* filename, fileTable* table)
-{
-	table->first = deleteNode(filename, table->first);
-}
-
-fileData* deleteNode(char* filename, fileData* current)
-{
-	if(current == NULL)
+	for(int i = 0; i < 100; i++)
 	{
-		return NULL;
+		if(strcmp(filename, files[i].filename) == 0)
+		{
+			files[i].filename[0] = 0;
+			deallocate(files[i].fileAdress);
+			return;
+		}
 	}
-
-	if(strcmp(filename, current->filename) == 0)
-	{
-		deallocate(current->fileAdress);
-		return current->next;
-	}
-
-	current->next = deleteNode(filename, current->next);
-
-	return current;
-}
-
-fileData* getFile(char* filename, fileData* current)
-{
-	printString("\n");
-	printInt(current);
-	if(current == NULL)
-	{
-		return NULL;
-	}
-
-	if(strcmp(filename, current->filename) == 0)
-	{
-		return current;
-	}
-
-	return getFile(filename, current->next);
-} 
-
-void writeFile(char* filename, char* text)
-{
-	fileData* fd = getFile(filename, fileAllocatorTable.first);
-	if(fd == NULL)
-	{
-		printString("The file does not exist\n");
-		return;
-	}
-	fd->charactersWriten = 0;
-	int i = 0;
-	while(text[i] != 0)
-	{
-		i++;
-		printInt(i);
-		*(fd->fileAdress + i) = text[i];
-		(fd->charactersWriten)++;
-	}
+	printString("File does not exist\n");
 }
 
 void readFile(char* filename)
 {
-	fileData* fd = getFile(filename, fileAllocatorTable.first);
-	if(fd == NULL)
+	for(int i = 0; i < 100; i++)
 	{
-		printString("The file does not exist\n");
-		return;
-	}	
-	int i = 0;
-	for(i = 0; i < fd->charactersWriten; i++)
-	{
-		printChar(*(fd->fileAdress + i));
+		if(strcmp(filename, files[i].filename) == 0)
+		{
+			printString(files[i].fileAdress);
+			printString("\n");
+			return;
+		}
 	}
+
+	printString("File does not exist\n");
+}
+
+void writeFile(char* filename, char* text)
+{
+	for(int i = 0; i < 100; i++)
+	{
+		if(strcmp(filename, files[i].filename) == 0)
+		{
+			memcpy(files[i].fileAdress, text, stringlen(text));
+			files[i].charactersWriten = stringlen(text);
+			return;
+		}
+	}
+
+	printString("File does not exist\n");
 }
 
 void appendFile(char* filename, char* text)
 {
-	fileData* fd = getFile(filename, fileAllocatorTable.first);
-	if(fd == NULL)
+	for(int i = 0; i < 100; i++)
 	{
-		printString("The file does not exist\n");
-		return;
+		if(strcmp(filename, files[i].filename) == 0)
+		{
+			memcpy(files[i].fileAdress + files[i].charactersWriten, text, stringlen(text));
+			files[i].charactersWriten += stringlen(text);
+			return;
+		}
 	}
-	int i = 0;
-	while(text[i] != 0)
+
+	printString("File does not exist\n");	
+}
+
+void showFiles()
+{
+	for(int i = 0; i < 100; i++)
 	{
-		*(fd->fileAdress + fd->charactersWriten + i) = text[i];
-		i++;
+		if(stringlen(files[i].filename) != 0)
+		{
+			printString("-");
+			printString(files[i].filename);
+			printString("\n");
+		}
 	}
 }

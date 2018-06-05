@@ -45,6 +45,7 @@ void appendAFile(char* filename, char* text);
 void waitForThread(int pid, int id);
 void kill(int pid, int id);
 void createNewThread(void *ptr, int argc, char **argv);
+void showFile();
 
 extern void _sti();
 
