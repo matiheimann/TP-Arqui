@@ -46,7 +46,9 @@ static const syscall syscalls[] = {0,
 				   (syscall)waitForThread,
 				   (syscall)kill,
 				   (syscall)createNewThread,
-				   (syscall)showFile};
+				   (syscall)showFile,
+				   (syscall)createAFile,
+				   (syscall)deleteAFile};
 
 
 uint64_t syscallDispatcher(uint64_t rax, uint64_t rbx, uint64_t rcx,
@@ -184,3 +186,7 @@ void createNewThread(void *ptr, int argc, char **argv)
 }
 
 void showFile() { showFiles(); }
+
+void createAFile(char* filename) {createFile(filename);}
+
+void deleteAFile(char* filename) {deleteFile(filename);}

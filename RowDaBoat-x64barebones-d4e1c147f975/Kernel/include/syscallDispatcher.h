@@ -46,6 +46,8 @@ void waitForThread(int pid, int id);
 void kill(int pid, int id);
 void createNewThread(void *ptr, int argc, char **argv);
 void showFile();
+void createAFile(char* filename);
+void deleteAFile(char* filename);
 
 extern void _sti();
 

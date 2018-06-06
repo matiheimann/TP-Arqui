@@ -10,6 +10,8 @@
 #define HELP 5
 #define EXIT 6
 #define SHOW 7
+#define CREATE 8
+#define DELETE 15
 
 void fileSystemApp();
 void help();
@@ -27,5 +29,7 @@ extern void fileRead(char* filename);
 extern void fileWrite(char* filename, char* text);
 extern void fileAppend(char* filename, char* text);
 extern void filesShow();
+extern void fileCreate(char* filename);
+extern void fileDelete(char* filename);
 
 #endif

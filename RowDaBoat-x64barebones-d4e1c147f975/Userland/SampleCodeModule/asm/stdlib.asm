@@ -31,6 +31,8 @@ GLOBAL waitThread
 GLOBAL killThread
 GLOBAL createThread
 GLOBAL filesShow
+GLOBAL fileCreate
+GLOBAL fileDelete
 
 EXTERN printf
 
@@ -454,4 +456,30 @@ filesShow:
 
 	mov rsp, rbp
 	pop rbp
+	ret
+
+fileCreate:
+	push rbp
+	mov rbp, rsp
+
+	mov rax, 36
+	mov rbx, rdi
+
+	int 80h
+
+	mov rsp, rbp
+	pop rbp
 	ret	
+
+fileDelete:
+	push rbp
+	mov rbp, rsp
+
+	mov rax, 37
+	mov rbx, rdi
+
+	int 80h
+
+	mov rsp, rbp
+	pop rbp
+	ret

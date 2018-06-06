@@ -10,6 +10,7 @@ typedef struct fileData
 	char filename[100];
 	uint8_t* fileAdress;
 	uint64_t charactersWriten;
+	int isOpen;
 
 }fileData;
 
@@ -22,5 +23,7 @@ void closeFile(char* filename);
 fileData createFileData(char* filename);
 void initializeFileSystem();
 void showFiles();
+void deleteFile(char* filename);
+void createFile(char* filename);
 
 #endif

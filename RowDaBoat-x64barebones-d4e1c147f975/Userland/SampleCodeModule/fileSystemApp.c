@@ -80,6 +80,14 @@ int selectCommand(char* command)
 	{
 		return SHOW;
 	}
+	else if(strcmp(command, "Create") == 0)
+	{
+		return CREATE;
+	}
+	else if(strcmp(command, "Delete") == 0)
+	{
+		return DELETE;
+	}
 	return INVALID;
 }
 
@@ -104,6 +112,14 @@ void executeCommand(int command, char* filename, char* text)
 	else if(command == APPEND)
 	{
 		fappend(filename, text);
+	}
+	else if(command == CREATE)
+	{
+		fileCreate(filename);
+	}
+	else if(command == DELETE)
+	{
+		fileDelete(filename);
 	}
 }
 
@@ -135,11 +151,13 @@ void fappend(char* filename, char* text)
 void help()
 {
 	printf("Choose the name of the file and the operation you want to use.\n");
+	printf("Create: create a new file.\n");
 	printf("Open: opens a file, if it is not created it will create it.\n");
-	printf("Show files: show every files\n");
+	printf("Show files: show every file\n");
 	printf("Read: prints the content of the file.\n");
 	printf("Write: write from the beggining of the file.\n");
 	printf("Append: write from the last part that was writen before.\n");
-	printf("Close: close and deletes the file.\n");
+	printf("Close: close the file.\n");
+	printf("Delete: deletes the file\n");
 	printf("Exit: going back to the shell\n");
 }
