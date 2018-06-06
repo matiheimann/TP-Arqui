@@ -43,6 +43,7 @@ void fileSystemApp()
 			printf("Invalid operation\n");
 		}
 	}
+	printf("----------Exiting file system app----------\n");
 	exitProcess();
 }
 
