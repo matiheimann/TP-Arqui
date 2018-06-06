@@ -7,6 +7,7 @@
 #include <messageHolderTesting.h>
 #include <mutexTesting.h>
 #include <sampleExceptions.h>
+#include "killThreadDemo.h"
 
 void printWelcomeMessage()
 {
@@ -48,7 +49,10 @@ void printHelpProcess(int argc, char **argv)
 	    "de funciones que demuestran el\nfuncionamiento de los mutexes.\n");
 	printf("ipc demo: crea un proceso que ejecuta una serie de "
 	       "de funciones que demuestran el\nfuncionamiento de la "
-	       "comunicacion\n entre proceso.\n");
+	       "comunicacion\nentre proceso.\n");
+	printf("file system app: aplicacion para el manejo consistente de archivos. \n");
+	printf("kernel-threads demo: se crean dos threds que comparten heap, los dos threads imprimen\nla informacion compartida. \n");
+	printf("kill-thread demo: un thread crea otro que tiene un while(1) y luego lo mata.\n");
 	printf("file system app: aplicacion para el manejo consistente de archivos. \n");
 	putchar('\n');
 	printf("Agregar el prefijo -- para ejecutar en paralelo. (por ejemplo "
@@ -128,6 +132,8 @@ int execute(char *command)
 		pid = newProcess((void*)&fileSystemApp, 0, NULL);
 	} else if (strcmp(command, "kernel-threads demo") == 0){
 		pid = newProcess((void*)&kernelThreadsDemo, 0, NULL);
+	} else if (strcmp(command, "kill-thread demo") == 0){
+		pid = newProcess((void*)&killThreadDemo, 0, NULL);
 	} 
 	else {
 		printf(

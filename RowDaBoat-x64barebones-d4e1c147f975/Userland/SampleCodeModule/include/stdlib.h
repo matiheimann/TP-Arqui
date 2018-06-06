@@ -133,8 +133,8 @@ extern void send(messageHolder *message, char *data, int size);
 extern void receive(messageHolder *message, char *storageBuffer, int size);
 extern char* waitProcess(int pid);
 extern void waitThread(int pid, int id);
-extern void kill(int pid, int id);
-extern void createThread(void *ptr, int argc, char **argv);
+extern void killThread(int pid, int id);
+extern int createThread(void *ptr, int argc, char **argv);
 
 
 #endif

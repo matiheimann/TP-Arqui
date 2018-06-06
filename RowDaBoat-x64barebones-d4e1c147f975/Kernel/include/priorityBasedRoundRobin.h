@@ -12,4 +12,6 @@ uint64_t schedule(uint64_t rsp);
 void addThreadToRoundRobin(TCB *newThread);
 uint64_t getNextThreadRSP(uint64_t rsp);
 
+int isReady(TCB* thread);
+
 #endif

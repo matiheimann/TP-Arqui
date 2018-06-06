@@ -49,14 +49,24 @@ uint64_t schedule(uint64_t rsp)
 
 uint64_t getNextThreadRSP(uint64_t rsp)
 {
+	TCB* aux;
 	if (!isEmpty(priorityRings[HIGH_PRIORITY])) {
-		setCurrentThread(dequeueElement(priorityRings[HIGH_PRIORITY]));
+		aux = dequeueElement(priorityRings[HIGH_PRIORITY]);
+		while(!isReady(aux))
+			aux = dequeueElement(priorityRings[HIGH_PRIORITY]);
+		setCurrentThread(aux);
 		return getCurrentThread()->stackPointer;
 	} else if (!isEmpty(priorityRings[MEDIUM_PRIORITY])) {
-		setCurrentThread( dequeueElement(priorityRings[MEDIUM_PRIORITY]));
+		aux = dequeueElement(priorityRings[MEDIUM_PRIORITY]);
+		while(!isReady(aux))
+			aux = dequeueElement(priorityRings[MEDIUM_PRIORITY]);
+		setCurrentThread(aux);
 		return getCurrentThread()->stackPointer;
 	} else if (!isEmpty(priorityRings[LOW_PRIORITY])) {
-		setCurrentThread(dequeueElement(priorityRings[LOW_PRIORITY]));
+		aux = dequeueElement(priorityRings[LOW_PRIORITY]);
+		while(!isReady(aux))
+			aux = dequeueElement(priorityRings[LOW_PRIORITY]);
+		setCurrentThread(aux);
 		return getCurrentThread()->stackPointer;
 	} else if (getCurrentThread() != NULL) {
 		printString("\nATTENTION: there are no processes to run. "
@@ -68,4 +78,11 @@ uint64_t getNextThreadRSP(uint64_t rsp)
 	
 	
 	return rsp;
+}
+
+int isReady(TCB* thread)
+{
+	if(thread->state == READY)
+		return 1;
+	return 0;
 }

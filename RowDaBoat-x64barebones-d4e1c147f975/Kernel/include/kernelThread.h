@@ -35,7 +35,7 @@ typedef struct TCB {
 
 
 
-void createThread(void* pcb, int priority, uint64_t rip, int argc, char** argv, int mainFlag);
+int createThread(void* pcb, int priority, uint64_t rip, int argc, char** argv, int mainFlag);
 void setCurrentThread(TCB* thread);
 TCB* getCurrentThread();
 void wakeUpThread(TCB* thread);

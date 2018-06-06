@@ -44,7 +44,7 @@ void writeAFile(char* filename, char* text);
 void appendAFile(char* filename, char* text);
 void waitForThread(int pid, int id);
 void kill(int pid, int id);
-void createNewThread(void *ptr, int argc, char **argv);
+int createNewThread(void *ptr, int argc, char **argv);
 void showFile();
 void createAFile(char* filename);
 void deleteAFile(char* filename);

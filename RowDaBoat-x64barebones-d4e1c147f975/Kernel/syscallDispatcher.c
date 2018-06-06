@@ -180,7 +180,7 @@ void kill(int pid, int id)
 	killThread(id, pid);
 }
 
-void createNewThread(void *ptr, int argc, char **argv)
+int createNewThread(void *ptr, int argc, char **argv)
 {
 	return createThread((void*)getCurrentProcess(), HIGH_PRIORITY,(uint64_t)ptr, argc, argv, SECONDARY_THREAD);
 }

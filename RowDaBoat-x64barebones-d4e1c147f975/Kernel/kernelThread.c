@@ -7,7 +7,7 @@
 
 static TCB *currentTCB;
 
-void createThread(void * pcb, int priority, uint64_t rip, int argc, char** argv, int mainFlag)
+int createThread(void * pcb, int priority, uint64_t rip, int argc, char** argv, int mainFlag)
 {
 	TCB* threads = ((PCB*)pcb)->threads;
 	int rear = ((PCB*)pcb)->numberOfThreads;
@@ -36,7 +36,9 @@ void createThread(void * pcb, int priority, uint64_t rip, int argc, char** argv,
 		{
 			addThreadToRoundRobin(&(threads[rear]));
 		}
+
 	}
+	return ((PCB*)pcb)->idCounter-1;
 }
 
 void setCurrentThread(TCB *thread)
